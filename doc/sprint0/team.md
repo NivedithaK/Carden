@@ -9,6 +9,7 @@ Emily Wu           wuemily2    1005151318      emil.wu@mail.utoronto.ca         
 Mathieu Seah Labbe seahlabb    1005494706      mathieu.seah@mail.utoronto.ca        Cell: 519-760-0134
 Georges Hanna      hannage6    1003023685      georges.hanna@mail.utoronto.ca       Cell: 647-609-3113
 Puneet Sandhu      sandh312    1005215811      puneetinder.sandhu@mail.utoronto.ca  Cell: 647-713-6582
+Niveditha Kani     kanisel1    1004889463      niveditha.kani@utoronto.ca           Cell: 289-946-2804
 ```
 
 Discord Link:
