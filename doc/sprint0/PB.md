@@ -19,3 +19,4 @@ Stories in bold are __most important__.
 17. As an unregistered user, I want to be able to create a maximum of 2 cards per day to limit traffic
 18. As a user, I want to have templates that I can use in an editor to create e-cards
 19. As an administrator, I want to be able to store my templates for distribution and sorting purposes
+20. As a user, I should be able to view the website at xyz.com
