@@ -15,3 +15,7 @@ Stories in bold are __most important__.
 11. As an unregistered user, I want to be able to create a new account 
 12. As a registered user, I want to be able to save and access my older cards for later use
 14. As a registered user, I want to be able to star templates that I like to make better templates more popular 
+16. As a user, I should have a unique link generated for each card to not overwrite other cards
+17. As an unregistered user, I want to be able to create a maximum of 2 cards per day to limit traffic
+18. As a user, I want to have templates that I can use in an editor to create e-cards
+19. As an administrator, I want to be able to store my templates for distribution and sorting purposes
