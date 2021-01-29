@@ -1,0 +1,3 @@
+# DONE
+
+The minimal viable product will have to have met the following clauses to be considered implemented and working. When using the product, the user must be able to register and create e-cards. This will be done through a system where there are premade and custom user templates. These can be shared or created. The application will be available to anyone without an account, but to contribute to the library, the user must create an account. To share the e-card, the user can send custom generated links. The application, however, will need to be moderated for appropriate content. With all these requirements met, the product will be complete.
