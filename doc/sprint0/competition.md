@@ -22,10 +22,10 @@ https://www.bluemountain.com/ecards
 All of the above websites allow users to modify existing card templates and some of them allow users to create 
 their own templates from scratch; however, user creations are not featured on these sites. User designs can only 
 be shared through email or social media. In addition, while some of the sites above allow users to create their 
-own templates with photos and text boxes, none of them provide tools to make cards intractable or to animate objects. 
-Our product will both feature user creations and provide tools for users to add intractability to their cards. 
+own templates with photos and text boxes, none of them provide tools to make cards interact-able or to animate objects. 
+Our product will both feature user creations and provide tools for users to add interact-ability to their cards. 
 
-Our product is better for two types of users: users who want to completely customize the intractability of their cards 
+Our product is better for two types of users: users who want to completely customize the interact-ability of their cards 
 and creators share their creation with the community. 
 
 Potential reasons why competitors did not allow users to share their creations with the rest of the platform:  
@@ -38,6 +38,6 @@ Potential reasons why competitors did not allow users to share their creations w
 Potential reasons why competitors do not provide tools to animate cards or change existing animations and/or 
 interactions:  
 •	The vast majority of users do not want to meddle with the animations; they like the existing templates  
-•	Creating an editor that supports adding intractable elements/animations would be too difficult to implement
+•	Creating an editor that supports adding interact-able elements/animations would be too difficult to implement
         or too unwieldy for the average user  
 •	Other software exists that provides users with the tools to create animations  
