@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "An e-card generating website",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UTMCSC301/final-project-301-weebs.git"
+  },
+  "author": "301-Weebs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UTMCSC301/final-project-301-weebs/issues"
+  },
+  "homepage": "https://github.com/UTMCSC301/final-project-301-weebs#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.11.14"
+  }
+}
