@@ -1,0 +1,11 @@
+.wave-container {
+  background-image: url("../assets/wave.svg");
+  background-repeat: no-repeat;
+  position: relative;
+  color: #FFF;
+  text-align: center;
+  overflow: hidden;
+}
+.wave-container > svg {
+  display: block;
+}
