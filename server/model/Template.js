@@ -1,5 +1,4 @@
-const { ObjectId } = require('bson');
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 var TemplateSchema = new mongoose.Schema({
     postDate: {

@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 var AnimatorSchema = new mongoose.Schema
 ({

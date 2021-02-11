@@ -1,6 +1,7 @@
-var mongoose = require('mongoose');
-var crypto = require('crypto');
-var uniqueValidator = require('mongoose-unique-validator');
+import mongoose from 'mongoose';
+import crypto from 'crypto';
+import uniqueValidator from 'mongoose-unique-validator';
+
 
 var UserSchema = new mongoose.Schema({
     sessionId: String,
@@ -12,10 +13,11 @@ var UserSchema = new mongoose.Schema({
         index: true,
     },
     email: {
-        type: String,
-        lowercase: true,
+        type: String, 
+        lowercase: true, 
+        unique: true, 
         required: [true, "can't be blank"], 
-        match: [/^[a-zA-Z0-9]+$/, 'is invalid'], 
+        match: [/\S+@\S+\.\S+/, 'is invalid'], 
         index: true,
     },
     hash: {
@@ -58,6 +60,6 @@ UserSchema.methods.validPassword = function(password) {
     return this.hash === hash;
 };
 
-RegUserSchema.plugin(uniqueValidator, {message: 'is already taken.'});
+UserSchema.plugin(uniqueValidator, {message: 'is already taken.'});
 
 mongoose.model('User', UserSchema);
