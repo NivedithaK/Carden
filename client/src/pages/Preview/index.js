@@ -29,7 +29,7 @@ function Preview() {
   }, []);
   return (
     <Box w="100%" h="100%" bg="blue.500">
-      <Heading>PREVIEW TIME{props.cardName}</Heading>
+      <Heading>PREVIEW TIME{cardName}</Heading>
       <Grid templateColumns="1fr 4fr">
         <GridItem>
           <Box>

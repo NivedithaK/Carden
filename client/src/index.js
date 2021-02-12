@@ -6,6 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -21,22 +22,23 @@ import "./styles/index.css";
 
 function App() {
   return (
-    <Router>
-      <ChakraProvider theme={theme}>
-        <Header />
-        <RRSwitch>
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/explore" component={Explore} />
-          <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/edit" component={Edit} />
-          <Route exact path="/preview" component={Preview} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/create" component={Create} />
-        </RRSwitch>
-      </ChakraProvider>
-    </Router>
+		<Router>
+			<ChakraProvider theme={theme}>
+				<Header />
+				<RRSwitch>
+					<Route exact path="/" component={Landing} />
+					<Route exact path="/signup" component={Signup} />
+					<Route exact path="/login" component={Login} />
+					<Route exact path="/explore" component={Explore} />
+					<Route exact path="/dashboard" component={Dashboard} />
+					<Route exact path="/edit" component={Edit} />
+					<Route exact path="/preview" component={Preview} />
+					<Route exact path="/profile" component={Profile} />
+					<Route exact path="/create" component={Create} />
+				</RRSwitch>
+				<Footer />
+			</ChakraProvider>
+		</Router>
   );
 }
 
