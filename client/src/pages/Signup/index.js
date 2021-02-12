@@ -63,6 +63,7 @@ function Signup() {
 			.post("/api/users", user)
 			.then((res) => {
 				console.log(res.data);
+				alert("Successfully Registered!");
 			})
 			.catch((err) => {
 				console.log(err.response.data);

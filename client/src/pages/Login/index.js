@@ -20,6 +20,7 @@ function Login() {
 			.post("/api/users/login", user)
 			.then((res) => {
 				console.log(res.data);
+				alert("Successfully Logged in!");
 			})
 			.catch((err) => {
 				alert(err.response.data.msg);
