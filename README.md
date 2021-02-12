@@ -84,7 +84,7 @@ We are not currently testing all browsers. Currently we only provide support for
 
 In the client or server directory, you can run:
 
-### `npm start`
+### `npm run dev`
 
 Runs the app in the development mode, starting **both** the server and client.\
 Open [http://localhost:3000](http://localhost:3000) to view the react client in the browser. The server is hosted on port 5000.
@@ -92,7 +92,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the react client in 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm run local`
+### `npm start`
 
 This runs either the client or the server, depending on which directory you call this command in. \
 This is useful if you want to run the client or the server solely, without the other. This **does not use Docker**, as a result, you will want to run `npm install` prior to running this command to make sure you have all the dependencies.
