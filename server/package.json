@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cd .. && docker-compose up --build || true",
-    "local": "node server.js"
+    "local": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.11.14"
+    "mongoose": "^5.11.14",
+    "nodemon": "^2.0.7"
   }
 }
