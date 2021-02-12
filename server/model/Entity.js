@@ -15,7 +15,7 @@ const entitySchema = new Schema({
 
 const Entity = db.model('Entity', entitySchema);
 
-const TextField = Shape.discriminator('Text',
+const TextField = Entity.discriminator('Text',
   new Schema({ 
       font: {
           type: String,
@@ -35,7 +35,7 @@ const TextField = Shape.discriminator('Text',
       }
       }));
 
-const  ImgField = Shape.discriminator('Image',
+const  ImgField = Entity.discriminator('Image',
   new Schema({ 
       s3_id : {
         type: String,
@@ -47,7 +47,7 @@ const  ImgField = Shape.discriminator('Image',
       },
     }));
 
-const AudField = Shape.discriminator('Audio',
+const AudField = Entity.discriminator('Audio',
   new Schema({
       s3_id : {
         type: String,
@@ -59,7 +59,7 @@ const AudField = Shape.discriminator('Audio',
       },
   }));
 
-const VidField = Shape.discriminator('Video',
+const VidField = Entity.discriminator('Video',
   new Schema({
       s3_id : {
         type: String,
