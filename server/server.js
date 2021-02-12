@@ -14,7 +14,7 @@ import animators from "./routes/api/animators.js"
 
 const result = dotenv.config();
 if (result.error) {
-	throw result.error;
+  throw result.error;
 }
 
 const app = express();
@@ -36,25 +36,16 @@ app.use("/api/animators", animators);
 
 // Connect to MongoDB
 mongoose
-	.connect(process.env.mongoURI, {
-		useCreateIndex: true,
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
-	.then(() => console.log("MongoDB connected"))
-	.catch((err) => console.log(err));
+  .connect(process.env.mongoURI, {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
 
 const db = mongoose.connection;
 
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
-
-// function sleep(ms) {
-// 	return new Promise((resolve) => setTimeout(resolve, ms));
-// }
-
-// while (1) {
-// 	await sleep(2000);
-// 	console.log("pls");
-// }
