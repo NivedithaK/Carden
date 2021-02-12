@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const model = mongoose.model;
 
 var SceneSchema = new mongoose.Schema
 ({
@@ -12,4 +13,5 @@ var SceneSchema = new mongoose.Schema
     },
 });
 
-mongoose.model('Scene', SceneSchema);
+const Scene = mongoose.model('Scene', SceneSchema);
+export default Scene;

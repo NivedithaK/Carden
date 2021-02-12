@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
+const model = mongoose.model;
 
 var TemplateSchema = new mongoose.Schema({
     postDate: {
         type: Date,
-        default: now
+        default: new Date()
     },
     postUser: {
         type: String,
@@ -39,4 +40,5 @@ var TemplateSchema = new mongoose.Schema({
     },
 });
 
-mongoose.model('Template', TemplateSchema);
+const Template = mongoose.model('Template', TemplateSchema);
+export default Template;

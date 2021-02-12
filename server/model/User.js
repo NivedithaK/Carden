@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
-import uniqueValidator from 'mongoose-unique-validator';
+const model = mongoose.model;
+//import uniqueValidator from 'mongoose-unique-validator';
 
 
 var UserSchema = new mongoose.Schema({
@@ -60,6 +61,7 @@ UserSchema.methods.validPassword = function(password) {
     return this.hash === hash;
 };
 
-UserSchema.plugin(uniqueValidator, {message: 'is already taken.'});
+//UserSchema.plugin(uniqueValidator, {message: 'is already taken.'});
 
-mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
+export default User;
