@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const model = mongoose.model;
 
 const Schema = mongoose.Schema;
 
@@ -13,7 +14,7 @@ const entitySchema = new Schema({
     },
 }, { discriminatorKey: 'kind' });
 
-const Entity = db.model('Entity', entitySchema);
+const Entity = mongoose.model('Entity', entitySchema);
 
 const TextField = Entity.discriminator('Text',
   new Schema({ 
@@ -35,7 +36,7 @@ const TextField = Entity.discriminator('Text',
       }
       }));
 
-const  ImgField = Entity.discriminator('Image',
+const ImgField = Entity.discriminator('Image',
   new Schema({ 
       s3_id : {
         type: String,
@@ -70,3 +71,5 @@ const VidField = Entity.discriminator('Video',
           default: ""
       },
   }));
+
+export default {TextField, ImgField, AudField, VidField};
