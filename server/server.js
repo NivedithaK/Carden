@@ -2,19 +2,20 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import users from "./routes/api/users.js"
-import templates from "./routes/api/templates.js"
-import scenes from "./routes/api/scenes.js"
-import puzzles from "./routes/api/puzzles.js"
-import textfields from "./routes/api/textfields.js"
-import imgfields from "./routes/api/imgfields.js"
-import audfields from "./routes/api/audfields.js"
-import vidfields from "./routes/api/vidfields.js"
-import animators from "./routes/api/animators.js"
+import cors from "cors";
+import users from "./routes/api/users.js";
+import templates from "./routes/api/templates.js";
+import scenes from "./routes/api/scenes.js";
+import puzzles from "./routes/api/puzzles.js";
+import textfields from "./routes/api/textfields.js";
+import imgfields from "./routes/api/imgfields.js";
+import audfields from "./routes/api/audfields.js";
+import vidfields from "./routes/api/vidfields.js";
+import animators from "./routes/api/animators.js";
 
 const result = dotenv.config();
 if (result.error) {
-  throw result.error;
+	throw result.error;
 }
 
 const app = express();
@@ -22,7 +23,9 @@ app.disable("x-powered-by");
 
 // Body parser
 app.use(express.json());
-
+// allow request to come from any endpoint with any header
+// need to remove this if we do security
+app.use(cors());
 // Setup routes
 app.use("/api/users", users);
 app.use("/api/templates", templates);
@@ -36,13 +39,13 @@ app.use("/api/animators", animators);
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.mongoURI, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
+	.connect(process.env.mongoURI, {
+		useCreateIndex: true,
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
+	.then(() => console.log("MongoDB connected"))
+	.catch((err) => console.log(err));
 
 const db = mongoose.connection;
 
