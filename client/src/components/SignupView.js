@@ -12,35 +12,38 @@ import {
   Center,
 } from "@chakra-ui/react";
 
-function View(props) {
+function SignupView(props) {
   useEffect(() => {
     console.log(props.handlers);
   }, []);
-  const [show, setShow] = React.useState(false);
+  const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-  const { setUsername, setPassword, handleLogin } = props.handlers;
+  const {
+    setUsername,
+    setPassword,
+    setConfirmPassword,
+    setEmail,
+    handleSubmit,
+  } = props.handlers;
 
   return (
     <div>
-      <Center
-        w={["90%", "80%"]}
-        h="100%"
-        m="50px auto"
-        boxShadow="dark-lg"
-        rounded="lg"
-      >
-        <Grid w="75%" h="300px" templateColumns="1fr">
+      <Center w={["90%", "80%"]} m="10px auto" boxShadow="dark-lg" rounded="lg">
+        <Grid w="75%" h="100%" templateColumns="1fr">
           <Box
             w="100%"
-            h="175px"
             bg="white"
             color={useColorModeValue("palette.400", "palette.800")}
-            m="auto"
+            m="15px auto"
           >
-            <form onSubmit={handleLogin} className="form">
+            <form onSubmit={handleSubmit} className="form">
               <FormControl id="username" isRequired>
                 <FormLabel>Username</FormLabel>
                 <Input placeholder="Username" onChange={setUsername} />
+              </FormControl>
+              <FormControl id="email" isRequired>
+                <FormLabel>Email</FormLabel>
+                <Input placeholder="Email Address" onChange={setEmail} />
               </FormControl>
               <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
@@ -57,15 +60,30 @@ function View(props) {
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
+              <FormControl id="confirmPassword" isRequired>
+                <FormLabel>Confirm Password</FormLabel>
+                <InputGroup size="md">
+                  <Input
+                    type={show ? "text" : "password"}
+                    placeholder="Confirm Password"
+                    onChange={setConfirmPassword}
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button h="1.75rem" size="sm" onClick={handleClick}>
+                      {show ? "Hide" : "Show"}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
               <Button
                 m="20px auto"
                 color={useColorModeValue("palette.700", "palette.400")}
                 type="submit"
                 bg={useColorModeValue("palette.800", "palette.400")}
-                borderRadius="20px"
                 w="50%"
+                borderRadius="20px"
               >
-                Log In
+                Signup
               </Button>
             </form>
           </Box>
@@ -78,4 +96,4 @@ function View(props) {
   );
 }
 
-export default View;
+export default SignupView;
