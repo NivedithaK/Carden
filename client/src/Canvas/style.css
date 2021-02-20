@@ -1,0 +1,50 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f3f3f3;
+}
+
+.flexbox {
+    display: flex;
+    justify-content: space-around;
+
+    width:100%;
+    max-width: 768px;
+    height: 100vh;
+
+    overflow:hidden;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.flexbox .canvas{
+    display: flex;
+
+    width: 100%;
+    max-width: 300px;
+
+    background-color: rgb(128, 128, 128);
+
+    padding: 15px;
+}
+
+.flexbox .canvas2{
+    display: flex;
+
+    width: 100%;
+    max-width: 300px;
+
+    background-color: rgb(220, 118, 118);
+
+    padding: 15px;
+}
+
+.flexbox .canvas .text-comp {
+    padding: 15px 25px;
+    background-color: #f3f3f3;
+    cursor: pointer;
+}
