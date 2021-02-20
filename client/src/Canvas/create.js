@@ -19,6 +19,9 @@ class Create extends Component {
           <button onClick={this.addText}>click me</button>
 
           {/* <Canvas id="canvas" className="canvas">
+
+          <Canvas id="canvas" className="canvas">
+
             <DragComp id="text-1" className="text-comp" draggable="true">
               <p>Text1</p>
             </DragComp>
@@ -31,11 +34,13 @@ class Create extends Component {
           </Canvas> */}
           <Canvas id="canvas" className="canvas">
             {this.state.comps}
+
           </Canvas>
         </main>
       </div>
     );
   }
+
 
   addText = () => {
     this.state.comps.push(
@@ -47,6 +52,7 @@ class Create extends Component {
     this.forceUpdate();
     console.log(this.state.comps);
   };
+
 }
 
 export default Create;
