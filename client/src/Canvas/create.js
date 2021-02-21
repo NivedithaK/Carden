@@ -37,13 +37,14 @@ class Create extends Component {
     );
   }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> Add dynamic componet addition
   addText = () => {
     this.state.comps.push(
-      <DragComp key={this.state.id} id={this.state.id} className="text-comp" draggable="true">
+      <DragComp
+        key={this.state.id}
+        id={this.state.id}
+        className="text-comp"
+        draggable="true"
+      >
         <Button>hello{this.state.id}</Button>
       </DragComp>
     );
@@ -51,10 +52,6 @@ class Create extends Component {
     this.forceUpdate();
     console.log(this.state.comps);
   };
-<<<<<<< HEAD
-
-=======
->>>>>>> Add dynamic componet addition
 }
 
 export default Create;
