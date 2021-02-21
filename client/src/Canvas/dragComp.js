@@ -42,6 +42,7 @@ class DragComp extends React.Component {
   appendChild(child){
     this.props.children.appendChild(child);
   }
+
 }
 
 export default DragComp;

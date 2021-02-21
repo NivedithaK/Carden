@@ -18,10 +18,7 @@ class Create extends Component {
         <main className="flexbox">
           <button onClick={this.addText}>click me</button>
 
-          {/* <Canvas id="canvas" className="canvas">
-
-          <Canvas id="canvas" className="canvas">
-
+          {/* <Canvas id="canvas" className="canvas"
             <DragComp id="text-1" className="text-comp" draggable="true">
               <p>Text1</p>
             </DragComp>
@@ -34,14 +31,16 @@ class Create extends Component {
           </Canvas> */}
           <Canvas id="canvas" className="canvas">
             {this.state.comps}
-
           </Canvas>
         </main>
       </div>
     );
   }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Add dynamic componet addition
   addText = () => {
     this.state.comps.push(
       <DragComp key={this.state.id} id={this.state.id} className="text-comp" draggable="true">
@@ -52,7 +51,10 @@ class Create extends Component {
     this.forceUpdate();
     console.log(this.state.comps);
   };
+<<<<<<< HEAD
 
+=======
+>>>>>>> Add dynamic componet addition
 }
 
 export default Create;
