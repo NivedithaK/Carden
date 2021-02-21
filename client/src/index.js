@@ -26,7 +26,6 @@ function App() {
 	return (
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
-				{" "}
 				{/* null passed to loading, persistor is being used here */}
 				<Router>
 					<ChakraProvider theme={theme}>
