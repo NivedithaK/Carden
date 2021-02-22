@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { useHistory } from "react-router-dom";
 import {
   BrowserRouter as Router,
   Switch as RRSwitch,
@@ -21,8 +22,8 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import "./styles/index.css";
-
 function App() {
+  const history = useHistory();
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -36,10 +37,20 @@ function App() {
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/explore" component={Explore} />
-              <Route exact path="/dashboard" component={Dashboard} />
+              <Route
+                exact
+                path="/dashboard"
+                component={Dashboard}
+                history={history}
+              />
               <Route exact path="/edit" component={Edit} />
               <Route exact path="/preview" component={Preview} />
-              <Route exact path="/profile" component={Profile} />
+              <Route
+                exact
+                path="/profile"
+                component={Profile}
+                history={history}
+              />
               <Route exact path="/create" component={Create} />
             </RRSwitch>
           </ChakraProvider>

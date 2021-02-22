@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Box,
@@ -13,9 +13,6 @@ import {
 } from "@chakra-ui/react";
 
 function LoginView(props) {
-  useEffect(() => {
-    // console.log(props.handlers);
-  }, []);
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const { setUsername, setPassword, handleLogin } = props.handlers;

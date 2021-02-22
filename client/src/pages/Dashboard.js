@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import {
   Grid,
   GridItem,
@@ -11,59 +10,58 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-function Dashboard() {
-  const history = useHistory();
+class Dashboard extends React.Component {
   // run use effect once
-  useEffect(() => {
-    // Check here the user is logged in
-    // either we use tokens sent by server after log in function
-    // or check a user context
-    // if not logged in redirect to main page
-    // history.push("/");, otherwise we are good to go
-  }, []);
-  const handleBrowse = (e) => {
-    e.preventDefault();
+  constructor(props) {
+    super(props);
+    this.handleAbout = this.handleAbout.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+    this.handleBrowse = this.handleBrowse.bind(this);
+  }
+  handleBrowse = (e) => {
+    // e.preventDefault();
+    console.log("back again");
   };
-  const handleLogout = (e) => {
-    e.preventDefault();
+  handleLogout = (e) => {
     // log user out
     // remove their user data
-    history.push("/");
+    this.props.history.push("/");
   };
-  const handleAbout = (e) => {
-    e.preventDefault();
-    history.push("/");
+  handleAbout = (e) => {
+    this.props.history.push("/");
   };
-  return (
-    <div>
-      <Grid h="100%" templateColumns="1fr 5fr" gap={2}>
-        <GridItem>
-          <Box w="100%" h="100%" bg="blue.500">
-            <Grid h="100%" templateColumns="1fr" gap={0}>
-              <GridItem>
-                <Button isActive="true" w="100%" onClick={handleBrowse}>
-                  Browse Cards
-                </Button>
-                <Button w="100%">How to use</Button>
-                <Button w="100%" onClick={handleAbout}>
-                  About
-                </Button>
-                <Button w="100%">Help/Faq</Button>
-                <Button w="100%" onClick={handleLogout}>
-                  Log out
-                </Button>
-              </GridItem>
-            </Grid>
-          </Box>
-        </GridItem>
-        <GridItem>
-          <Box w="100%" h="100%" bg="blue.500">
-            <Heading>Browse Cards</Heading>
-          </Box>
-        </GridItem>
-      </Grid>
-    </div>
-  );
+  render() {
+    return (
+      <div>
+        <Grid h="100%" templateColumns="1fr 5fr" gap={2}>
+          <GridItem>
+            <Box w="100%" h="100%" bg="blue.500">
+              <Grid h="100%" templateColumns="1fr" gap={0}>
+                <GridItem>
+                  <Button isActive="true" w="100%" onClick={this.handleBrowse}>
+                    Browse Cards
+                  </Button>
+                  <Button w="100%">How to use</Button>
+                  <Button w="100%" onClick={this.handleAbout}>
+                    About
+                  </Button>
+                  <Button w="100%">Help/Faq</Button>
+                  <Button w="100%" onClick={this.handleLogout}>
+                    Log out
+                  </Button>
+                </GridItem>
+              </Grid>
+            </Box>
+          </GridItem>
+          <GridItem>
+            <Box w="100%" h="100%" bg="blue.500">
+              <Heading>Browse Cards</Heading>
+            </Box>
+          </GridItem>
+        </Grid>
+      </div>
+    );
+  }
 }
 
 export default Dashboard;
