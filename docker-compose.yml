@@ -1,28 +1,16 @@
 version: "3"
 services:
-    # Create frontend container
-    frontend: # Name of our service
-        build: ./client # path to dockerfile
-        ports: # Port binding to host from docker container
-            - "3000:3000" # Bind port 3000 of host to 3000 of container
-        container_name: client-docker
-        restart: always # What to do if container crashes
-        links:
-            - backend
-        volumes:
-            - ./client/src:/usr/src/app/client/src
-            - ./client/public:/usr/src/app/client/public
-        environment:
-            - CHOKIDAR_USEPOLLING=true
     # Create backend container
     backend:
         # Create backend container
         build: ./server
         ports:
-            - "5000:5000"
+            - "80:5000"
         container_name: server-docker
         restart: always
         volumes:
             - ./server/:/usr/src/app/server/
         environment:
-            - CHOKIDAR_USEPOLLING=true
+            - mongoURI=mongodb+srv://new:S09C6SHdOD4zghXG@dev.pw3h5.mongodb.net/Dev?retryWrites=true&w=majority
+            - jwtSecret=carden_JwtSecret_Chadweeb_42069
+            - NODE_ENV=production
