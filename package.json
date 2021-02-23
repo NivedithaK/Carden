@@ -1,0 +1,24 @@
+{
+  "name": "carden",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "An e-card generating website",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "docker-compose up --build || true",
+    "start": "cd server && npm i && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UTMCSC301/final-project-301-weebs.git"
+  },
+  "author": "301-Weebs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UTMCSC301/final-project-301-weebs/issues"
+  },
+  "homepage": "https://github.com/UTMCSC301/final-project-301-weebs#readme",
+  "dependencies": {
+  }
+}
