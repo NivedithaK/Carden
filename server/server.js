@@ -18,10 +18,12 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// const result = dotenv.config();
-// if (result.error) {
-// 	throw result.error;
-// }
+if (process.env.NODE_ENV === "development") {
+	const result = dotenv.config();
+	if (result.error) {
+		throw result.error;
+	}
+}
 
 const app = express();
 app.disable("x-powered-by");
@@ -55,18 +57,18 @@ mongoose
 const db = mongoose.connection;
 
 // Serve static assets if in production
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "build")));
+	app.get("/*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "build", "index.html"));
+	});
+}
 
-// Static assets
-app.use(express.static(path.join(__dirname, "build")));
-// app.use(express.static(path.join(__dirname, "./client/build")));
-app.get("/*", (req, res) => {
-	res.sendFile(path.resolve(__dirname, "build", "index.html"));
-});
+// const port =
+// 	process.env.NODE_ENV == "production"
+// 		? // ? process.env.PORT || 8081
+// 		  process.env.PORT || 5000
+// 		: process.env.PORT || 5000;
 
-const port =
-	process.env.NODE_ENV == "production"
-		? // ? process.env.PORT || 8081
-		  process.env.PORT || 5000
-		: process.env.PORT || 5000;
-
+const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));
