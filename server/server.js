@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import path, { dirname } from "path";
 import users from "./routes/api/users.js";
 import templates from "./routes/api/templates.js";
 import scenes from "./routes/api/scenes.js";
@@ -12,6 +13,10 @@ import imgfields from "./routes/api/imgfields.js";
 import audfields from "./routes/api/audfields.js";
 import vidfields from "./routes/api/vidfields.js";
 import animators from "./routes/api/animators.js";
+
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const result = dotenv.config();
 if (result.error) {
@@ -48,6 +53,15 @@ mongoose
 	.catch((err) => console.log(err));
 
 const db = mongoose.connection;
+
+// Serve static assets if in production
+
+// Static assets
+app.use(express.static("build"));
+// app.use(express.static(path.join(__dirname, "./client/build")));
+app.get("*", (req, res) => {
+	res.sendFile(path.resolve(__dirname, "build", "index.html"));
+});
 
 const port = process.env.PORT || 5000;
 
