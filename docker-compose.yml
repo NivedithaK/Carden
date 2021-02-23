@@ -8,8 +8,8 @@ services:
             - "80:5000"
         container_name: server-docker
         restart: always
-        volumes:
-            - ./server/:/usr/src/app/server/
+        # volumes:
+        #     - ./server/:/usr/src/app/server/
         environment:
             - mongoURI=mongodb+srv://new:S09C6SHdOD4zghXG@dev.pw3h5.mongodb.net/Dev?retryWrites=true&w=majority
             - jwtSecret=carden_JwtSecret_Chadweeb_42069
