@@ -57,12 +57,15 @@ const db = mongoose.connection;
 // Serve static assets if in production
 
 // Static assets
-app.use(express.static("build"));
+app.use(express.static(path.join(__dirname, "build")));
 // app.use(express.static(path.join(__dirname, "./client/build")));
-app.get("*", (req, res) => {
+app.get("/*", (req, res) => {
 	res.sendFile(path.resolve(__dirname, "build", "index.html"));
 });
 
-const port = process.env.PORT || 5000;
+const port =
+	process.env.NODE_ENV == "production"
+		? process.env.PORT || 8080
+		: process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
