@@ -6,7 +6,7 @@ RUN mkdir -p /usr/src/app/server
 # Set working directory so that all subsequent command runs in this folder
 WORKDIR /usr/src/app/server
 # Copy package json and install dependencies
-COPY package*.json ./
+COPY server/package*.json ./
 RUN npm install
 # Copy our app
 COPY server/ .
