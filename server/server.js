@@ -18,10 +18,10 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const result = dotenv.config();
-if (result.error) {
-	throw result.error;
-}
+// const result = dotenv.config();
+// if (result.error) {
+// 	throw result.error;
+// }
 
 const app = express();
 app.disable("x-powered-by");
