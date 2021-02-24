@@ -16,7 +16,8 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-if (process.env.NODE_ENV === "development") {
+// If in development, get environment variables
+if (process.env.NODE_ENV !== "production") {
 	const result = dotenv.config();
 	if (result.error) {
 		throw result.error;
