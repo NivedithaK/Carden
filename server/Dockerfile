@@ -2,9 +2,9 @@
 FROM node
 # Make folder to put our files in
 RUN mkdir -p /usr/src/app
-# RUN mkdir -p /usr/src/app/server
+RUN mkdir -p /usr/src/app/server
 # Set working directory so that all subsequent command runs in this folder
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/server
 # Copy package json and install dependencies
 COPY package*.json ./
 RUN npm install
