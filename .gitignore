@@ -4,4 +4,6 @@
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-docker-compose.yml
+
+# Deploy script
+deploy.sh

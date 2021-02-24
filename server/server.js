@@ -1,4 +1,3 @@
-// This is the server file
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -13,7 +12,6 @@ import imgfields from "./routes/api/imgfields.js";
 import audfields from "./routes/api/audfields.js";
 import vidfields from "./routes/api/vidfields.js";
 import animators from "./routes/api/animators.js";
-
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -63,12 +61,6 @@ if (process.env.NODE_ENV === "production") {
 		res.sendFile(path.resolve(__dirname, "build", "index.html"));
 	});
 }
-
-// const port =
-// 	process.env.NODE_ENV == "production"
-// 		? // ? process.env.PORT || 8081
-// 		  process.env.PORT || 5000
-// 		: process.env.PORT || 5000;
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));

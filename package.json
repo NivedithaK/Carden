@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "docker-compose up --build || true",
-    "start": "cd server && sudo npm i && sudo npm start"
+    "start": "cd server && npm i && npm start"
   },
   "repository": {
     "type": "git",
