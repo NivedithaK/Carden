@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Canvas from "./canvas";
 import DragComp from "./dragComp";
 import { Button } from "@chakra-ui/react";
+import "./style.css";
 
 class Create extends Component {
   constructor() {
@@ -16,18 +17,9 @@ class Create extends Component {
     return (
       <div className="App">
         <main className="flexbox">
-          <button onClick={this.addText}>click me</button>
+          <button onClick={this.addButton}>Add button</button>
 
-          {/* <Canvas id="canvas" className="canvas"
-            <DragComp id="text-1" className="text-comp" draggable="true">
-              <p>Text1</p>
-            </DragComp>
-            <DragComp id="text-2" className="text-comp" draggable="true">
-              <p>Text2</p>
-            </DragComp>
-            <DragComp id="button-1" className="text-comp" draggable="true">
-              <button>Button1</button>
-            </DragComp>
+          {/* <Canvas id="canvas" className="canvas">
           </Canvas> */}
           <Canvas id="canvas" className="canvas">
             {this.state.comps}
@@ -37,7 +29,7 @@ class Create extends Component {
     );
   }
 
-  addText = () => {
+  addButton = () => {
     this.state.comps.push(
       <DragComp
         key={this.state.id}
