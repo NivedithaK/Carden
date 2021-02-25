@@ -20,7 +20,12 @@ const middleware = [thunk];
 const store = createStore(
     persistedReducer, // pass the persisted reducer instead of rootReducer
     initialState,
-    compose(applyMiddleware(...middleware))
+    compose(
+        applyMiddleware(...middleware)
+        //REMOVE THIS LINE FOR PRODUCTION
+        // window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        // 	window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
 );
 
 const persistor = persistStore(store);

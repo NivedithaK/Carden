@@ -1,16 +1,19 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import logo from "../assets/logo.png";
+import logoNoBg from "../assets/logo-no-bg.png";
 import {
     Box,
-    Heading,
+    Stack,
     Flex,
     Button,
     useColorMode,
     useColorModeValue,
     Spacer,
     Switch,
+    Image,
 } from "@chakra-ui/react";
-import { SunIcon, MoonIcon } from "@chakra-ui/icons";
+import { SunIcon, MoonIcon, HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 
 const MenuItems = ({ children, handleClick }) => {
     return (
@@ -58,14 +61,28 @@ const Header = (props) => {
                 justify="space-between"
                 wrap="wrap"
                 padding="1.5rem"
-                bg={useColorModeValue("palette.800", "paletter.600")}
+                bg={useColorModeValue("palette.800", "paletter.800")}
                 color={useColorModeValue("palette.700", "palette.700")}
+                color="white"
                 {...props}
             >
                 <Flex mr={5}>
-                    <Heading size="lg" as="button" onClick={handleAbout}>
-                        Carden
-                    </Heading>
+                    <Button
+                        height="60px"
+                        bg={useColorModeValue("palette.800", "palette.1000")}
+                        _hover={useColorModeValue("palette.800", "palette.800")}
+                        _active={useColorModeValue(
+                            "palette.800",
+                            "palette.900"
+                        )}
+                        onClick={handleAbout}
+                    >
+                        <Image
+                            height="60px"
+                            src={colorMode == "light" ? logo : logoNoBg}
+                            alt="Logo"
+                        />
+                    </Button>
                 </Flex>
 
                 <Box
@@ -73,63 +90,74 @@ const Header = (props) => {
                     display={{ sm: "block", md: "none" }}
                     onClick={handleToggle}
                 >
-                    <svg
-                        fill="white"
-                        width="12px"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <title>Menu</title>
-                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-                    </svg>
+                    {show ? <CloseIcon /> : <HamburgerIcon />}
+                    <title>Menu</title>
                 </Box>
 
                 <Box
-                    display={{ sm: show ? "block" : "none", md: "flex" }}
-                    width={{ sm: "full", md: "auto" }}
-                    alignItems="center"
-                    flexGrow={1}
+                    display={{ base: show ? "block" : "none", md: "block" }}
+                    flexBasis={{ base: "100%", md: "auto" }}
                 >
-                    <Spacer />
-                    <MenuItems handleClick={handleAbout}>About</MenuItems>
-                    <MenuItems handleClick={handleLogin}>Log In</MenuItems>
-                    <Box
-                        display={{ sm: show ? "block" : "none", md: "block" }}
-                        mt={{ base: 4, md: 0 }}
+                    <Stack
+                        spacing={3}
+                        align="center"
+                        justify={[
+                            "center",
+                            "space-between",
+                            "flex-end",
+                            "flex-end",
+                        ]}
+                        direction={["column", "row", "row", "row"]}
+                        pt={[4, 4, 0, 0]}
                     >
-                        <Button
-                            borderRadius="20px"
-                            bg={useColorModeValue("palette.200", "palette.200")}
-                            color={useColorModeValue(
-                                "palette.800",
-                                "palette.600"
-                            )}
-                            onClick={handleSignup}
-                            _hover={{
-                                color: useColorModeValue(
-                                    "palette.700",
-                                    "palette.900"
-                                ),
-                                background: useColorModeValue(
-                                    "palette.900",
-                                    "palette.600"
-                                ),
+                        <Spacer />
+                        <MenuItems handleClick={handleAbout}>About</MenuItems>
+                        <MenuItems handleClick={handleLogin}>Log In</MenuItems>
+                        <Box
+                            display={{
+                                sm: show ? "block" : "none",
+                                md: "block",
                             }}
+                            mt={{ base: 4, md: 0 }}
+                            align="center"
                         >
-                            Sign Up
-                        </Button>
-                    </Box>
-                    {colorMode === "light" ? (
-                        <MoonIcon ml="20px" />
-                    ) : (
-                        <SunIcon ml="20px" />
-                    )}
-                    <Switch
-                        colorScheme="red"
-                        size="md"
-                        pl="10px"
-                        onChange={handleDarkMode}
-                    />
+                            <Button
+                                borderRadius="20px"
+                                bg={useColorModeValue(
+                                    "palette.200",
+                                    "palette.200"
+                                )}
+                                color={useColorModeValue(
+                                    "palette.800",
+                                    "palette.600"
+                                )}
+                                onClick={handleSignup}
+                                _hover={{
+                                    color: useColorModeValue(
+                                        "palette.700",
+                                        "palette.900"
+                                    ),
+                                    background: useColorModeValue(
+                                        "palette.900",
+                                        "palette.600"
+                                    ),
+                                }}
+                            >
+                                Sign Up
+                            </Button>
+                        </Box>
+                        {colorMode === "light" ? (
+                            <MoonIcon ml="20px" />
+                        ) : (
+                            <SunIcon ml="20px" />
+                        )}
+                        <Switch
+                            colorScheme="red"
+                            size="md"
+                            pl="10px"
+                            onChange={handleDarkMode}
+                        />
+                    </Stack>
                 </Box>
             </Flex>
         </Box>

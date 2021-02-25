@@ -7,6 +7,7 @@ import {
     Route,
 } from "react-router-dom";
 import Header from "./components/Header.js";
+import Footer from "./components/Footer.js";
 import Landing from "./pages/Landing.js";
 import Login from "./pages/Login.js";
 import Signup from "./pages/Signup.js";
@@ -33,7 +34,11 @@ function App() {
                     <ChakraProvider theme={theme}>
                         <Header />
                         <RRSwitch>
-                            <Route exact path="/" component={Landing} />
+                            <Route
+                                exact
+                                path="/"
+                                render={(props) => <Landing {...props} />}
+                            />
                             <Route exact path="/signup" component={Signup} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/explore" component={Explore} />
@@ -53,6 +58,7 @@ function App() {
                             />
                             <Route exact path="/create" component={Create} />
                         </RRSwitch>
+                        <Footer />
                     </ChakraProvider>
                 </Router>
             </PersistGate>

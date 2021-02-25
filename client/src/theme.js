@@ -29,12 +29,12 @@ const theme = extendTheme({
         },
     },
     textStyles: {
-        h1: {
-            fontSize: ["12px", "12px"],
-            fontWeight: "bold",
-            lineHeight: "110%",
-            letterSpacing: "-2%",
-        },
+        // h1: {
+        //   fontSize: ["12px", "12px"],
+        //   fontWeight: "bold",
+        //   lineHeight: "110%",
+        //   letterSpacing: "-2%",
+        // },
         h2: {
             fontSize: ["36px", "48px"],
             fontWeight: "semibold",
