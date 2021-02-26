@@ -1,3 +1,4 @@
+import { omitThemingProps } from "@chakra-ui/react";
 import React from "react";
 
 class DragComp extends React.Component {
@@ -7,7 +8,7 @@ class DragComp extends React.Component {
       style: { display: "block", top: "0", left: "0" },
     };
   }
-
+  
   dragStart = (e) => {
     const target = e.target;
 
@@ -23,9 +24,21 @@ class DragComp extends React.Component {
   };
 
   dragEnd = (e) => {
+    // this.setState({
+    //   style: {
+    //     left:
+    //       ((e.clientX + window.pageXOffset) * 100) / window.innerWidth + "vw",
+    //     top:
+    //       ((e.clientY + window.pageYOffset) * 100) / window.innerHeight + "vh",
+    //   },
+    // });
     setTimeout(() => {
       this.setState({ style: { display: "inline" } });
     }, 0);
+  };
+
+  getpos = () => {
+    return this.state.style.top, this.state.style.left;
   };
 
   render() {

@@ -11,23 +11,41 @@ class Create extends Component {
       comps: [],
       id: 0,
     };
+    this.child = React.createRef();
   }
+
+  //debuging tools
+  componentDidMount() {
+    document.addEventListener("contextmenu", this.handleContextMenu);
+  }
+  //debuging tools
+  componentWillUnmount() {
+    document.removeEventListener("contextmenu", this.handleContextMenu);
+  }
+  //debuging tools  
+  handleContextMenu = (e) => {
+    //possibly have the side menue pop up. fancy
+    this.getpos();
+    e.preventDefault();
+  };
 
   addComp = (e) => {
     let newcomp;
+    let userin = window.prompt("Enter input", "");
     switch (e.target.value) {
       case "Button":
-        newcomp = <Button>{this.state.id}</Button>;
+        newcomp = <Button>{userin}</Button>;
         break;
       case "Text":
-        newcomp = <p>{this.state.id}</p>;
+        newcomp = <p>{userin}</p>;
         break;
       case "Image":
-        newcomp =  <img src="https://i.pinimg.com/474x/b7/41/33/b74133de4d835fb9ff4ab54e06f04c87.jpg"></img>;
+        newcomp = <img src={userin}></img>;
         break;
     }
     let addedcomp = this.state.comps.concat(
       <DragComp
+        ref={this.child}
         key={this.state.id}
         id={this.state.id}
         className="comp"
@@ -41,6 +59,12 @@ class Create extends Component {
       comps: addedcomp,
       id: this.state.id + 1,
     });
+  };
+
+  getpos = () => {
+    for (let i = 0; i < this.state.comps.length; i++) {
+      console.log(this.state.comps[i].getpos(), this.state.comps[i].getpos());
+    }
   };
 
   render() {
@@ -59,9 +83,6 @@ class Create extends Component {
             </Button>
           </Canvas>
           <Canvas id="canvas" className="canvas" dropable={true}>
-            <DragComp draggable="true" id="text" className="comp">
-              UwU
-            </DragComp>
             {this.state.comps}
           </Canvas>
         </main>
