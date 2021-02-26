@@ -9,14 +9,14 @@ class DragComp extends React.Component {
       style: { display: "block", top: "0", left: "0" },
     };
   }
-  
+
   dragStart = (e) => {
     const target = e.target;
 
     e.dataTransfer.setData("compId", target.id);
 
     setTimeout(() => {
-      this.setState({ style: { display: "none" } });
+      this.setState({ style: { ...this.state.style, display: "none" } });
     }, 0);
   };
 
@@ -26,7 +26,7 @@ class DragComp extends React.Component {
 
   dragEnd = (e) => {
     setTimeout(() => {
-      this.setState({ style: { display: "inline" } });
+      this.setState({ style: { ...this.state.style, display: "inline" } });
     }, 0);
   };
 
