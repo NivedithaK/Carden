@@ -23,13 +23,24 @@ body {
 .flexbox .canvas{
     display: flex;
 
-    width: 100%;
+    width: 80%;
     background-color: rgb(220, 118, 118);
 
     padding: 15px;
 }
+.flexbox .pallet{
+    display: flex;
+    flex-direction: column;
 
-.flexbox .canvas .text {
+    width: 20%;
+    background-color: rgb(129, 17, 174);
+
+    padding: 15px;
+}
+.flexbox .pallet Button{
+    margin-bottom: 10px;
+}
+.flexbox .canvas .comp {
     padding: 15px 25px;
     cursor: pointer;
     border: solid black;

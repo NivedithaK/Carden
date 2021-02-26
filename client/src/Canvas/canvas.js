@@ -4,6 +4,7 @@ class Canvas extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state={dropable:props.dropable};
   }
 
   drop = (e) =>{
@@ -24,7 +25,7 @@ class Canvas extends React.Component {
       <div
         id={this.props.id}
         className={this.props.className}
-        onDrop={this.drop}
+        onDrop={this.state.dropable?this.drop:undefined}
         onDragOver={this.dragOver}
       >
         {this.props.children}
