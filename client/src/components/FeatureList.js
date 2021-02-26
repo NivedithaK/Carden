@@ -29,6 +29,7 @@ function FeatureList() {
                             title={messages[index]}
                         />
                     );
+
                 })}
             </SimpleGrid>
         </>

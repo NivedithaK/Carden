@@ -17,7 +17,9 @@ import Edit from "./pages/Edit.js";
 import Preview from "./pages/Preview.js";
 import Profile from "./pages/Profile.js";
 import Create from "./pages/Create.js";
+
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
+
 import theme from "./theme";
 import { Provider } from "react-redux";
 import { store, persistor } from "./store";
@@ -39,6 +41,7 @@ function App() {
                                 path="/"
                                 render={(props) => <Landing {...props} />}
                             />
+
                             <Route exact path="/signup" component={Signup} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/explore" component={Explore} />

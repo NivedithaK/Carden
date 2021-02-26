@@ -89,6 +89,7 @@ function LoginView(props) {
             </Center>
         </div>
     );
+
 }
 
 export default LoginView;

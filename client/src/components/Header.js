@@ -13,6 +13,7 @@ import {
     Switch,
     Image,
 } from "@chakra-ui/react";
+
 import { SunIcon, MoonIcon, HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 
 const MenuItems = ({ children, handleClick }) => {
@@ -24,6 +25,7 @@ const MenuItems = ({ children, handleClick }) => {
             mr={6}
             display="block"
             onClick={handleClick}
+
             borderColor={useColorModeValue("palette.700", "palette.700")}
             color={useColorModeValue("palette.700", "palette.700")}
         >
@@ -34,7 +36,9 @@ const MenuItems = ({ children, handleClick }) => {
 
 const Header = (props) => {
     const [show, setShow] = React.useState(false);
+
     const { colorMode, toggleColorMode } = useColorMode();
+
     const handleToggle = () => setShow(!show);
     const history = useHistory();
     const handleLogin = (e) => {
@@ -49,6 +53,7 @@ const Header = (props) => {
         e.preventDefault();
         history.push("/signup");
     };
+
     const handleDarkMode = (e) => {
         // e.preventDefault();
         toggleColorMode();
@@ -61,8 +66,10 @@ const Header = (props) => {
                 justify="space-between"
                 wrap="wrap"
                 padding="1.5rem"
+
                 bg={useColorModeValue("palette.800", "paletter.800")}
                 color={useColorModeValue("palette.700", "palette.700")}
+
                 color="white"
                 {...props}
             >
@@ -71,17 +78,20 @@ const Header = (props) => {
                         height="60px"
                         bg={useColorModeValue("palette.800", "palette.1000")}
                         _hover={useColorModeValue("palette.800", "palette.800")}
+
                         _active={useColorModeValue(
                             "palette.800",
                             "palette.900"
                         )}
                         onClick={handleAbout}
                     >
+
                         <Image
                             height="60px"
                             src={colorMode == "light" ? logo : logoNoBg}
                             alt="Logo"
                         />
+
                     </Button>
                 </Flex>
 
@@ -125,6 +135,7 @@ const Header = (props) => {
                                 borderRadius="20px"
                                 bg={useColorModeValue(
                                     "palette.200",
+
                                     "palette.200"
                                 )}
                                 color={useColorModeValue(
@@ -142,10 +153,12 @@ const Header = (props) => {
                                         "palette.600"
                                     ),
                                 }}
+
                             >
                                 Sign Up
                             </Button>
                         </Box>
+
                         {colorMode === "light" ? (
                             <MoonIcon ml="20px" />
                         ) : (
@@ -157,6 +170,7 @@ const Header = (props) => {
                             pl="10px"
                             onChange={handleDarkMode}
                         />
+
                     </Stack>
                 </Box>
             </Flex>

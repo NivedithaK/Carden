@@ -15,6 +15,7 @@ function Footer() {
             <Text color="palette.700">February 2021</Text>
         </Flex>
     );
+
 }
 
 export default Footer;
