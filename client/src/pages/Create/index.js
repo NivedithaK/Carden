@@ -14,11 +14,18 @@ import {
   useColorModeValue,
   Flex,
   Divider,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 
 import { SketchPicker } from 'react-color';
 
 import SketchExample from '../../components/ColorPicker';
+
+// Todo: organize the below stuff later
 
 const ToolSection = ({ title, children }) => {
   return (
@@ -47,6 +54,62 @@ const ThickHDivider = ({color}) => {
   );
 };
 
+function PXStepper({min, max, defaultValue, step}) {
+
+  const format = (val) => val + `px`;
+  const parse = (val) => val.replace(/px$/, "");
+
+  const [value, setValue] = React.useState(defaultValue);
+
+  return (
+    <NumberInput
+      onChange={(valueString) => setValue(parse(valueString))}
+      value={format(value)}
+      min={min}
+      max={max}
+      step={step}
+    >
+      <NumberInputField />
+      <NumberInputStepper>
+        <NumberIncrementStepper />
+        <NumberDecrementStepper />
+      </NumberInputStepper>
+    </NumberInput>
+  )
+
+}
+
+function ColorSelector({changeColor}){
+  const [color, setColor] = React.useState({r: 191, g:251, b:255, a: 1});
+  const [displayPicker, showDisplayPicker] = React.useState(false);
+
+  const handleChange = (color) => {
+    setColor(color.rgb);
+    changeColor(color.rgb);
+  };
+
+  return (
+    <Box>
+        <Button 
+          p={2}
+          onClick={() => showDisplayPicker(!displayPicker)}
+          border={"5px solid white"}
+          bg={`rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}
+          boxShadow="base"
+        />
+      {
+        displayPicker ?
+        <Box pos='absolute' zIndex={2}>
+          <Box pos='fixed' top={0} right={0} bottom={0} left={0} onClick={()=> showDisplayPicker(false)}></Box>
+          <SketchPicker color={color} onChange={(color) => handleChange(color)} />
+        </Box> : null
+      }
+    </Box>
+  )
+
+}
+//
+
 function Create() {
   //   let { path, url } = useRouteMatch();
   //   const history = useHistory();
@@ -57,7 +120,10 @@ function Create() {
     // Validate user is logged in, and can make templates
     // if not then history.push("/explore");
   }, []);
-  const [canvasColor, setColor] = useState({ color: "rgba(191, 251, 255, 1)" });
+  const [canvasColor, setColor] = useState({r: 191, g:251, b:255, a: 1});
+
+  // Color selector can change this thing's color <Box bg={`rgba(${canvasColor.r}, ${canvasColor.g}, ${canvasColor.b}, ${canvasColor.a})`}>Placeholder</Box>
+
   return (
     <Flex direction="column"> 
       <Box w="100%" bg={useColorModeValue("palette.700")}>
@@ -70,15 +136,18 @@ function Create() {
             <ToolSection title="Canvas Attributes">
               <Heading size="sm" padding={1}>Dimensions</Heading>
               <Divider/>
-              <ToolItem label='Width'> help</ToolItem>
-              <ToolItem label='Height'> help</ToolItem>
+              <ToolItem label='Width'> 
+                <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+              </ToolItem>
+              <ToolItem label='Height'> 
+                <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+              </ToolItem>
               <Heading size="sm" padding={1}>Background Color</Heading>
               <Divider/>
               <ToolItem label="Select">
-                  <Box bg={canvasColor.color}>Placeholder</Box>
-                  {/**TODO: Figure out React Hooks */}
+                  {/**TODO: Figure out how to change the canvas with this SketchPicker */}
+                  <ColorSelector changeColor={setColor}/>
               </ToolItem>
-              
 
             </ToolSection>
           </Flex>
