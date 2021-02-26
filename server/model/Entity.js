@@ -12,6 +12,23 @@ const entitySchema = new Schema({
         type: String,
         default: ""
     },
+    ParentID: {
+        type: String,
+        default: ""
+    },
+    level:{
+        type: Int,
+        default:0
+    },
+    //Set to null if no bgcolor
+    bgColor: {
+        type: String,
+        default: ""
+    },
+    size: {
+        type: Int,
+        default: 10
+    }
 }, { discriminatorKey: 'kind' });
 
 const Entity = mongoose.model('Entity', entitySchema);
@@ -72,4 +89,27 @@ const VidField = Entity.discriminator('Video',
       },
   }));
 
-export default {TextField, ImgField, AudField, VidField};
+const ButtonField = Entity.discriminator('Button',
+  new Schema({
+      onClick : {
+        type: String,
+        default: "",
+      },
+      type: {
+          type: String,
+          default: ""
+      }
+  }));
+
+const BoxField = Entity.discriminator('Box',
+  new Schema({
+      onClick : {
+        type: String,
+        default: "",
+      },
+      type: {
+          type: String,
+          default: ""
+      }
+  }));
+export default {TextField, ImgField, AudField, VidField, ButtonField, BoxField};
