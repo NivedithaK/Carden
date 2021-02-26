@@ -26,3 +26,4 @@ services:
             - ./server/:/usr/src/app/server/
         environment:
             - CHOKIDAR_USEPOLLING=true
+            - NODE_ENV=development
