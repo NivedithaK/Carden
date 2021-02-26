@@ -13,9 +13,15 @@ import {
     Spacer
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
+import { useHistory } from "react-router-dom";
 
 function CardView() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const history = useHistory();
+	const handleUse = (e) => {
+		e.preventDefault();
+		history.push("/edit");
+	};
 	return (
 		<>
 			<Button
@@ -48,7 +54,7 @@ function CardView() {
 						<Button variant="ghost" onClick={onClose}>
 							Return
 						</Button>
-						<Button colorScheme="blue" mr={3} onClick={onClose}>
+						<Button colorScheme="blue" mr={3} onClick={handleUse}>
 							Use this template
 						</Button>
 					</ModalFooter>

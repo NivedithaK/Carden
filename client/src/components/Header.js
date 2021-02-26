@@ -86,7 +86,7 @@ const Header = (props) => {
 					>
 						<Image
 							height="60px"
-							src={colorMode == "light" ? logo : logoNoBg}
+							src={logoNoBg}
 							alt="Logo"
 						/>
 					</Button>
