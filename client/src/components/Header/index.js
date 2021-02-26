@@ -38,6 +38,10 @@ const Header = (props) => {
 	};
 	const handleAbout = (e) => {
 		e.preventDefault();
+		history.push("/about");
+	};
+	const handleHome = (e) => {
+		e.preventDefault();
 		history.push("/");
 	};
 	const handleSignup = (e) => {
@@ -62,7 +66,7 @@ const Header = (props) => {
 						bg={useColorModeValue("palette.800", "palette.900")}
 						_hover={useColorModeValue("palette.800", "palette.900")}
 						_active={useColorModeValue("palette.800", "palette.900")}
-						onClick={handleAbout}
+						onClick={handleHome}
 					>
 						<Image height="60px" src={logo} alt="Logo" />
 					</Button>

@@ -23,7 +23,8 @@ const theme = extendTheme({
           500: "#fea09e", // Pink
           600: "#525252", // Dark grey
           700: "#ffffff", // White
-          800: "#826ad7" // Purple
+          800: "#826ad7", // Purple
+          900: "#EEEEEE" // Soft grey
         },
       },
       textStyles: {
