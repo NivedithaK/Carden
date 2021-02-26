@@ -17,7 +17,7 @@ const theme = extendTheme({
     colors: {
         palette: {
             100: "#ffc024", // Orange
-            200: "#f7f7ee", // Off-white
+            200: "#EEEEEE", // Soft grey
             300: "#62d3d4", // Blue
             400: "#205d75", // Dark blue
             500: "#fea09e", // Pink
