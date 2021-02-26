@@ -23,9 +23,7 @@ class Create extends Component {
         newcomp = <p>{this.state.id}</p>;
         break;
       case "Image":
-        newcomp = (
-          <img src="https://i.pinimg.com/474x/b7/41/33/b74133de4d835fb9ff4ab54e06f04c87.jpg"></img>
-        );
+        newcomp =  <img src="https://i.pinimg.com/474x/b7/41/33/b74133de4d835fb9ff4ab54e06f04c87.jpg"></img>;
         break;
     }
     let addedcomp = this.state.comps.concat(
