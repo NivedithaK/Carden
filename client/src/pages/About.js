@@ -3,8 +3,6 @@ import ProfileCard from "../components/ProfileCard";
 import {
 	Box,
 	Heading,
-	Flex,
-	Spacer,
 	useColorModeValue,
 	Text,
 	Center,
@@ -65,7 +63,7 @@ export function About() {
 			</Center>
 			<Box
 				p={10}
-				bg={useColorModeValue("palette.900", "palette.100")}
+				bg={useColorModeValue("palette.200", "palette.100")}
 				m={10}
 				borderRadius="lg"
 			>
@@ -89,7 +87,7 @@ export function About() {
 			</Center>
 			<Box
 				p={10}
-				bg={useColorModeValue("palette.900", "palette.100")}
+				bg={useColorModeValue("palette.200", "palette.100")}
 				m={10}
 				borderRadius="lg"
 			>
