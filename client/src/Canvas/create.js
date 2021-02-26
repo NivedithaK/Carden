@@ -17,7 +17,6 @@ class Create extends Component {
       <div className="App">
         <main className="flexbox">
           <Canvas id="canvas" className="canvas">
-            <DragComp draggable="true" id="text" className="text">UwU</DragComp>
             {this.state.comps}
           </Canvas>
         </main>

@@ -14,7 +14,13 @@ class DragComp extends React.Component {
     e.dataTransfer.setData("compId", target.id);
 
     setTimeout(() => {
-      this.setState({ style: { display: "none" } });
+      this.setState({
+        style: {
+          display: "none",
+          top: this.state.style.top,
+          left: this.state.style.left,
+        },
+      });
     }, 0);
   };
 
@@ -24,7 +30,13 @@ class DragComp extends React.Component {
 
   dragEnd = (e) => {
     setTimeout(() => {
-      this.setState({ style: { display: "inline" } });
+      this.setState({
+        style: {
+          display: "inline",
+          top: this.state.style.top,
+          left: this.state.style.left,
+        },
+      });
     }, 0);
   };
 
