@@ -7,7 +7,7 @@ function ProfileCard(props) {
 			<Box
 				p={5}
 				borderRadius="lg"
-				bg={useColorModeValue("palette.700", "palette.100")}
+				bg={useColorModeValue("palette.700", "palette.1000")}
 			>
 				<Image
 					borderRadius="full"

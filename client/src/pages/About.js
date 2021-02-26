@@ -63,7 +63,7 @@ export function About() {
 			</Center>
 			<Box
 				p={10}
-				bg={useColorModeValue("palette.200", "palette.100")}
+				bg={useColorModeValue("palette.200", "palette.600")}
 				m={10}
 				borderRadius="lg"
 			>
@@ -87,7 +87,7 @@ export function About() {
 			</Center>
 			<Box
 				p={10}
-				bg={useColorModeValue("palette.200", "palette.100")}
+				bg={useColorModeValue("palette.200", "palette.600")}
 				m={10}
 				borderRadius="lg"
 			>
