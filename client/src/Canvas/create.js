@@ -16,6 +16,9 @@ class CreateCanvas extends Component {
   addComp = (e) => {
     let newcomp;
     let userin = window.prompt("Enter input (This is temporary, for demo purposes)", "");
+    if(userin === "" || userin === null){
+      return;
+    }
     switch (e.target.value) {
       case "Button":
         newcomp = <Button>{userin}</Button>;
