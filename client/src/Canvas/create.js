@@ -5,7 +5,7 @@ import { Button } from "@chakra-ui/react";
 import { putTemplate } from "../actions/cardActions";
 import "./style.css";
 
-class Create extends Component {
+class CreateCanvas extends Component {
   constructor() {
     super();
     this.state = {
@@ -18,6 +18,9 @@ class Create extends Component {
   addComp = (e) => {
     let newcomp;
     let userin = window.prompt("Enter input (This is temporary, for demo purposes)", "");
+    if(userin === "" || userin === null){
+      return;
+    }
     switch (e.target.value) {
       case "Button":
         newcomp = <Button>{userin}</Button>;
@@ -87,4 +90,4 @@ class Create extends Component {
   };
 }
 
-export default Create;
+export default CreateCanvas;

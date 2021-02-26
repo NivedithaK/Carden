@@ -9,7 +9,7 @@ class DragComp extends React.Component {
       style: { position: "absolute", display: "inline", top: "50vw", left: "75vw" },
     };
   }
-  
+
   dragStart = (e) => {
     const target = e.target;
 
@@ -18,9 +18,8 @@ class DragComp extends React.Component {
     setTimeout(() => {
       this.setState({
         style: {
+          ...this.state.style,
           display: "none",
-          top: this.state.style.top,
-          left: this.state.style.left,
         },
       });
     }, 0);
@@ -34,9 +33,8 @@ class DragComp extends React.Component {
     setTimeout(() => {
       this.setState({
         style: {
-          display: "inline",
-          top: this.state.style.top,
-          left: this.state.style.left,
+          ...this.state.style,
+          display: "block",
         },
       });
     }, 0);
