@@ -1,9 +1,11 @@
+import { omitThemingProps } from "@chakra-ui/react";
 import React from "react";
 
 class DragComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      //top and left are place holders
       style: { display: "block", top: "0", left: "0" },
     };
   }
@@ -32,7 +34,7 @@ class DragComp extends React.Component {
       this.setState({
         style: {
           ...this.state.style,
-          display: "none",
+          display: "block",
         },
       });
     }, 0);
