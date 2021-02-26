@@ -34,7 +34,7 @@ class DragComp extends React.Component {
       this.setState({
         style: {
           ...this.state.style,
-          display: "none",
+          display: "block",
         },
       });
     }, 0);
