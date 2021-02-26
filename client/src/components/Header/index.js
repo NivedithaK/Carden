@@ -57,7 +57,15 @@ const Header = (props) => {
 				{...props}
 			>
 				<Flex mr={5}>
-					<Image height="60px" src={logo} alt="Logo" />
+					<Button
+						height="60px"
+						bg={useColorModeValue("palette.800", "palette.900")}
+						_hover={useColorModeValue("palette.800", "palette.900")}
+						_active={useColorModeValue("palette.800", "palette.900")}
+						onClick={handleAbout}
+					>
+						<Image height="60px" src={logo} alt="Logo" />
+					</Button>
 				</Flex>
 
 				<Box
@@ -66,7 +74,7 @@ const Header = (props) => {
 					onClick={handleToggle}
 				>
 					{show ? <CloseIcon /> : <HamburgerIcon />}
-						<title>Menu</title>
+					<title>Menu</title>
 				</Box>
 
 				<Box
