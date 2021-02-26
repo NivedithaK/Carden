@@ -1,17 +1,20 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import logo from "../assets/logo.png";
+import logoNoBg from "../assets/logo-no-bg.png";
 import {
     Box,
     Stack,
     Flex,
     Button,
+    useColorMode,
     useColorModeValue,
     Spacer,
     Switch,
     Image,
 } from "@chakra-ui/react";
-import { MoonIcon, HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import logo from "../assets/logo.png";
+
+import { SunIcon, MoonIcon, HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 
 const MenuItems = ({ children, handleClick }) => {
     return (
@@ -22,6 +25,9 @@ const MenuItems = ({ children, handleClick }) => {
             mr={6}
             display="block"
             onClick={handleClick}
+
+            borderColor={useColorModeValue("palette.700", "palette.700")}
+            color={useColorModeValue("palette.700", "palette.700")}
         >
             {children}
         </Button>
@@ -30,6 +36,9 @@ const MenuItems = ({ children, handleClick }) => {
 
 const Header = (props) => {
     const [show, setShow] = React.useState(false);
+
+    const { colorMode, toggleColorMode } = useColorMode();
+
     const handleToggle = () => setShow(!show);
     const history = useHistory();
     const handleLogin = (e) => {
@@ -44,30 +53,45 @@ const Header = (props) => {
         e.preventDefault();
         history.push("/signup");
     };
+
+    const handleDarkMode = (e) => {
+        // e.preventDefault();
+        toggleColorMode();
+    };
     return (
-        <Box width="100%">
+        <Box>
             <Flex
                 as="nav"
                 align="center"
                 justify="space-between"
                 wrap="wrap"
                 padding="1.5rem"
-                bg={useColorModeValue("palette.800", "palette.900")}
+
+                bg={useColorModeValue("palette.800", "paletter.800")}
+                color={useColorModeValue("palette.700", "palette.700")}
+
                 color="white"
                 {...props}
             >
                 <Flex mr={5}>
                     <Button
                         height="60px"
-                        bg={useColorModeValue("palette.800", "palette.900")}
-                        _hover={useColorModeValue("palette.800", "palette.900")}
+                        bg={useColorModeValue("palette.800", "palette.1000")}
+                        _hover={useColorModeValue("palette.800", "palette.800")}
+
                         _active={useColorModeValue(
                             "palette.800",
                             "palette.900"
                         )}
                         onClick={handleAbout}
                     >
-                        <Image height="60px" src={logo} alt="Logo" />
+
+                        <Image
+                            height="60px"
+                            src={colorMode == "light" ? logo : logoNoBg}
+                            alt="Logo"
+                        />
+
                     </Button>
                 </Flex>
 
@@ -111,19 +135,42 @@ const Header = (props) => {
                                 borderRadius="20px"
                                 bg={useColorModeValue(
                                     "palette.200",
-                                    "palette.900"
+
+                                    "palette.200"
                                 )}
                                 color={useColorModeValue(
                                     "palette.800",
-                                    "palette.900"
+                                    "palette.600"
                                 )}
                                 onClick={handleSignup}
+                                _hover={{
+                                    color: useColorModeValue(
+                                        "palette.700",
+                                        "palette.900"
+                                    ),
+                                    background: useColorModeValue(
+                                        "palette.900",
+                                        "palette.600"
+                                    ),
+                                }}
+
                             >
                                 Sign Up
                             </Button>
                         </Box>
-                        <MoonIcon ml="20px" />
-                        <Switch colorScheme="red" size="md" pl="10px" />
+
+                        {colorMode === "light" ? (
+                            <MoonIcon ml="20px" />
+                        ) : (
+                            <SunIcon ml="20px" />
+                        )}
+                        <Switch
+                            colorScheme="red"
+                            size="md"
+                            pl="10px"
+                            onChange={handleDarkMode}
+                        />
+
                     </Stack>
                 </Box>
             </Flex>

@@ -22,7 +22,14 @@ function FeatureList() {
                 p={20}
             >
                 {icons.map((icon, index) => {
-                    return <Feature icon={icon} title={messages[index]} />;
+                    return (
+                        <Feature
+                            key={index}
+                            icon={icon}
+                            title={messages[index]}
+                        />
+                    );
+
                 })}
             </SimpleGrid>
         </>
