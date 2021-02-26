@@ -16,7 +16,7 @@ class DragComp extends React.Component {
     setTimeout(() => {
       this.setState({
         style: {
-          ...style,
+          ...this.state.style,
           display: "none",
         },
       });
@@ -31,7 +31,7 @@ class DragComp extends React.Component {
     setTimeout(() => {
       this.setState({
         style: {
-          ...style,
+          ...this.state.style,
           display: "none",
         },
       });
