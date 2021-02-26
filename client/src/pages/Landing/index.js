@@ -6,7 +6,6 @@ import HeroSection from "../../components/HeroSection";
 export default function Landing() {
   return (
     <div>
-      <Create></Create>
       <HeroSection />
     </div>
   );
