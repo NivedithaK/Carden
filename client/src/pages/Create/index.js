@@ -64,10 +64,33 @@ function Create() {
 
   return (
     <Flex direction="column" h="100vh" width="100%" overflow="hidden"> 
-      <Box w="100%" bg={useColorModeValue("palette.700")}>
-        <Heading>Creating Template</Heading>
+      <Flex w="100%" zIndex={5} bg={useColorModeValue("palette.700")}>
+        <Heading flex="3" size="lg">Creating Template</Heading>
         {/* {<CreateTemplate props={cardDetails}/> }*/}
-      </Box>
+        <Center flex="1">
+          <Button flex="1">Save</Button>
+        </Center>
+        
+        <ToolItem flex="4" label="Current page">
+          <SelectionMenu/>
+        </ToolItem>
+       
+        <Center flex="1">
+          <Button>Add Page</Button>
+        </Center>
+        <Center flex="6">
+
+        </Center>
+        <Center flex="1.5">
+          <Button>Done</Button>
+        </Center>
+        
+        <Center flex="1.5">
+          <Button>Share</Button>
+        </Center>
+        
+        
+      </Flex>
       <ThickHDivider color={useColorModeValue("palette.800")}/>
       <Box h="100%" w="100%" >
       <Flex 
