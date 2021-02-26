@@ -5,7 +5,8 @@ class DragComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      style: { display: "block", top: "0", left: "0" },
+      //top and left are place holders
+      style: { position: "absolute", display: "block", top: "0", left: "0" },
     };
   }
   
@@ -24,21 +25,9 @@ class DragComp extends React.Component {
   };
 
   dragEnd = (e) => {
-    // this.setState({
-    //   style: {
-    //     left:
-    //       ((e.clientX + window.pageXOffset) * 100) / window.innerWidth + "vw",
-    //     top:
-    //       ((e.clientY + window.pageYOffset) * 100) / window.innerHeight + "vh",
-    //   },
-    // });
     setTimeout(() => {
       this.setState({ style: { display: "inline" } });
     }, 0);
-  };
-
-  getpos = () => {
-    return this.state.style.top, this.state.style.left;
   };
 
   render() {

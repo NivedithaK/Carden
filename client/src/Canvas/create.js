@@ -11,27 +11,11 @@ class Create extends Component {
       comps: [],
       id: 0,
     };
-    this.child = React.createRef();
   }
-
-  //debuging tools
-  componentDidMount() {
-    document.addEventListener("contextmenu", this.handleContextMenu);
-  }
-  //debuging tools
-  componentWillUnmount() {
-    document.removeEventListener("contextmenu", this.handleContextMenu);
-  }
-  //debuging tools  
-  handleContextMenu = (e) => {
-    //possibly have the side menue pop up. fancy
-    this.getpos();
-    e.preventDefault();
-  };
 
   addComp = (e) => {
     let newcomp;
-    let userin = window.prompt("Enter input", "");
+    let userin = window.prompt("Enter input (This is temporary, for demo purposes)", "");
     switch (e.target.value) {
       case "Button":
         newcomp = <Button>{userin}</Button>;
@@ -45,7 +29,6 @@ class Create extends Component {
     }
     let addedcomp = this.state.comps.concat(
       <DragComp
-        ref={this.child}
         key={this.state.id}
         id={this.state.id}
         className="comp"
@@ -59,12 +42,6 @@ class Create extends Component {
       comps: addedcomp,
       id: this.state.id + 1,
     });
-  };
-
-  getpos = () => {
-    for (let i = 0; i < this.state.comps.length; i++) {
-      console.log(this.state.comps[i].getpos(), this.state.comps[i].getpos());
-    }
   };
 
   render() {
