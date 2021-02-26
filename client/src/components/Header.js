@@ -48,13 +48,13 @@ const Header = (props) => {
 		e.preventDefault();
 		history.push("/about");
 	};
-	const handleHome = (e) => {
-		e.preventDefault();
-		history.push("/");
-	};
 	const handleSignup = (e) => {
 		e.preventDefault();
 		history.push("/signup");
+	};
+	const handleHome = (e) => {
+		e.preventDefault();
+		history.push("/");
 	};
 
 	const handleDarkMode = (e) => {
