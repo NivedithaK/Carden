@@ -15,15 +15,16 @@ class Create extends Component {
 
   addComp = (e) => {
     let newcomp;
+    let userin = window.prompt("Enter input (This is temporary, for demo purposes)", "");
     switch (e.target.value) {
       case "Button":
-        newcomp = <Button>{this.state.id}</Button>;
+        newcomp = <Button>{userin}</Button>;
         break;
       case "Text":
-        newcomp = <p>{this.state.id}</p>;
+        newcomp = <p>{userin}</p>;
         break;
       case "Image":
-        newcomp =  <img src="https://i.pinimg.com/474x/b7/41/33/b74133de4d835fb9ff4ab54e06f04c87.jpg"></img>;
+        newcomp = <img src={userin}></img>;
         break;
     }
     let addedcomp = this.state.comps.concat(
@@ -59,9 +60,6 @@ class Create extends Component {
             </Button>
           </Canvas>
           <Canvas id="canvas" className="canvas" dropable={true}>
-            <DragComp draggable="true" id="text" className="comp">
-              UwU
-            </DragComp>
             {this.state.comps}
           </Canvas>
         </main>

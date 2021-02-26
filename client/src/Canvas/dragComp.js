@@ -1,13 +1,15 @@
+import { omitThemingProps } from "@chakra-ui/react";
 import React from "react";
 
 class DragComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      style: { display: "block", top: "0", left: "0" },
+      //top and left are place holders
+      style: { position: "absolute", display: "block", top: "0", left: "0" },
     };
   }
-
+  
   dragStart = (e) => {
     const target = e.target;
 
