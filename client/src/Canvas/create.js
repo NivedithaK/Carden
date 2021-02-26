@@ -4,7 +4,7 @@ import DragComp from "./dragComp";
 import { Button } from "@chakra-ui/react";
 import "./style.css";
 
-class Create extends Component {
+class CreateCanvas extends Component {
   constructor() {
     super();
     this.state = {
@@ -68,4 +68,4 @@ class Create extends Component {
   }
 }
 
-export default Create;
+export default CreateCanvas;
