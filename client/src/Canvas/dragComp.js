@@ -1,8 +1,32 @@
 import React from "react";
 
-
-
 class DragComp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      style: { display: "block", top: "0", left: "0" },
+    };
+  }
+
+  dragStart = (e) => {
+    const target = e.target;
+
+    e.dataTransfer.setData("compId", target.id);
+
+    setTimeout(() => {
+      this.setState({ style: { display: "none" } });
+    }, 0);
+  };
+
+  dragOver = (e) => {
+    e.stopPropagation();
+  };
+
+  dragEnd = (e) => {
+    setTimeout(() => {
+      this.setState({ style: { display: "inline" } });
+    }, 0);
+  };
 
   render() {
     return (
@@ -12,37 +36,13 @@ class DragComp extends React.Component {
         onDragStart={this.dragStart}
         onDragEnd={this.dragEnd}
         onDragOver={this.dragOver}
+        className={this.props.className}
+        style={this.state.style}
       >
         {this.props.children}
       </div>
     );
   }
-
-  dragStart = (e) => {
-    const target = e.target;
-
-    e.dataTransfer.setData("comp_id", target.id);
-
-    setTimeout(() => {
-      target.style.display = "none";
-    }, 0);
-  };
-
-  dragOver = (e) => {
-    e.stopPropagation();
-  };
-  
-  dragEnd = (e) => {
-    setTimeout(() => {
-      e.target.style.display = "block";
-    }, 0);
-  }
-
-
-  appendChild(child){
-    this.props.children.appendChild(child);
-  }
-
 }
 
 export default DragComp;
