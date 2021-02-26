@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Canvas from "./canvas";
 import DragComp from "./dragComp";
 import { Button } from "@chakra-ui/react";
+import { putTemplate } from "../actions/cardActions";
 import "./style.css";
 
 class Create extends Component {
@@ -10,6 +11,7 @@ class Create extends Component {
     this.state = {
       comps: [],
       id: 0,
+      ids: []
     };
   }
 
@@ -38,10 +40,13 @@ class Create extends Component {
       </DragComp>
     );
 
+    this.state.ids.push(this.state.id);
+
     this.setState({
       comps: addedcomp,
       id: this.state.id + 1,
     });
+
   };
 
   render() {
@@ -58,6 +63,9 @@ class Create extends Component {
             <Button value="Image" onClick={this.addComp}>
               Image
             </Button>
+            <Button onClick={this.save}>
+              save
+            </Button>
           </Canvas>
           <Canvas id="canvas" className="canvas" dropable={true}>
             {this.state.comps}
@@ -66,6 +74,17 @@ class Create extends Component {
       </div>
     );
   }
+
+  //TODO Change this to avoid using document.getElementById()
+  save = () => {
+    var tops = [];
+    var lefts = [];
+    this.state.ids.forEach(function(id) {
+      tops.push(document.getElementById(id).style.top);
+      lefts.push(document.getElementById(id).style.left);
+    });
+    putTemplate(this.render().props.children.props.children[1], tops, lefts);
+  };
 }
 
 export default Create;

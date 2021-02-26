@@ -72,4 +72,4 @@ const VidField = Entity.discriminator('Video',
       },
   }));
 
-export default {TextField, ImgField, AudField, VidField};
+export default {Entity, TextField, ImgField, AudField, VidField};

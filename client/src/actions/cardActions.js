@@ -11,3 +11,12 @@ export const getTemplate = async (id) => {
     return template;
 }
 
+export const putTemplate = async (template, tops, lefts) => {
+    
+    console.log(template);
+    template.props.children.forEach(function(entity) {
+        console.log(entity.props.children.props.children);
+    })
+    console.log("saved");
+}
+
