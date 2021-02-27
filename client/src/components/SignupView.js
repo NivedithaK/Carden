@@ -20,8 +20,8 @@ function SignupView(props) {
 	}, []);
 	const [show, setShow] = useState(false);
 	const handleClick = () => setShow(!show);
-    
-    const history = useHistory();
+
+	const history = useHistory();
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		history.push("/dashboard");
