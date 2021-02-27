@@ -3,7 +3,7 @@ const model = mongoose.model;
 
 var SceneSchema = new mongoose.Schema
 ({
-    scenes: {
+    entities: {
         type:Array,
         default: [],
     },

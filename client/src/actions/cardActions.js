@@ -11,12 +11,64 @@ export const getTemplate = async (id) => {
     return template;
 }
 
-export const putTemplate = async (template, tops, lefts) => {
-    
-    console.log(template);
+export const postTemplate = async (template, tops, lefts) => {
+    var i = 0;
+    var elemIds = [];
     template.props.children.forEach(function(entity) {
-        console.log(entity.props.children.props.children);
+        const textfield = {
+            top: tops[i],
+            left: lefts[i],
+            content: entity.props.children.props.children,
+        };
+        
+        elemIds.push(postTextfield(textfield));
+        i++;
     })
-    console.log("saved");
+
+    var templateId;
+    Promise.all(elemIds).then((values) => {
+        postSceneAndTemplate(values);
+    });
+    return templateId;
+}
+
+export const postSceneAndTemplate = async (elemIds) => {
+    console.log(elemIds);
+    var sceneIds = [];
+    const scene = {
+        entities: elemIds,
+    }
+    await axios
+        .post("http://localhost:5000/api/scenes", scene)
+        .then((res) => {
+            sceneIds.push(res.data._id);
+        })
+        .catch((err) => alert(err.response.data.msg));
+
+    console.log(sceneIds);
+    var templateId;
+    const newTemplate = {
+        scenes: sceneIds,
+        numScenes: sceneIds.length,
+    }
+    await axios
+        .post("http://localhost:5000/api/templates", newTemplate)
+        .then((res) => {
+            templateId = res.data._id;
+        })
+        .catch((err) => alert(err.response.data.msg));
+    return templateId;
+}
+
+export const postTextfield = async (textfield) => {
+    var id;
+    console.log(textfield);
+    await axios
+        .post("http://localhost:5000/api/textfields", textfield)
+        .then((res) => {
+            id = res.data._id;
+        })
+        .catch((err) => alert(err.response.data.msg));
+    return id;
 }
 

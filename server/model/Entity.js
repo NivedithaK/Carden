@@ -5,9 +5,13 @@ const Schema = mongoose.Schema;
 
 const entitySchema = new Schema(
 	{
-		location: {
+		top: {
 			type: String,
-			default: "",
+			default: "0",
+		},
+        left: {
+			type: String,
+			default: "0",
 		},
 		Animation: {
 			type: String,

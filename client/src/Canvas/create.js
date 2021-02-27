@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Canvas from "./canvas";
 import DragComp from "./dragComp";
 import { Button } from "@chakra-ui/react";
-import { putTemplate } from "../actions/cardActions";
+import { postTemplate } from "../actions/cardActions";
 import "./style.css";
 
 class CreateCanvas extends Component {
@@ -86,7 +86,7 @@ class CreateCanvas extends Component {
       tops.push(document.getElementById(id).style.top);
       lefts.push(document.getElementById(id).style.left);
     });
-    putTemplate(this.render().props.children.props.children[1], tops, lefts);
+    postTemplate(this.render().props.children.props.children[1], tops, lefts);
   };
 }
 
