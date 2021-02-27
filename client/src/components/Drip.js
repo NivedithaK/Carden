@@ -1,25 +1,28 @@
 import React from "react";
-import { Box, Spacer, useColorMode } from "@chakra-ui/react";
+import { useColorMode } from "@chakra-ui/react";
+
 export default function Drip() {
-    const { colorMode } = useColorMode();
-    return (
-        <>
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 1440 320"
-                style={{ display: colorMode == "light" ? "block" : "none" }}
-            >
-                <path
-                    fill="#826ad7"
-                    fill-opacity="1"
-                    d="M0,128L60,122.7C120,117,240,107,360,133.3C480,160,600,224,720,229.3C840,235,960,181,1080,160C1200,139,1320,149,1380,154.7L1440,160L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
-                ></path>
-            </svg>
-            <Box
-                w="100%"
-                h="60px"
-                display={colorMode == "light" ? "none" : "block"}
-            ></Box>
-        </>
-    );
+	const { colorMode } = useColorMode();
+
+	if (colorMode === "light") {
+		return (
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+				<path
+					fill="#826ad7"
+					fillOpacity="1"
+					d="M0,224L48,202.7C96,181,192,139,288,138.7C384,139,480,181,576,202.7C672,224,768,224,864,197.3C960,171,1056,117,1152,85.3C1248,53,1344,43,1392,37.3L1440,32L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+				></path>
+			</svg>
+		);
+	} else {
+		return (
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+				<path
+					fill="#2b2b2b"
+					fill-opacity="1"
+					d="M0,224L48,202.7C96,181,192,139,288,138.7C384,139,480,181,576,202.7C672,224,768,224,864,197.3C960,171,1056,117,1152,85.3C1248,53,1344,43,1392,37.3L1440,32L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+				></path>
+			</svg>
+		);
+	}
 }
