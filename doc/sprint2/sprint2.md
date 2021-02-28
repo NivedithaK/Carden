@@ -1,163 +1,116 @@
-# Sprint 1 Planning Meeting
+# Sprint 2 Planning Meeting
+
 **Requirements**: Meeting and sprint goal is documented, all spikes clearly identified, team capacity recorded, participants are recorded, everyone has participated, decisions about user stories to be completed this sprint are clear, tasks breakdown is done.
 
-**Date**: 01/30/21
+**Date**: 02/27/21
 
 **Participants**: Deval, Puneet, Raza, Georges, Matthieu, Emily, Nivy (full attendance)
 
 ## **Sprint Goal**
 
-Complete initial front-end, back-end, and database work so we can start working on features in the next sprint.
+Deploy the site onto AWS with easy deployment afterwards, start working on the main feature of the app which involves the canvas editor. Have the ability to add components to the canvas and drag/drop them on the canvas.
 
 ## **Spikes (Difficult and hard-to-estimate user stories)**
 
-* Storing cards in the database
-  * This is a spike because there are multiple ways we could do this, and we need to do more research before making a decision. For example, we could create React components for the cards and then serialize and de-serialize them. Or, we could store the props of each subcomponent in the card, and then reconstruct the card when it’s time for the card to be viewed. 
-* Canvas editor
-  * This is a spike because the difficulty depends on whether we can find a React component that does most of the work for us. Also, we need to figure out how to convert the output of the canvas into a template component. Finally, we need to figure out how to store templates in our database. For example, they could be stored the same way as cards (e.g. serialized), or (more likely) templates might need a different schema indicating which of its elements are editable. 
+-   Canvas editor
+    -   This is a spike because the difficulty depends on whether we can find a React component that does most of the work for us. Also, we need to figure out how to convert the output of the canvas into a template component. Finally, we need to figure out how to store templates in our database.
+    -   We also need to figure out how to drag the diffent components once we generate them. We have done some research at this point, but for most of the packages we have looked into, the documentation is complex and the code seems too complex for our needs.
+    -   Another issue is making it mobile compatible. The HTML drag/drop support does not include touch support natively according to our research, so we will need to figure out a way around this if we want our application to be mobile-friendly when creating cards (not limiting to just viewing cards)
 
 ## **Team capacity**
 
-7 people * 2 hours a day (assuming other coursework and lecture) * 10 days (not counting weekends) = 140 hours. 
+7 people _2 hours a day (assuming other coursework and lecture)_ 10 days (not counting weekends) = 140 hours.
 
 ## **User Stories To Be Completed**
 
-* **Landing page: As a user, I should be able to view a landing page with info about the website and a header with buttons to other pages.**
+-   **Deploy: As a user, I should be able to view the website at xyz.com.**
 
-  * Points: 3
+    -   Points: 8
 
-  * Priority: HIGH 
+    -   Priority: HIGH
 
-  * Owners: Nivy
+    -   Owners: Deval
 
-  * Estimated time: 8h
+    -   Estimated time: 5h
 
-  * Subtasks: Add ChakraUI to project
+    -   Subtasks: Deploy the website to AWS servers.
 
-    * Define project theme
+        -   Host code on AWS S3 instance
 
-    * Create header component
+        -   Host the app on AWS EC2 instance
 
-    * Create hero section component
+        -   Setup Load Balancer
 
-    * Create feature list component
+        -   Find a suitable domain name
 
-    * Create footer component
+        -   Setup CNAME for the domain and point it to the AWS target.
 
-      
+-   **Card Creation: As anyone, I can use a pre-existing template to create a card**
 
-* **Deploying: As a user, I should be able to view the website at xyz.com**
+    -   Points: 5
 
-  * Points: 5
+    -   Priority: MEDIUM
 
-  * Priority: HIGH 
+    -   Owners: Raza
 
-  * Owners: Deval
+    -   Estimated time: 6h
 
-  * Estimated time: 4h
+    -   Subtasks:
 
-  * Subtasks:
+        -   Allow user to edit the template
 
-    * Find a suitable domain
+-   **Template Creation: As a registered user, I want to be able to interact with a canvas, to make a template**
 
-    * Hookup host server and domain name
+    -   Points: 5
 
-      
+    -   Priority: MEDIUM
 
-* **Template designs: As a user, I want to have templates that I can use in an editor to create e-cards**
+    -   Owners: Puneet
 
-  * Points: 5
+    -   Estimated time: 19h
 
-  * Priority: HIGH 
+    -   Subtasks:
 
-  * Owners: Emily
+        -   Find a npm library to create a react canvas component
 
-  * Estimated time: 10h
+        -   Add the react component to a page on the website
 
-  * Subtasks: 
+        -   Have the canvas respond to user dragging
 
-    * Design a template on Figma
+-   **Storing Templates: As a user I want to be able to place a component at position x,y and store it to make template unique**
 
-    * Build front-end for the card
+    -   Points: 8
+    -   Priority: MEDIUM
+    -   Owners: Mathieu
+    -   Estimated time: 5h
+    -   Subtasks:
+        -   Link frontend and backend to store templates
 
-    * Create the API endpoint that accessing a template will hit
+-   **Canvas Editor UI: As a user, I want to have a nice user interface and experience when using the canvas editor**
 
-    * Link API and backend
+    -   Points: 5
+    -   Priority: MEDIUM
+    -   Owners: Emily
+    -   Estimated time: 26h
+    -   Subtasks:
+        -   Create the Figma Templates for this (based on ChakraUI)
+        -   Create the React component (front-end) for this story
 
-    * Link frontend to API by displaying info on card
+-   **About Page: As a user, I want to view an "about" page with information about the website**
 
-      
+    -   Points: 3
+    -   Priority: LOW
+    -   Owners: Nivy
+    -   Estimated time: 11h
+    -   Subtasks:
+        -   Create a page and fill in the basic content
+        -   Use Github API to access developer profiles
 
-* **Sharing link: As a recipient of a card, I want to be able to click a shared link to view a card**
+-   **Personalize Template: As a registered user, I want to be able to make my own templates to personalize my card (EPIC)**
 
-  * Points: 8
-  * Priority: MEDIUM
-  * Owners: Emily
-  * Estimated time: 8h
-  * Subtasks: 
-    * Create the front end component for viewing a shared card
-    * Create any necessary backend functions that retrieve a card from the database after a user clicks on a shared link
-    * Link the frontend to backend for showing the user a shared card after clicking the link
-
-* **Edit template: As anyone, I can use a pre-existing template to create a card**
-
-  * Points: 8
-  * Priority: MEDIUM 
-  * Owners: Raza
-  * Estimated time: 10h
-  * Subtasks:
-    * Create front-end screen for editing templates
-    * Create backend functions to process editing templates
-
-* **Template editor: As a registered user, I want to be able to interact with a canvas, to make a template**
-
-  * Points: 13
-  * Priority: LOW
-  * Owners: Puneet
-  * Estimated time: 20h (Spike)
-  * Subtasks:
-    * Find an npm library to create a React canvas component
-    * Add the React component to a page on the website
-    * Have the canvas respond to user dragging
-
-* **Schema: Implement Database Schema for storing user data and other data**
-
-  * Points: 5
-  * Priority: HIGH 
-  * Owners: Georges
-  * Estimated time: 10h
-  * Subtasks: 
-    * Decide which classes from the CRC cards need to be stored in the database
-    * Construct Mongo schemas in the server folder based on the classes needed
-
-* **Unique links: As a user, I should have a unique string generated for each card to not overwrite other cards**
-
-  * Points: 3
-  * Priority: LOW
-  * Owners: Matthieu
-  * Estimated time: 1h
-  * Subtasks:
-    * Create function 
-
-* **Signup: As an unregistered user I want to be able to create a new account**
-
-  * Points: 5
-  * Priority: HIGH 
-  * Owners: Deval
-  * Estimated time: 5h
-  * Subtasks:
-    * Link the front-end to the back-end
-    * Link the back-end to the database using routes
-    * Create the front-end
-
-* **Login: As a registered user, I want to be able to login to my account**
-
-  * Points: 5
-  * Priority: HIGH 
-  * Owners: Deval
-  * Estimated time: 5h
-  * Subtasks:
-    * Link the front-end to the back-end
-    * Link the back-end to the database using routes
-    * Create the front-end
-
+    -   Points: **EPIC**
+    -   Priority: LOW
+    -   Owners: Puneet
+    -   Estimated time: 5h
+    -   Subtasks:
+        -   As a user I want to be able to programmatically add components to the canvas to customize my card
