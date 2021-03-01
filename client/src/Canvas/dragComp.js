@@ -6,7 +6,7 @@ class DragComp extends React.Component {
     super(props);
     this.state = {
       //top and left are place holders
-      style: { position: "absolute", display: "inline", top: "50vw", left: "75vw" },
+      style: { position: "absolute", display: "inline", top: "25vw", left: "25vw" },
     };
   }
 

@@ -11,6 +11,7 @@ export const getTemplate = async (id) => {
     return template;
 }
 
+//TODO implement storage of entities other than textfields
 export const postTemplate = async (template, tops, lefts) => {
     var i = 0;
     var elemIds = [];
@@ -33,7 +34,6 @@ export const postTemplate = async (template, tops, lefts) => {
 }
 
 export const postSceneAndTemplate = async (elemIds) => {
-    console.log(elemIds);
     var sceneIds = [];
     const scene = {
         entities: elemIds,
@@ -45,7 +45,6 @@ export const postSceneAndTemplate = async (elemIds) => {
         })
         .catch((err) => alert(err.response.data.msg));
 
-    console.log(sceneIds);
     var templateId;
     const newTemplate = {
         scenes: sceneIds,
@@ -62,7 +61,6 @@ export const postSceneAndTemplate = async (elemIds) => {
 
 export const postTextfield = async (textfield) => {
     var id;
-    console.log(textfield);
     await axios
         .post("http://localhost:5000/api/textfields", textfield)
         .then((res) => {
@@ -72,3 +70,52 @@ export const postTextfield = async (textfield) => {
     return id;
 }
 
+export const loadTemplate = async (templateId) => {
+    var template = {
+        scenes: [],
+        numScenes: 0,
+    };
+    await axios
+        .get(`http://localhost:5000/api/templates/${templateId}`)
+        .then((res) => {
+            template.numScenes = res.data.numScenes;
+            res.data.scenes.forEach(function(sceneId) {
+                template.scenes.push(loadScene(sceneId));
+            })
+        })
+        .catch((err) => alert(err.response.data.msg));
+    return template;
+}
+
+export const loadScene = async (sceneId) => {
+    var scene = {
+        entities: []
+    };
+    await axios
+        .get(`http://localhost:5000/api/scenes/${sceneId}`)
+        .then((res) => {
+            res.data.entities.forEach(function(entityId) {
+                scene.entities.push(loadEntity(entityId));
+            })
+        })
+        .catch((err) => alert(err.response.data.msg));
+    return scene;
+}
+
+//TODO implement retrieval of entities other than textfields
+export const loadEntity = async (entityId) => {
+    var entity = {
+        top: null,
+        left: null,
+        content: null,
+    }
+    await axios
+        .get(`http://localhost:5000/api/entities/${entityId}`)
+        .then((res) => {
+            entity.top = res.data.top;
+            entity.left = res.data.left;
+            entity.content = res.data.content;
+        })
+        .catch((err) => alert(err.response.data.msg));
+    return entity;
+}
