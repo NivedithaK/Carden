@@ -8,9 +8,23 @@ class CreateCanvas extends Component {
   constructor() {
     super();
     this.state = {
+      pos: [],
       comps: [],
       id: 0,
     };
+  }
+
+  updatePos(id, left, top){
+    let newPos = this.state.pos;
+    newPos[id] = {x:left, y:top};
+    //change the component that needs to rerender
+    let components = this.state.comps;
+    components[id] = React.cloneElement(components[id], {
+      top:this.state.pos[id].y,
+      left:this.state.pos[id].x,
+      id:id
+    });
+    this.setState({...this.state, comps: components, pos: newPos});
   }
 
   addComp = (e) => {
@@ -30,12 +44,17 @@ class CreateCanvas extends Component {
         newcomp = <img src={userin}></img>;
         break;
     }
+    let extendedPos = this.state.pos;
+    extendedPos.push({id:this.state.id, x:0, y:0});
+    this.setState({pos: extendedPos});
     let addedcomp = this.state.comps.concat(
       <DragComp
         key={this.state.id}
         id={this.state.id}
         className="comp"
         draggable="true"
+        top={this.state.pos[this.state.id].y}
+        left={this.state.pos[this.state.id].x}
       >
         {newcomp}
       </DragComp>
@@ -62,7 +81,7 @@ class CreateCanvas extends Component {
               Image
             </Button>
           </Canvas>
-          <Canvas id="canvas" className="canvas" dropable={true}>
+          <Canvas id="canvas" className="canvas" dropable={true} changePos={this.updatePos.bind(this)}>
             {this.state.comps}
           </Canvas>
         </main>

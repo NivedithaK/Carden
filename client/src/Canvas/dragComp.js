@@ -6,7 +6,7 @@ class DragComp extends React.Component {
     super(props);
     this.state = {
       //top and left are place holders
-      style: { display: "block", top: "0", left: "0" },
+      style: { display: "block", top: this.props.top, left: this.props.left },
     };
   }
 
@@ -35,6 +35,8 @@ class DragComp extends React.Component {
         style: {
           ...this.state.style,
           display: "block",
+          top: this.props.top,
+          left: this.props.left
         },
       });
     }, 0);
