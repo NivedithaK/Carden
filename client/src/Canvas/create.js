@@ -2,19 +2,42 @@ import React, { Component } from "react";
 import Canvas from "./canvas";
 import DragComp from "./dragComp";
 import { Button } from "@chakra-ui/react";
+<<<<<<< HEAD
 import { postTemplate, loadTemplate } from "../actions/cardActions";
+=======
+>>>>>>> origin/WEEB-89
 import "./style.css";
 
 class CreateCanvas extends Component {
   constructor() {
     super();
     this.state = {
+      pos: [],
       comps: [],
       id: 0,
+<<<<<<< HEAD
       ids: []
     };
   }
 
+=======
+    };
+  }
+
+  updatePos(id, left, top){
+    let newPos = this.state.pos;
+    newPos[id] = {x:left, y:top};
+    //change the component that needs to rerender
+    let components = this.state.comps;
+    components[id] = React.cloneElement(components[id], {
+      top:this.state.pos[id].y,
+      left:this.state.pos[id].x,
+      id:id
+    });
+    this.setState({...this.state, comps: components, pos: newPos});
+  }
+
+>>>>>>> origin/WEEB-89
   addComp = (e) => {
     let newcomp;
     let userin = window.prompt("Enter input (This is temporary, for demo purposes)", "");
@@ -32,6 +55,7 @@ class CreateCanvas extends Component {
         newcomp = <img src={userin}></img>;
         break;
     }
+<<<<<<< HEAD
     this.wrapComp(newcomp);
   };
 
@@ -41,17 +65,28 @@ class CreateCanvas extends Component {
   };
 
   wrapComp = (newcomp) => {
+=======
+    let extendedPos = this.state.pos;
+    extendedPos.push({id:this.state.id, x:0, y:0});
+    this.setState({pos: extendedPos});
+>>>>>>> origin/WEEB-89
     let addedcomp = this.state.comps.concat(
       <DragComp
         key={this.state.id}
         id={this.state.id}
         className="comp"
         draggable="true"
+<<<<<<< HEAD
+=======
+        top={this.state.pos[this.state.id].y}
+        left={this.state.pos[this.state.id].x}
+>>>>>>> origin/WEEB-89
       >
         {newcomp}
       </DragComp>
     );
 
+<<<<<<< HEAD
     let id = this.state.id;
     this.state.ids.push(id);
 
@@ -60,6 +95,12 @@ class CreateCanvas extends Component {
       id: id + 1,
     });
     return id;
+=======
+    this.setState({
+      comps: addedcomp,
+      id: this.state.id + 1,
+    });
+>>>>>>> origin/WEEB-89
   };
 
   render() {
@@ -76,6 +117,7 @@ class CreateCanvas extends Component {
             <Button value="Image" onClick={this.addComp}>
               Image
             </Button>
+<<<<<<< HEAD
             <Button onClick={this.save}>
               Save
             </Button>
@@ -84,11 +126,16 @@ class CreateCanvas extends Component {
             </Button>
           </Canvas>
           <Canvas id="canvas" className="canvas" dropable={true}>
+=======
+          </Canvas>
+          <Canvas id="canvas" className="canvas" dropable={true} changePos={this.updatePos.bind(this)}>
+>>>>>>> origin/WEEB-89
             {this.state.comps}
           </Canvas>
         </main>
       </div>
     );
+<<<<<<< HEAD
   };
 
   //TODO Change this to avoid using document.getElementById()
@@ -131,6 +178,9 @@ class CreateCanvas extends Component {
     comp.style.top = "10vw";
     */
   };
+=======
+  }
+>>>>>>> origin/WEEB-89
 }
 
 export default CreateCanvas;
