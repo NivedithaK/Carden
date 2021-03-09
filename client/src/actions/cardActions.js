@@ -12,13 +12,13 @@ export const getTemplate = async (id) => {
 }
 
 //TODO implement storage of entities other than textfields
-export const postTemplate = async (template, tops, lefts) => {
+export const postTemplate = async (template) => {
     var i = 0;
     var elemIds = [];
     template.props.children.forEach(function(entity) {
         const textfield = {
-            top: tops[i],
-            left: lefts[i],
+            top: entity.props.top,
+            left: entity.props.left,
             content: entity.props.children.props.children,
         };
         
