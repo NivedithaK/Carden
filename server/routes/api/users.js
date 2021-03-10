@@ -33,20 +33,16 @@ router.get("/:id", async (req, res) => {
  * @access      public
  */
 router.post("/", async (req, res) => {
-	// TODO: Add email
-	console.log(req.body);
 	const { username, email, password } = req.body;
-	// const { username, password } = req.body;
 	if (!username || !email || !password) {
-		// if (!username || !password) {
 		return res
 			.status(400)
 			.json({ msg: "Please enter all fields of information." });
 	}
 	// Check for existing user
-	await User.findOne({ username }).then((user) => {
+	await User.findOne({ username }).then((existingUser) => {
 		// If the user already exists, send an error message back.
-		if (user) {
+		if (existingUser) {
 			return res.status(400).json({ msg: "User already exists." });
 		}
 		// Construct the new user
@@ -61,6 +57,15 @@ router.post("/", async (req, res) => {
 				// TODO {expiresIn: time} add this if we want the token to expire
 				(err, token) => {
 					if (err) throw err;
+					const user = {
+						following: savedUser.following,
+						templates: savedUser.templates,
+						starredTemplates: savedUser.starredTemplates,
+						scoring: savedUser.scoring,
+						isAdmin: savedUser.isAdmin,
+						_id: savedUser._id,
+						username: savedUser.username,
+					};
 					res.status(200).json({ token, user });
 				}
 			);
@@ -78,21 +83,20 @@ router.post("/login", async (req, res) => {
 
 	// Check that we got an email and password
 	if (!username || !password) {
-		console.log("failed login, fucking noob");
 		return res
 			.status(400)
 			.json({ msg: "Please enter all fields of information." });
 	}
 
 	// Check for existing user:
-	await User.findOne({ username }).then((user) => {
+	await User.findOne({ username }).then((existingUser) => {
 		// If the user does not exist.
-		if (!user) {
+		if (!existingUser) {
 			return res.status(400).json({ msg: "User does not exist." });
 		}
 
 		// Validate password
-		if (!user.validatePassword(password)) {
+		if (!existingUser.validatePassword(password)) {
 			return res.status(400).json({
 				msg: "Invalid credentials",
 			});
@@ -100,15 +104,23 @@ router.post("/login", async (req, res) => {
 
 		// Sign the token
 		jwt.sign(
-			{ id: user.id },
+			{ id: existingUser.id },
 			process.env.jwtSecret,
 			// {expiresIn: time} add this if we want the token to
 			(err, token) => {
 				if (err) throw err;
+				const user = {
+					following: existingUser.following,
+					templates: existingUser.templates,
+					starredTemplates: existingUser.starredTemplates,
+					scoring: existingUser.scoring,
+					isAdmin: existingUser.isAdmin,
+					_id: existingUser._id,
+					username: existingUser.username,
+				};
 				res.status(200).json({ token, user });
 			}
 		);
-		console.log("logged in bitches");
 	});
 });
 
