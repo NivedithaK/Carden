@@ -52,7 +52,7 @@ import {
   
   const DragAndDropItem = (props) => {
     return (
-      <Box m={props.m} flex={props.flex}>
+      <Box {...props}>
         <Button 
             width="100%" 
             height="100%" 
