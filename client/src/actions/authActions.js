@@ -50,7 +50,7 @@ const getLoginFailure = () => ({
  */
 export const registerUser = (user) => async (dispatch) => {
 	// Start the register
-	// dispatch(getRegisterStart());
+	dispatch(getRegisterStart());
 	await axios
 		.post("/api/users", user)
 		.then((res) => {
