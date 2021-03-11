@@ -26,10 +26,11 @@ const properties = {default: 1, text: 2, img: 3, button: 4}
 function CanvasEditorBottom(props){
 
     const [propertyMenu, setPropertyMenu] = useState(properties.default);
-
+    const {canvasColorSetter, canvasWidthHook, canvasHeightHook} = props;
+    const {canvasColor, canvasWidth, canvasHeight} = props;
     return(
         <Flex 
-            {...props}
+            flex={props.flex}
             direction={{sm: "column", lg: "row"}} 
             align="stretch" h="100%" w="100%" 
             bg={useColorModeValue("palette.600")}
@@ -37,7 +38,12 @@ function CanvasEditorBottom(props){
             {/**Left Sidebar */}
             <Flex flex={{sm: "2", lg: "3", xl: "5"}} zIndex={3} direction={{sm: "row", lg: "column"}} bg={useColorModeValue("palette.700")} overflowY="scroll">
                 {/**Canvas Attributes */}
-                <CanvasAttributesTools flex="1" colorSettingFunction={props.colorSettingFunction}/>
+                <CanvasAttributesTools 
+                    flex="1" 
+                    colorSettingFunction={canvasColorSetter}
+                    widthHook={canvasWidthHook}
+                    heightHook={canvasHeightHook}
+                    />
                 {/**Drag and Drop*/}
                 <CanvasDragAndDrop 
                     flex= "1"
@@ -48,7 +54,11 @@ function CanvasEditorBottom(props){
             </Flex>
             {/**Center box with dark grey bg*/}
             <Box flex={{sm: "9", lg: "6", xl: "17"}} zIndex={1} bg={useColorModeValue("palette.600")} overflow="hidden"> 
-                <ActualCanvasComponent bg={props.canvasColor}/>
+                <ActualCanvasComponent 
+                    bg={canvasColor}
+                    h={`${canvasHeight}px`}
+                    w={`${canvasWidth}px`}
+                    />
             </Box>
             {/**Right Sidebar */}
             <Flex w="100%" flex={{sm: "2", lg: "3", xl: "5"}} zIndex={3} bg={useColorModeValue("palette.700") } overflowY="scroll">

@@ -51,9 +51,8 @@ import {
   };
   
   const DragAndDropItem = (props) => {
-  
     return (
-      <Box {...props}>
+      <Box m={props.m} flex={props.flex}>
         <Button 
             width="100%" 
             height="100%" 
@@ -77,17 +76,22 @@ import {
   
   const ThickHDivider = (props) => {
     return (
-      <Box {...props} h="2px" bg={useColorModeValue(props.colorString)}></Box>
+      <Box flex={props.flex} h="2px" bg={useColorModeValue(props.colorstring)}></Box>
     );
   };
   
-  function PXStepper({min, max, defaultValue, step}) {
+  function PXStepper({min, max, defaultValue, step, setTargetField}) {
     //Todo: add a hook that changes the canvas size
     const [value, setValue] = React.useState(defaultValue);
   
     return (
       <NumberInput
-        onChange={(valueString) => setValue(valueString)}
+        onChange={(valueString) => 
+          {
+            setValue(valueString);
+            setTargetField(valueString);
+          }
+        }
         value={value}
         min={min}
         max={max}
@@ -130,7 +134,7 @@ import {
     };
   
     return (
-      <Box {...props}>
+      <Box>
           <Button 
             p={2}
             onClick={() => showDisplayPicker(!displayPicker)}
@@ -172,16 +176,17 @@ import {
   //Larger components
 
   function CanvasAttributesTools(props){
-
+    const {widthHook, heightHook} = props;
+    
     return (
-        <ToolSection  {...props} title="Canvas Attributes">
+        <ToolSection flex={props.flex} title="Canvas Attributes">
             <Heading size="sm" padding={1}>Dimensions</Heading>
             <Divider/>
             <ToolItem  m="auto" label='Width'> 
-                <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+                <PXStepper min={100} max={2000} defaultValue={500} step={10} setTargetField={(value) => widthHook(value)}/>
             </ToolItem>
             <ToolItem  m="auto" label='Height'> 
-                <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+                <PXStepper min={100} max={2000} defaultValue={500} step={10} setTargetField={(value) => heightHook(value)}/>
             </ToolItem>
 
             <Heading size="sm" padding={1}>Background Color</Heading>
@@ -196,7 +201,7 @@ import {
 function CanvasDragAndDrop(props){
 
     return(
-        <ToolSection {...props} title="Drag and Drop">
+        <ToolSection flex={props.flex} title="Drag and Drop">
             {/**Below are placeholder buttons that do not have actual drag and drop functionality */}
             <Divider/>
             <Flex h="70%" direction={{sm: "column", md: "row", lg: "column"}}>
@@ -214,7 +219,7 @@ function ActualCanvasComponent(props){
     //We do actual canvas things here I guess
     return(
         <Box 
-            {...props}
+            bg={props.bg}
             zIndex={2} //This should appear under any menu item but above the grey space
             //Centering
             pos="relative"
@@ -222,10 +227,8 @@ function ActualCanvasComponent(props){
             left="50%"
             transform="translate(-50%, -50%)"
             // Todo: add the ablity to resize the canvas and reposition within the user's view. Potentially need another box
-            w="1000px"
-            h="600px"
-            maxH="100%"
-            maxW="100%"
+            w={props.w}
+            h={props.h}
             >
                 Placeholder Canvas
         </Box>
@@ -235,12 +238,12 @@ function ActualCanvasComponent(props){
 function TextPropertiesMenu(props){
     //Does note include Text Alignment
     return(
-        <Box {...props}>
+        <Box>
             <ToolItem label="Font">
                 <SelectionMenu/>
             </ToolItem>
             <ToolItem label="Font-Size">
-                <PXStepper min={8} max={144} defaultValue={12} step={2}/>
+                <PXStepper min={8} max={144} defaultValue={12} step={2} setTargetField={(placeholder) => {}}/>
             </ToolItem>
             <ToolItem label="Color">
                 <ColorSelector setClassStateColor={(placeholder) => {}}/>
@@ -266,7 +269,6 @@ function TextAlignmentMenu(props){
         <Box 
             p="1em"
             margin="0.25em"
-            {...props}
             >
             <Center>
                 <Heading size="sm" padding={1}>Text Alignment</Heading>
@@ -284,18 +286,18 @@ function TextAlignmentMenu(props){
 
 function ComponentPositionMenu(props){
     return(
-        <Box {...props}>
+        <Box>
             <ToolItem label="x-position">
-            <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+            <PXStepper min={100} max={2000} defaultValue={500} step={10} setTargetField={(placeholder) => {}}/>
             </ToolItem>
             <ToolItem label="y-position">
-            <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+            <PXStepper min={100} max={2000} defaultValue={500} step={10} setTargetField={(placeholder) => {}}/>
             </ToolItem>
             <ToolItem label="box-width">
-            <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+            <PXStepper min={100} max={2000} defaultValue={500} step={10} setTargetField={(placeholder) => {}}/>
             </ToolItem>
             <ToolItem label="box-height">
-            <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+            <PXStepper min={100} max={2000} defaultValue={500} step={10} setTargetField={(placeholder) => {}}/>
             </ToolItem>
             <ToolItem label="box-color">
             <ColorSelector setClassStateColor={(placeholder) => {}}/>
@@ -309,7 +311,7 @@ function ComponentPositionMenu(props){
 
 function ButtonSpecificMenu(props){
     return(
-        <Box {...props}>
+        <Box>
             <ToolItem label="Links to">
                 <SelectionMenu/>
             </ToolItem>
