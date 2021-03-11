@@ -13,8 +13,6 @@ import {
   SelectionMenu, 
 } from './EditorMenuItems.js';
 
-const properties = {default: 1, text: 2, img: 3, button: 4}
-
 function CanvasEditorHeader(){
 
     return (

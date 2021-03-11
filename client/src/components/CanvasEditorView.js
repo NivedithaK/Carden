@@ -4,7 +4,6 @@ import { ThickHDivider } from './EditorMenuItems.js';
 import CanvasEditorHeader from "./CanvasEditorHeader.js";
 import CanvasEditorBottom from "./CanvasEditorBottom.js";
 
-const properties = {default: 1, text: 2, img: 3, button: 4}
 
 class CanvasEditorView extends Component{
     constructor(props) {
