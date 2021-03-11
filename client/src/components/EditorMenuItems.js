@@ -74,9 +74,9 @@ import {
     );
   };
   
-  const ThickHDivider = ({colorString}) => {
+  const ThickHDivider = (props) => {
     return (
-      <Box h="2px" bg={useColorModeValue(colorString)}></Box>
+      <Box {...props} h="2px" bg={useColorModeValue(props.colorString)}></Box>
     );
   };
   
