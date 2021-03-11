@@ -1,48 +1,6 @@
-import React, { useEffect, useState, Component } from "react";
-import { Switch, Route, useRouteMatch } from "react-router-dom";
-// import { useHistory } from "react-router-dom";
-// import CreateTemplate from "../../components/CreateTemplate"; <- make this
-import {
-  Grid,
-  GridItem,
-  Heading,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  ButtonGroup,
-  useColorModeValue,
-  Flex,
-  Divider,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Center,
-} from "@chakra-ui/react";
-
-import { ChevronDownIcon } from '@chakra-ui/icons';
-
-import { SketchPicker } from 'react-color';
-
-// Todo: organize the below stuff later
-
-import { 
-  ToolSection, 
-  ToolItem , 
-  DragAndDropItem, 
-  ThickHDivider, 
-  PXStepper,
-  SelectionMenu, 
-  ColorSelector,
-} from './EditorMenuItems.js';
-//
+import React, { Component } from "react";
+import { Box, Flex } from "@chakra-ui/react";
+import { ThickHDivider } from './EditorMenuItems.js';
 import CanvasEditorHeader from "./CanvasEditorHeader.js";
 import CanvasEditorBottom from "./CanvasEditorBottom.js";
 
@@ -53,7 +11,6 @@ class CanvasEditorView extends Component{
         super(props);
         this.state = {
             canvasColor: {r: 191, g:251, b:255, a: 1}, //Will have to have different background colors depending on the Canvas
-            //propertyMenu: properties.default
         }
     }
 
