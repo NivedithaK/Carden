@@ -22,10 +22,10 @@ function SignupView(props) {
 	const handleClick = () => setShow(!show);
 
 	const history = useHistory();
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		history.push("/dashboard");
-	};
+	// const handleSubmit = (e) => {
+	// 	e.preventDefault();
+	// 	history.push("/dashboard");
+	// };
 
 	const { colorMode } = useColorMode();
 	const {
@@ -33,7 +33,7 @@ function SignupView(props) {
 		setPassword,
 		setConfirmPassword,
 		setEmail,
-		//handleSubmit,
+		handleSubmit,
 	} = props.handlers;
 
 	return (
