@@ -35,7 +35,7 @@ function CanvasEditorBottom(props){
             bg={useColorModeValue("palette.600")}
             > 
             {/**Left Sidebar */}
-            <Flex h="100%" flex="2" zIndex={3} direction={{sm: "row", lg: "column"}} bg={useColorModeValue("palette.700")}>
+            <Flex flex={{sm: "2", lg: "3", xl: "5"}} zIndex={3} direction={{sm: "row", lg: "column"}} bg={useColorModeValue("palette.700")} overflowY="scroll">
                 {/**Canvas Attributes */}
                 <CanvasAttributesTools flex="1" colorSettingFunction={props.colorSettingFunction}/>
                 {/**Drag and Drop*/}
@@ -47,25 +47,25 @@ function CanvasEditorBottom(props){
                     />
             </Flex>
             {/**Center box with dark grey bg*/}
-            <Box h="100%" flex="9" zIndex={1} bg={useColorModeValue("palette.600")} overflow="hidden"> 
+            <Box flex={{sm: "9", lg: "6", xl: "17"}} zIndex={1} bg={useColorModeValue("palette.600")} overflow="hidden"> 
                 <ActualCanvasComponent bg={props.canvasColor}/>
             </Box>
             {/**Right Sidebar */}
-            <Flex h="100%" w="100%" flex="2" zIndex={3} bg={useColorModeValue("palette.700") }>
+            <Flex w="100%" flex={{sm: "2", lg: "3", xl: "5"}} zIndex={3} bg={useColorModeValue("palette.700") } overflowY="scroll">
                 {/**Properties of the currently selected item with conditional rendering */}
                 <ToolSection title="Properties" w="100%">
                     <Divider/>
                     <ToolItem label="Component" m="auto" textAlign="center"> 
-                    {propertyMenu == properties.default ? "No Component Selected" : null}
-                    {propertyMenu == properties.text ? "Text" : null}
-                    {propertyMenu == properties.img ? "Image" : null}
-                    {propertyMenu == properties.button ? "Button" : null}
+                    {propertyMenu === properties.default ? "No Component Selected" : null}
+                    {propertyMenu === properties.text ? "Text" : null}
+                    {propertyMenu === properties.img ? "Image" : null}
+                    {propertyMenu === properties.button ? "Button" : null}
                     </ToolItem>
                     <Divider/>
-                    {propertyMenu == properties.text || propertyMenu == properties.button ? <TextPropertiesMenu/> : null}
-                    {propertyMenu == properties.text ? <Center><TextAlignmentMenu/></Center>: null}
-                    {propertyMenu != properties.default ? <ComponentPositionMenu/> : null}
-                    {propertyMenu == properties.button ? <ButtonSpecificMenu/> : null}
+                    {propertyMenu === properties.text || propertyMenu === properties.button ? <TextPropertiesMenu/> : null}
+                    {propertyMenu === properties.text ? <Center><TextAlignmentMenu/></Center>: null}
+                    {propertyMenu !== properties.default ? <ComponentPositionMenu/> : null}
+                    {propertyMenu === properties.button ? <ButtonSpecificMenu/> : null}
                 </ToolSection>
             </Flex>
         </Flex>

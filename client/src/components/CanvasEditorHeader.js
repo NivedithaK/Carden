@@ -20,7 +20,7 @@ function CanvasEditorHeader(props){
     return (
         <Grid 
             {...props} 
-            bg={useColorModeValue("palette.700")}
+            bg={{sm: useColorModeValue("palette.800"), lg: useColorModeValue("palette.700")}}
             templateColumns={{sm: "repeat(12, 1fr)", md: "repeat(12, 1fr)", lg: "repeat(30, 1fr)", xl: "repeat(36, 1fr)"}}
             templateRows={{sm: "repeat(2, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(1, 1fr)", xl: "repeat(1, 1fr)"}}
             >

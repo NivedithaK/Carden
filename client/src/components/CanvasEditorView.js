@@ -15,15 +15,13 @@ class CanvasEditorView extends Component{
 
     render(){
     return (
-        <Flex direction="column" h="100vh" width="100%" overflow="hidden"> 
+        <Flex direction="column" h="100vh" width="100%" overflow="scroll"> 
             <CanvasEditorHeader flex="6" w="100%" zIndex={5}/>
             <ThickHDivider flex="0.3" colorString={"palette.800"}/>
-            <Box flex="93.7" w="100%" >
-                <CanvasEditorBottom 
-                    colorSettingFunction={(color) => this.setState({canvasColor: color})} 
-                    canvasColor = {`rgba(${this.state.canvasColor.r}, ${this.state.canvasColor.g}, ${this.state.canvasColor.b}, ${this.state.canvasColor.a})`}
-                    />
-            </Box>
+            <CanvasEditorBottom flex="93.7" w="100%"
+                colorSettingFunction={(color) => this.setState({canvasColor: color})} 
+                canvasColor = {`rgba(${this.state.canvasColor.r}, ${this.state.canvasColor.g}, ${this.state.canvasColor.b}, ${this.state.canvasColor.a})`}
+                />
         </Flex>
     );
  }

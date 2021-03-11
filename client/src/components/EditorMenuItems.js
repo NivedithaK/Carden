@@ -9,6 +9,7 @@ import {
     Input,
     Button,
     ButtonGroup,
+    Stack,
     useColorModeValue,
     Flex,
     Divider,
@@ -140,10 +141,27 @@ import {
           />
         {
           displayPicker ?
-          <Box pos='absolute' zIndex={5}>
+          <Box>
             <Box pos='fixed' top={0} right={0} bottom={0} left={0} onClick={()=> showDisplayPicker(false)}></Box>
-            <SketchPicker color={color} onChange={(color) => handleChange(color)} />
-          </Box> : null
+            <Box pos='absolute' 
+                zIndex={5}
+                top={{sm: "50%", lg: "auto"}}
+                left={{sm: "50%", lg: "auto"}}
+                transform={{sm: "translate(-50%, -50%)", lg: "auto"}}
+                >
+              
+              <SketchPicker color={color} onChange={(color) => handleChange(color)} />
+            </Box>
+          </Box>
+          : null
+          /**relative boxes get hidden by overflow but we don't want that
+          <Box pos='relative'>
+            <Box pos='absolute' zIndex={5}>
+              <Box pos='fixed' top={0} right={0} bottom={0} left={0} onClick={()=> showDisplayPicker(false)}></Box>
+              <SketchPicker color={color} onChange={(color) => handleChange(color)} />
+            </Box>
+          </Box>
+           */
         }
       </Box>
     )
@@ -225,7 +243,7 @@ function TextPropertiesMenu(props){
                 <PXStepper min={8} max={144} defaultValue={12} step={2}/>
             </ToolItem>
             <ToolItem label="Color">
-                <ColorSelector changeColor={(placeholder) => {}}/>
+                <ColorSelector setClassStateColor={(placeholder) => {}}/>
             </ToolItem>
             <Box p="1em" margin="0.25em">
                 <Center>
@@ -233,9 +251,9 @@ function TextPropertiesMenu(props){
                 </Center>
                 <Center w="100%">
                     <ButtonGroup size="sm" isAttached variant="outline">
-                    <Button>Bold</Button>
-                    <Button>Italics</Button>
-                    <Button>Underline</Button>
+                      <Button>Bold</Button>
+                      <Button>Italics</Button>
+                      <Button>Underline</Button>
                     </ButtonGroup>
                 </Center>
             </Box>
@@ -280,7 +298,7 @@ function ComponentPositionMenu(props){
             <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
             </ToolItem>
             <ToolItem label="box-color">
-            <ColorSelector changeColor={(placeholder) => {}}/>
+            <ColorSelector setClassStateColor={(placeholder) => {}}/>
             </ToolItem>
             <ToolItem label="Animation">
             <SelectionMenu/>
