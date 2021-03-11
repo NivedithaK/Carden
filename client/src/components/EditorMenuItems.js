@@ -74,9 +74,9 @@ import {
     );
   };
   
-  const ThickHDivider = ({color}) => {
+  const ThickHDivider = ({colorString}) => {
     return (
-      <Box h="2px" bg={color}></Box>
+      <Box h="2px" bg={useColorModeValue(colorString)}></Box>
     );
   };
   
@@ -119,13 +119,13 @@ import {
     )
   }
   
-  function ColorSelector({changeColor, props}){
+  function ColorSelector(props){
     const [color, setColor] = React.useState({r: 191, g:251, b:255, a: 1});
     const [displayPicker, showDisplayPicker] = React.useState(false);
   
     const handleChange = (color) => {
       setColor(color.rgb);
-      changeColor(color.rgb);
+      props.setClassStateColor(color.rgb);
     };
   
     return (
@@ -150,6 +150,159 @@ import {
   
   }
 
+
+  //Larger components
+
+  function CanvasAttributesTools(props){
+
+    return (
+        <ToolSection  {...props} title="Canvas Attributes">
+            <Heading size="sm" padding={1}>Dimensions</Heading>
+            <Divider/>
+            <ToolItem  m="auto" label='Width'> 
+                <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+            </ToolItem>
+            <ToolItem  m="auto" label='Height'> 
+                <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+            </ToolItem>
+
+            <Heading size="sm" padding={1}>Background Color</Heading>
+            <Divider/>
+            <ToolItem   m="auto" label="Select">
+                <ColorSelector setClassStateColor={props.colorSettingFunction}/>
+            </ToolItem>
+        </ToolSection>
+    );
+}
+
+function CanvasDragAndDrop(props){
+
+    return(
+        <ToolSection {...props} title="Drag and Drop">
+            {/**Below are placeholder buttons that do not have actual drag and drop functionality */}
+            <Divider/>
+            <Flex h="70%" direction={{sm: "column", md: "row", lg: "column"}}>
+            {/**The placeholder buttons should only bring up the property list right now */}
+            <DragAndDropItem m="1em" flex="1" label="Add Text" onClick={() => props.displayTextProperties()}></DragAndDropItem>
+            <DragAndDropItem m="1em" flex="1" label="Add Image" onClick={() => props.displayImageProperties()}></DragAndDropItem>
+            <DragAndDropItem m="1em" flex="1" label="Add Button" onClick={() => props.displayButtonProperties()}></DragAndDropItem>
+            </Flex>
+        </ToolSection>
+    );
+
+}
+
+function ActualCanvasComponent(props){
+    //We do actual canvas things here I guess
+    return(
+        <Box 
+            {...props}
+            zIndex={2} //This should appear under any menu item but above the grey space
+            //Centering
+            pos="relative"
+            top="50%"
+            left="50%"
+            transform="translate(-50%, -50%)"
+            // Todo: add the ablity to resize the canvas and reposition within the user's view. Potentially need another box
+            w="1000px"
+            h="600px"
+            maxH="100%"
+            maxW="100%"
+            >
+                Placeholder Canvas
+        </Box>
+    );
+}
+
+function TextPropertiesMenu(props){
+    //Does note include Text Alignment
+    return(
+        <Box {...props}>
+            <ToolItem label="Font">
+                <SelectionMenu/>
+            </ToolItem>
+            <ToolItem label="Font-Size">
+                <PXStepper min={8} max={144} defaultValue={12} step={2}/>
+            </ToolItem>
+            <ToolItem label="Color">
+                <ColorSelector changeColor={(placeholder) => {}}/>
+            </ToolItem>
+            <Box p="1em" margin="0.25em">
+                <Center>
+                    <Heading size="sm" padding={1}>Style</Heading>
+                </Center>
+                <Center w="100%">
+                    <ButtonGroup size="sm" isAttached variant="outline">
+                    <Button>Bold</Button>
+                    <Button>Italics</Button>
+                    <Button>Underline</Button>
+                    </ButtonGroup>
+                </Center>
+            </Box>
+        </Box>
+    );
+}
+
+function TextAlignmentMenu(props){
+    return(
+        <Box 
+            p="1em"
+            margin="0.25em"
+            {...props}
+            >
+            <Center>
+                <Heading size="sm" padding={1}>Text Alignment</Heading>
+            </Center>
+            <Center w="100%" >
+                <ButtonGroup size="sm" isAttached variant="outline">
+                    <Button>Left</Button>
+                    <Button>Center</Button>
+                    <Button>Right</Button>
+                </ButtonGroup>
+            </Center>
+        </Box>
+    );
+}
+
+function ComponentPositionMenu(props){
+    return(
+        <Box {...props}>
+            <ToolItem label="x-position">
+            <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+            </ToolItem>
+            <ToolItem label="y-position">
+            <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+            </ToolItem>
+            <ToolItem label="box-width">
+            <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+            </ToolItem>
+            <ToolItem label="box-height">
+            <PXStepper min={100} max={2000} defaultValue={500} step={10}/>
+            </ToolItem>
+            <ToolItem label="box-color">
+            <ColorSelector changeColor={(placeholder) => {}}/>
+            </ToolItem>
+            <ToolItem label="Animation">
+            <SelectionMenu/>
+            </ToolItem>
+        </Box>
+    );
+}
+
+function ButtonSpecificMenu(props){
+    return(
+        <Box {...props}>
+            <ToolItem label="Links to">
+                <SelectionMenu/>
+            </ToolItem>
+            <ToolItem label="Transition">
+                <SelectionMenu/>
+            </ToolItem>
+        </Box>
+    );
+}
+
+
 export {
     ToolSection, 
     ToolItem , 
@@ -158,4 +311,11 @@ export {
     SelectionMenu,
     PXStepper,
     ColorSelector,
+    CanvasAttributesTools,
+    CanvasDragAndDrop,
+    ActualCanvasComponent,
+    TextPropertiesMenu,
+    TextAlignmentMenu,
+    ComponentPositionMenu,
+    ButtonSpecificMenu,
 };
