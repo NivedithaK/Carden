@@ -16,7 +16,7 @@ class CanvasEditorView extends Component{
     render(){
     return (
         <Flex direction="column" h="100vh" width="100%" overflow="hidden"> 
-            <CanvasEditorHeader/>
+            <CanvasEditorHeader minh="10vh" w="100%" zIndex={5}/>
             <ThickHDivider colorString={"palette.800"}/>
             <Box h="100%" w="100%" >
                 <CanvasEditorBottom 

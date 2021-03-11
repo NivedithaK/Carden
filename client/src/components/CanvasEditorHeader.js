@@ -6,6 +6,8 @@ import {
   useColorModeValue,
   Flex,
   Center,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 
 import { 
@@ -13,17 +15,19 @@ import {
   SelectionMenu, 
 } from './EditorMenuItems.js';
 
-function CanvasEditorHeader(){
+function CanvasEditorHeader(props){
 
     return (
-        <Flex w="100%" zIndex={5} bg={useColorModeValue("palette.700")}>
+        <Flex {...props} bg={useColorModeValue("palette.700")}>
             <Heading flex="3" size="lg">Creating Template</Heading>
             <Center flex="1">
                 <Button flex="1">Save</Button>
             </Center>
-            <ToolItem flex="4" label="Current page">
+            <Center flex="4">
+                <Heading size="sm">Current page: </Heading>
                 <SelectionMenu/>
-            </ToolItem>
+            </Center>
+            
             <Center flex="1">
                 <Button>Add Page</Button>
             </Center>
