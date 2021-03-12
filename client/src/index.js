@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { useHistory } from "react-router-dom";
 import {
-    BrowserRouter as Router,
-    Switch as RRSwitch,
-    Route,
+	BrowserRouter as Router,
+	Switch as RRSwitch,
+	Route,
 } from "react-router-dom";
 import Header from "./components/Header.js";
 import Footer from "./components/Footer.js";
@@ -26,44 +26,71 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import "./styles/index.css";
+
+export const PageWrapper = ({ children }) => {
+	return (
+		<div className="container">
+			<Header />
+			<main className="main">{children}</main>
+			<Footer />
+		</div>
+	);
+};
+
 function App() {
-    const history = useHistory();
-    return (
+	const history = useHistory();
+	return (
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
 				{/* {" "} */}
 				{/* null passed to loading, persistor is being used here */}
 				<Router>
 					<ChakraProvider theme={theme}>
-						<Header />
-						<RRSwitch>
-							<Route
-								exact
-								path="/"
-								render={(props) => <Landing {...props} />}
-							/>
+						<PageWrapper>
+							<RRSwitch>
+								<Route
+									exact
+									path="/"
+									render={(props) => <Landing {...props} />}
+								/>
 
-							<Route exact path="/signup" component={Signup} />
-							<Route exact path="/login" component={Login} />
-							<Route exact path="/explore" component={Explore} />
-							<Route
-								exact
-								path="/dashboard"
-								component={Dashboard}
-								history={history}
-							/>
-							<Route exact path="/edit" component={Edit} />
-							<Route exact path="/preview" component={Preview} />
-							<Route
-								exact
-								path="/profile"
-								component={Profile}
-								history={history}
-							/>
-							<Route exact path="/create" component={Create} />
-							<Route exact path="/about" component={About} />
-						</RRSwitch>
-						<Footer />
+								<Route
+									exact
+									path="/signup"
+									component={Signup}
+								/>
+								<Route exact path="/login" component={Login} />
+								<Route
+									exact
+									path="/explore"
+									component={Explore}
+								/>
+								<Route
+									exact
+									path="/dashboard"
+									component={Dashboard}
+									history={history}
+								/>
+								<Route exact path="/edit" component={Edit} />
+								<Route
+									exact
+									path="/preview"
+									component={Preview}
+								/>
+								<Route
+									exact
+									path="/profile"
+									component={Profile}
+									history={history}
+								/>
+								<Route
+									exact
+									path="/create"
+									component={Create}
+								/>
+								<Route exact path="/about" component={About} />
+							</RRSwitch>
+						</PageWrapper>
 					</ChakraProvider>
 				</Router>
 			</PersistGate>
@@ -73,9 +100,9 @@ function App() {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
-    <>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <App />
-    </>,
-    rootElement
+	<>
+		<ColorModeScript initialColorMode={theme.config.initialColorMode} />
+		<App />
+	</>,
+	rootElement
 );

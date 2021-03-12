@@ -1,83 +1,66 @@
 import React from "react";
-import {
-	Grid,
-	GridItem,
-	Heading,
-	Box,
-	FormControl,
-	FormLabel,
-	Input,
-	Button,
-} from "@chakra-ui/react";
+import Sidebar from "../components/Sidebar.js";
+import { Grid, GridItem, Box, VStack } from "@chakra-ui/react";
+import CardSection from "../components/CardSection.js";
+import Title from "../components/Title";
 
 class Dashboard extends React.Component {
-	// run use effect once
+
 	constructor(props) {
 		super(props);
-		this.handleAbout = this.handleAbout.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
 		this.handleBrowse = this.handleBrowse.bind(this);
 	}
+
 	handleBrowse = (e) => {
 		// e.preventDefault();
-		console.log("back again");
 	};
+
 	handleLogout = (e) => {
 		// log user out
 		// remove their user data
 		this.props.history.push("/");
 	};
+
 	handleCreate = (e) => {
-		// log user out
-		// remove their user data
 		this.props.history.push("/create");
 	};
-	handleAbout = (e) => {
-		this.props.history.push("/about");
-	};
+
 	render() {
 		return (
-			<div>
-				<Grid h="100%" templateColumns="1fr 5fr" gap={2}>
-					<GridItem>
-						<Box w="100%" h="100%" bg="blue.500">
-							<Grid h="100%" templateColumns="1fr" gap={0}>
-								<GridItem>
-									<Button
-										isActive="true"
-										w="100%"
-										onClick={this.handleCreate}
-									>
-										Create template
-									</Button>
-									<Button
-										w="100%"
-										onClick={this.handleBrowse}
-									>
-										Browse Cards
-									</Button>
-									<Button w="100%">How to use</Button>
-									<Button w="100%" onClick={this.handleAbout}>
-										About
-									</Button>
-									<Button w="100%">Help/Faq</Button>
-									<Button
-										w="100%"
-										onClick={this.handleLogout}
-									>
-										Log out
-									</Button>
-								</GridItem>
-							</Grid>
+			<Grid
+				h="100%"
+				w="100%"
+				templateColumns="repeat(5, 1fr)"
+				mt={5}
+				mb={5}
+			>
+				<GridItem colSpan={1}>
+					<Sidebar />
+				</GridItem>
+				<GridItem colSpan={4} h="100%">
+					<VStack w="98%">
+						<Title text="TEMPLATES" />
+						<Box
+							w="100%"
+							borderRadius="sm"
+							borderWidth="2px"
+							boxShadow="md"
+						>
+							<CardSection />
 						</Box>
-					</GridItem>
-					<GridItem>
-						<Box w="100%" h="100%" bg="blue.500">
-							<Heading>Browse Cards</Heading>
+						<Title text="CARDS" />
+						<Box
+							w="100%"
+							borderRadius="sm"
+							borderWidth="2px"
+							boxShadow="md"
+						>
+							<CardSection />
 						</Box>
-					</GridItem>
-				</Grid>
-			</div>
+					</VStack>
+				</GridItem>
+			</Grid>
 		);
 	}
 }

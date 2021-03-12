@@ -10,9 +10,17 @@ import {
 	ModalBody,
 	ModalCloseButton,
 	Button,
-    Spacer
+	Spacer,
+	Text,
+	VStack,
+	Flex,
+	Avatar,
+	Box,
+	Badge,
+	GridItem,
+	Grid,
 } from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
+import { AiFillHeart } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 
 function CardView() {
@@ -24,13 +32,40 @@ function CardView() {
 	};
 	return (
 		<>
-			<Button
-				borderRadius="xl"
-				bg="palette.500"
-				width="250px"
-				height="250px"
-				onClick={onOpen}
-			></Button>
+			<VStack>
+				<Button
+					borderRadius="xl"
+					bg="palette.500"
+					width="250px"
+					height="250px"
+					onClick={onOpen}
+				></Button>
+
+				<Grid
+					templateRows="repeat(2, 1fr)"
+					templateColumns="repeat(3, 1fr)"
+					w="80%"
+				>
+					<GridItem rowSpan={1} colSpan={2}>
+						<Text fontWeight="bold">Template name</Text>
+					</GridItem>
+					<GridItem rowSpan={2} colSpan={1}>
+						<Badge
+							ml="1"
+							colorScheme="pink"
+							fontSize="1em"
+						>
+							<Flex align="center">
+								14 <AiFillHeart />
+							</Flex>
+						</Badge>
+					</GridItem>
+					<GridItem rowSpan={1} colSpan={2}>
+						<Text fontSize="sm">Date created</Text>
+					</GridItem>
+				</Grid>
+			</VStack>
+
 			<Modal isOpen={isOpen} onClose={onClose} size="6xl" isCentered>
 				<ModalOverlay />
 				<ModalContent>
@@ -44,7 +79,7 @@ function CardView() {
 
 					<ModalFooter>
 						<Button
-							leftIcon={<StarIcon />}
+							leftIcon={<AiFillHeart />}
 							colorScheme="pink"
 							variant="solid"
 						>

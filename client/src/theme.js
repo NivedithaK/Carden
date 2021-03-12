@@ -1,8 +1,8 @@
 import { extendTheme } from "@chakra-ui/react";
 
 const config = {
-    initialColorMode: "light",
-    useSystemColorMode: false,
+	initialColorMode: "light",
+	useSystemColorMode: false,
 };
 
 const breakpoints = ["360px", "768px", "1024px", "1440px"];
@@ -30,17 +30,11 @@ const theme = extendTheme({
 		},
 	},
 	textStyles: {
-		// h1: {
-		//   fontSize: ["12px", "12px"],
-		//   fontWeight: "bold",
-		//   lineHeight: "110%",
-		//   letterSpacing: "-2%",
-		// },
-		h2: {
-			fontSize: ["36px", "48px"],
-			fontWeight: "semibold",
+		h1: {
+			fontSize: ["36px", "24px"],
 			lineHeight: "110%",
-			letterSpacing: "-1%",
+			letterSpacing: "5px",
+			fontFamily: "Verdana",
 		},
 	},
 });

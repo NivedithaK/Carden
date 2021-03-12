@@ -40,15 +40,14 @@ function SignupView(props) {
 		<div>
 			<Center
 				w={["90%", "70%", "50%", "40%"]}
-				m="10px auto"
+				m="50px auto"
 				bg={useColorModeValue("palette.700", "palette.1000")}
-				boxShadow={colorMode == "light" ? "dark-lg" : "outline"}
+				boxShadow={colorMode === "light" ? "2xl" : "outline"}
 				rounded="lg"
 			>
 				<Grid w="75%" h="100%" templateColumns="1fr">
 					<Box
 						w="100%"
-						bg="white"
 						bg={useColorModeValue("palette.700", "palette.1000")}
 						color={useColorModeValue("palette.400", "palette.700")}
 						m="15px auto"

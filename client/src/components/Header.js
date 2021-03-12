@@ -66,7 +66,7 @@ const Header = (props) => {
 			align="center"
 			justify="space-between"
 			wrap="wrap"
-			padding="1.5rem"
+			padding="0.5rem"
 			bg={useColorModeValue("palette.800", "palette.1100")}
 			color={useColorModeValue("palette.700", "palette.700")}
 			{...props}
@@ -118,7 +118,7 @@ const Header = (props) => {
 					<Spacer />
 					<MenuItems handleClick={handleAbout}>About</MenuItems>
 					<MenuItems handleClick={handleLogin}>Log In</MenuItems>
-					<Box
+					<Box mr="10px"
 						display={{
 							sm: show ? "block" : "none",
 							md: "block",
@@ -154,9 +154,9 @@ const Header = (props) => {
 					</Box>
 
 					{colorMode === "light" ? (
-						<MoonIcon ml="20px" />
+						<MoonIcon />
 					) : (
-						<SunIcon ml="20px" />
+						<SunIcon />
 					)}
 					<Switch
 						colorScheme="red"

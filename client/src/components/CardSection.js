@@ -4,28 +4,28 @@ import CardView from "./CardView";
 
 function CardSection() {
     return (
-        <Box
-            bg="palette.600"
-            height="100%"
-            width="100%"
-            scrollBehavior="inside"
-            overflow="scroll"
-        >
-            <Center>
-                <SimpleGrid columns={2} spacing={5} pt={5}>
-                    <CardView />
-                    <CardView />
-                    <CardView />
-                    <CardView />
-                    <CardView />
-                    <CardView />
-                    <CardView />
-                    <CardView />
-                    <CardView />
-                </SimpleGrid>
-            </Center>
-        </Box>
-    );
+		<Box
+			bg="palette.200"
+			width="100%"
+            height="500px"
+			scrollBehavior="inside"
+			overflow="scroll"
+		>
+			<Center>
+				<SimpleGrid columns={[1, 1, 3]} spacing={8} pt={5}>
+					<CardView />
+					<CardView />
+					<CardView />
+					<CardView />
+					<CardView />
+					<CardView />
+					<CardView />
+					<CardView />
+					<CardView />
+				</SimpleGrid>
+			</Center>
+		</Box>
+	);
 }
 
 export default CardSection;
