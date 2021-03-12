@@ -18,7 +18,6 @@ class CreateCanvas extends Component {
 
   updatePos(id, left, top) {
     let newPos = this.state.pos;
-<<<<<<< HEAD
     newPos[id] = {x:left, y:top, type:"absolute"};
     //change the component that needs to rerender
     let components = this.state.comps;
@@ -27,25 +26,6 @@ class CreateCanvas extends Component {
       left:this.state.pos[id].x,
       position:this.state.pos[id].type,
       id:id
-=======
-    newPos[id] = { x: left, y: top };
-    let newStyles = this.state.styles;
-    newStyles[id] = { ...this.state.styles[id], top: top, left: left };
-    //change the component that needs to rerender
-    let components = this.state.comps;
-    components[id] = React.cloneElement(components[id], {
-      top: this.state.pos[id].y,
-      left: this.state.pos[id].x,
-      id: id,
-      style: newStyles[id],
-    });
-
-    this.setState({
-      ...this.state,
-      comps: components,
-      pos: newPos,
-      styles: newStyles,
->>>>>>> WEEB-87
     });
   }
 
@@ -69,7 +49,6 @@ class CreateCanvas extends Component {
         newcomp = <img src={userin}></img>;
         break;
     }
-<<<<<<< HEAD
     this.wrapComp(newcomp, 0, 0, "");
   };
 
@@ -82,35 +61,15 @@ class CreateCanvas extends Component {
     let extendedPos = this.state.pos;
     extendedPos.push({id:this.state.id, x:x, y:y, type:type});
     this.setState({pos: extendedPos});
-=======
-
-    let extendedPos = this.state.pos;
-    extendedPos.push({ id: this.state.id, x: 0, y: 0 });
-
-    let extendedStyles = this.state.styles;
-    let top = this.state.pos[this.state.id].y;
-    let left = this.state.pos[this.state.id].x;
-    extendedStyles.push({
-      top: top,
-      left: left,
-      position: "static",
-    });
-
-    this.setState({ ...this.state, pos: extendedPos, styles: extendedStyles });
->>>>>>> WEEB-87
     let addedcomp = this.state.comps.concat(
       <DragComp
         key={this.state.id}
         id={this.state.id}
         className="comp"
         draggable="true"
-<<<<<<< HEAD
         top={this.state.pos[this.state.id].y}
         left={this.state.pos[this.state.id].x}
         position={this.state.pos[this.state.id].type}
-=======
-        style={this.state.styles[this.state.id]}
->>>>>>> WEEB-87
       >
         {newcomp}
       </DragComp>

@@ -29,7 +29,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import Canvas from "../Canvas/canvas";
 
-import { SketchPicker } from 'react-color';
+// import { SketchPicker } from 'react-color';
 
 const ToolSection = (props) => {
   return (
@@ -135,7 +135,7 @@ function SelectionMenu(props) {
 }
 
 function ColorSelector(props) {
-  const [color, setColor] = React.useState({ r: 191, g: 251, b: 255, a: 1 });
+  const [color, setColor] = React.useState({ r: 220, g: 118, b: 118, a: 1 });
   const [displayPicker, showDisplayPicker] = React.useState(false);
 
   const handleChange = (color) => {
@@ -171,7 +171,7 @@ function ColorSelector(props) {
               left={{ sm: "50%", lg: "auto" }}
               transform={{ sm: "translate(-50%, -50%)", lg: "auto" }}
             >
-              <SketchPicker color={color} onChange={(color) => handleChange(color)} />
+              {/* <SketchPicker color={color} onChange={(color) => handleChange(color)} /> */}
             </Box>
           </Box>
         ) : null
