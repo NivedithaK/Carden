@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { useHistory } from "react-router-dom";
 import {
-    BrowserRouter as Router,
-    Switch as RRSwitch,
-    Route,
+	BrowserRouter as Router,
+	Switch as RRSwitch,
+	Route,
 } from "react-router-dom";
 import Header from "./components/Header.js";
 import Footer from "./components/Footer.js";
@@ -38,8 +38,8 @@ export const PageWrapper = ({ children }) => {
 };
 
 function App() {
-    const history = useHistory();
-    return (
+	const history = useHistory();
+	return (
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
 				{/* {" "} */}
@@ -100,9 +100,9 @@ function App() {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
-    <>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <App />
-    </>,
-    rootElement
+	<>
+		<ColorModeScript initialColorMode={theme.config.initialColorMode} />
+		<App />
+	</>,
+	rootElement
 );
