@@ -9,8 +9,6 @@ class DragComp extends React.Component {
       style: {
         ...this.props.style,
         display: "block",
-        top: this.props.top,
-        left: this.props.left,
       },
     };
   }
@@ -19,7 +17,6 @@ class DragComp extends React.Component {
     const target = e.target;
     e.dataTransfer.setDragImage(target, "50%", "50%");
     e.dataTransfer.setData("compId", target.id);
-   
     setTimeout(() => {
       this.setState({
         style: {

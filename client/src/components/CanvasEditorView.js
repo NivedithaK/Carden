@@ -21,7 +21,6 @@ class CanvasEditorView extends Component {
   }
 
   updatePos = (id, left, top) => {
-    console.log(left, top);
     if (!id) return;
 
     let newPos = this.state.pos;
@@ -36,7 +35,6 @@ class CanvasEditorView extends Component {
       id: id,
       style: newStyles[id],
     });
-
     this.setState({
       ...this.state,
       comps: components,
@@ -66,18 +64,18 @@ class CanvasEditorView extends Component {
         break;
     }
     this.wrapComp(newcomp, 0, 0, "absolute");
-  }
+  };
 
   loadComp = (entity) => {
     let newcomp = "";
     if (entity.kind == "Text") {
-      newcomp = <p>{entity.content}</p>
+      newcomp = <p>{entity.content}</p>;
     } else if (entity.kind == "Image") {
-      newcomp = <img src={entity.link}></img>
+      newcomp = <img src={entity.link}></img>;
     } else if (entity.kind == "Button") {
       newcomp = <Button>{entity.content}</Button>;
     }
-    return this.wrapComp(newcomp, entity.left, entity.top, "absolute");
+    return this.wrapComp(newcomp, parseFloat(entity.left), parseFloat(entity.top), "absolute");
   };
 
   wrapComp = (newcomp, x, y, position) => {
@@ -92,8 +90,6 @@ class CanvasEditorView extends Component {
       left: left,
       position: position,
     });
-
-    this.setState({ ...this.state, pos: extendedPos, styles: extendedStyles });
     let addedcomp = this.state.comps.concat(
       <DragComp
         key={this.state.id}
@@ -108,13 +104,15 @@ class CanvasEditorView extends Component {
 
     let oldId = this.state.id;
     this.setState({
+      ...this.state,
       comps: addedcomp,
       id: oldId + 1,
+      pos: extendedPos,
+      styles: extendedStyles,
     });
     return oldId;
   };
 
-  
   save = () => {
     postTemplate(this.state.comps);
   };
@@ -123,16 +121,19 @@ class CanvasEditorView extends Component {
   //TODO Add error catching if template id is invalid
   //TODO Correctly load non-absolute components
   load = () => {
-    let templateId = window.prompt("Enter template id (TODO hookup to template browser instead of prompt)", "");
+    let templateId = window.prompt(
+      "Enter template id (TODO hookup to template browser instead of prompt)",
+      ""
+    );
     let template = loadTemplate(templateId);
     let self = this;
     Promise.resolve(template).then((newTemplate) => {
       Promise.all(newTemplate.scenes).then((newScenes) => {
         Promise.all(newScenes[0].entities).then((newEntities) => {
-          newEntities.forEach(function(entity) {
+          newEntities.forEach(function (entity) {
             let compId = self.loadComp(entity);
             self.updatePos(compId, entity.left, entity.top);
-          })
+          });
         });
       });
     });
@@ -141,9 +142,9 @@ class CanvasEditorView extends Component {
   render() {
     return (
       <Flex direction="column" h="100vh" width="100%" overflow="scroll">
-        <CanvasEditorHeader 
-          flex="6" 
-          w="100%" 
+        <CanvasEditorHeader
+          flex="6"
+          w="100%"
           zIndex={5}
           save={this.save}
           load={this.load}
