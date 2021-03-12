@@ -11,8 +11,7 @@ class Canvas extends React.Component {
   drop = (e) => {
     e.preventDefault();
     let comp_id = e.dataTransfer.getData("compId");
-    let comp = document.getElementById(comp_id);
-    var rect = e.target.getBoundingClientRect();
+    let rect = e.target.getBoundingClientRect();
     var x = e.clientX - rect.left; //x position within the element.
     var y = e.clientY - rect.top; //y position within the element.
     this.props.changePos(comp_id, x, y);

@@ -9,7 +9,7 @@ class CanvasEditorView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      canvasColor: { r: 191, g: 251, b: 255, a: 1 }, //Will have to have different background colors depending on the Canvas
+      canvasColor: { r: 220, g: 118, b: 118, a: 1 }, //Will have to have different background colors depending on the Canvas
       canvasHeight: 500,
       canvasWidth: 500,
       styles: [],
@@ -20,7 +20,7 @@ class CanvasEditorView extends Component {
   }
 
   updatePos = (id, left, top) => {
-    if(!id) return;
+    if (!id) return;
 
     let newPos = this.state.pos;
     newPos[id] = { x: left, y: top };
@@ -34,7 +34,6 @@ class CanvasEditorView extends Component {
       id: id,
       style: newStyles[id],
     });
-
 
     this.setState({
       ...this.state,

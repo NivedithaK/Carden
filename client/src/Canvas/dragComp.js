@@ -19,6 +19,7 @@ class DragComp extends React.Component {
     const target = e.target;
     e.dataTransfer.setDragImage(target, "50%", "50%");
     e.dataTransfer.setData("compId", target.id);
+   
     setTimeout(() => {
       this.setState({
         style: {
