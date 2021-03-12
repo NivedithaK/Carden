@@ -23,7 +23,7 @@ import {
 import { AiFillHeart } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 
-function CardView({ title, date, likes }) {
+function CardView({ id, title, date, likes, handler }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const history = useHistory();
 	const handleUse = (e) => {
@@ -78,6 +78,9 @@ function CardView({ title, date, likes }) {
 							leftIcon={<AiFillHeart />}
 							colorScheme="pink"
 							variant="solid"
+							onClick={() => {
+								handler(id);
+							}}
 						>
 							Favourite
 						</Button>

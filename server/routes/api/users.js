@@ -130,8 +130,8 @@ router.post("/login", async (req, res) => {
  * @description Find the user with the specified id and update them
  * @access      public
  */
-router.put("/:id", async (req, res) => {
-	User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+router.put("/", async (req, res) => {
+	User.findByIdAndUpdate(req.body.id, req.body.data, { new: true })
 		.then((user) => res.json(user))
 		.catch((e) => res.status(404).json({ msg: "User does not exist" }));
 });

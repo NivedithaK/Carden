@@ -12,6 +12,7 @@ import {
 	LOADING_CARDS,
 	CARDS_SUCCESS,
 	CARDS_FAILURE,
+	UPDATE_SUCCESS,
 } from "../actions/types";
 
 // the redux state to hold our current user as well as if they are authenticated or not
@@ -35,6 +36,7 @@ export default function (state = initialState, action) {
 				loading: true,
 			};
 		case USER_LOADED:
+		case UPDATE_SUCCESS:
 			return {
 				...state,
 				user: action.payload,

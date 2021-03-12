@@ -12,6 +12,7 @@ import Title from "../components/Title";
 
 // Redux
 import { getUserTemplates } from "../actions/authActions";
+import { adjustLikeTemplate } from "../actions/cardActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -63,6 +64,10 @@ class Dashboard extends React.Component {
 		this.props.history.push("/create");
 	};
 
+	handleLike = async (templateId) => {
+		await this.props.adjustLikeTemplate(templateId);
+	};
+
 	render() {
 		return (
 			<Grid
@@ -84,7 +89,10 @@ class Dashboard extends React.Component {
 							borderWidth="2px"
 							boxShadow="md"
 						>
-							<CardSection cards={this.state.templates} />
+							<CardSection
+								cards={this.state.templates}
+								handler={this.handleLike}
+							/>
 						</Box>
 						<Title text="CARDS" />
 						<Box
@@ -93,7 +101,10 @@ class Dashboard extends React.Component {
 							borderWidth="2px"
 							boxShadow="md"
 						>
-							<CardSection cards={this.state.cards} />
+							<CardSection
+								cards={this.state.cards}
+								handler={this.handleLike}
+							/>
 						</Box>
 					</VStack>
 				</GridItem>
@@ -104,6 +115,7 @@ class Dashboard extends React.Component {
 
 Dashboard.propTypes = {
 	getUserTemplates: PropTypes.func.isRequired,
+	adjustLikeTemplate: PropTypes.func.isRequired,
 	error: PropTypes.object,
 	cards: PropTypes.object,
 	templates: PropTypes.object,
@@ -114,4 +126,7 @@ const mapStateToProps = (state) => ({
 	error: state.error,
 });
 
-export default connect(mapStateToProps, { getUserTemplates })(Dashboard);
+export default connect(mapStateToProps, {
+	getUserTemplates,
+	adjustLikeTemplate,
+})(Dashboard);

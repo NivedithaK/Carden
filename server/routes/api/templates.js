@@ -57,12 +57,11 @@ router.post("/", async (req, res) => {
  * @description Find the template with the specified id and update them
  * @access      public
  */
-router.put("/:id", async (req, res) => {
-	Template.findByIdAndUpdate(req.params.id, req.body, { new: true })
+router.put("/", async (req, res) => {
+	console.log(req.body);
+	Template.findByIdAndUpdate(req.body.id, req.body.data, { new: true })
 		.then((template) => res.status(200).json(template))
-		.catch((e) =>
-			res.status(404).json({ error: "template does not exist" })
-		);
+		.catch((e) => res.status(404).json({ msg: "template does not exist" }));
 });
 
 /**
@@ -73,9 +72,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
 	await Template.findByIdAndRemove(req.params.id)
 		.then((template) => res.status(200).json(template))
-		.catch((e) =>
-			res.status(404).json({ error: "template does not exist" })
-		);
+		.catch((e) => res.status(404).json({ msg: "template does not exist" }));
 });
 
 export default router;
