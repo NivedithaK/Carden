@@ -28,6 +28,7 @@ class Canvas extends React.Component {
         id={this.props.id}
         className={this.props.className}
         onDrop={this.state.dropable ? this.drop : undefined}
+        overflow-y="hidden"
         onDragOver={this.dragOver}
       >
         {this.props.children}
