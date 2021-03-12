@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
 	await User.findById(req.params.id)
 		.then((user) => res.json(user))
-		.catch((e) => res.status(404).json({ error: "User does not exist" }));
+		.catch((e) => res.status(404).json({ msg: "User does not exist" }));
 });
 
 /**
@@ -112,6 +112,7 @@ router.post("/login", async (req, res) => {
 				const user = {
 					following: existingUser.following,
 					templates: existingUser.templates,
+					cards: existingUser.cards,
 					starredTemplates: existingUser.starredTemplates,
 					scoring: existingUser.scoring,
 					isAdmin: existingUser.isAdmin,
@@ -132,7 +133,7 @@ router.post("/login", async (req, res) => {
 router.put("/:id", async (req, res) => {
 	User.findByIdAndUpdate(req.params.id, req.body, { new: true })
 		.then((user) => res.json(user))
-		.catch((e) => res.status(404).json({ error: "User does not exist" }));
+		.catch((e) => res.status(404).json({ msg: "User does not exist" }));
 });
 
 /**
@@ -143,7 +144,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
 	await User.findByIdAndRemove(req.params.id)
 		.then((user) => res.json(user))
-		.catch((e) => res.status(404).json({ error: "User does not exist" }));
+		.catch((e) => res.status(404).json({ msg: "User does not exist" }));
 });
 
 export default router;

@@ -9,9 +9,9 @@ const router = express.Router();
  * @access      public
  */
 router.get("/", async (req, res) => {
-  await Template.find()
-    .then((templates) => res.json(templates))
-    .catch((e) => res.status(500).json({ error: e.message }));
+	await Template.find()
+		.then((templates) => res.status(200).json(templates))
+		.catch((e) => res.status(500).json({ error: e.message }));
 });
 
 /**
@@ -20,9 +20,25 @@ router.get("/", async (req, res) => {
  * @access      public
  */
 router.get("/:id", async (req, res) => {
-  await Template.findById(req.params.id)
-    .then((template) => res.json(template))
-    .catch((e) => res.status(404).json({ error: "template does not exist" }));
+	console.log(req);
+	await Template.findById(req.params.id)
+		.then((template) => res.status(200).json(template))
+		.catch((e) =>
+			res.status(404).json({ error: "template does not exist" })
+		);
+});
+
+/**
+ * @route       POST api/templates/:username
+ * @description Get all templates which belong to this user
+ * @access      public
+ */
+router.post("/user", async (req, res) => {
+	await Template.find(req.body)
+		.then((templates) => res.status(200).json(templates))
+		.catch((e) =>
+			res.status(404).json({ data: "No templates from that user!" })
+		);
 });
 
 /**
@@ -31,9 +47,9 @@ router.get("/:id", async (req, res) => {
  * @access      public
  */
 router.post("/", async (req, res) => {
-  await Template.create(req.body)
-    .then((template) => res.json(template))
-    .catch((e) => res.status(500).json({ error: e.message }));
+	await Template.create(req.body)
+		.then((template) => res.status(200).json(template))
+		.catch((e) => res.status(500).json({ error: e.message }));
 });
 
 /**
@@ -42,9 +58,11 @@ router.post("/", async (req, res) => {
  * @access      public
  */
 router.put("/:id", async (req, res) => {
-  Template.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    .then((template) => res.json(template))
-    .catch((e) => res.status(404).json({ error: "template does not exist" }));
+	Template.findByIdAndUpdate(req.params.id, req.body, { new: true })
+		.then((template) => res.status(200).json(template))
+		.catch((e) =>
+			res.status(404).json({ error: "template does not exist" })
+		);
 });
 
 /**
@@ -53,9 +71,11 @@ router.put("/:id", async (req, res) => {
  * @access      public
  */
 router.delete("/:id", async (req, res) => {
-  await Template.findByIdAndRemove(req.params.id)
-    .then((template) => res.json(template))
-    .catch((e) => res.status(404).json({ error: "template does not exist" }));
+	await Template.findByIdAndRemove(req.params.id)
+		.then((template) => res.status(200).json(template))
+		.catch((e) =>
+			res.status(404).json({ error: "template does not exist" })
+		);
 });
 
 export default router;

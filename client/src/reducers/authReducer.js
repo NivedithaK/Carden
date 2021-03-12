@@ -9,18 +9,24 @@ import {
 	LOGIN_FAILURE,
 	LOGOUT,
 	AUTH_ERROR,
+	LOADING_CARDS,
+	CARDS_SUCCESS,
+	CARDS_FAILURE,
 } from "../actions/types";
 
 // the redux state to hold our current user as well as if they are authenticated or not
 const initialState = {
 	token: localStorage.getItem("token"),
 	user: null,
+	templates: [],
+	cards: [],
 	authenticated: false,
 	loading: false,
 };
 // eslint-disable-next-line import/no-anonymous-default-export
 export default function (state = initialState, action) {
 	switch (action.type) {
+		case LOADING_CARDS:
 		case USER_LOADING:
 		case REGISTER_START:
 		case LOGIN_START:
@@ -54,6 +60,17 @@ export default function (state = initialState, action) {
 				user: null,
 				token: null,
 				authenticated: false,
+				loading: false,
+			};
+		case CARDS_SUCCESS:
+			return {
+				...state,
+				...action.payload,
+				loading: false,
+			};
+		case CARDS_FAILURE:
+			return {
+				...state,
 				loading: false,
 			};
 		default:

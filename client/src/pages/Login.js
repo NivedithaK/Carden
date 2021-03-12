@@ -2,7 +2,7 @@ import React from "react";
 import LoginView from "../components/LoginView";
 
 // Redux
-import { loginUser } from "../actions/authActions";
+import { loginUser, getUserTemplates } from "../actions/authActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -26,6 +26,8 @@ class Login extends React.Component {
 		};
 		console.log(user);
 		await this.props.loginUser(user);
+		console.log(this.props.auth.cards);
+		console.log(this.props.auth.templates);
 	};
 	setUsername(e) {
 		e.preventDefault();
@@ -43,21 +45,33 @@ class Login extends React.Component {
 	}
 	render() {
 		return (
-			<LoginView
-				handlers={{
-					setUsername: this.setUsername,
-					setPassword: this.setPassword,
-					handleLogin: this.handleLogin,
-				}}
-			/>
+			<div>
+				<LoginView
+					handlers={{
+						setUsername: this.setUsername,
+						setPassword: this.setPassword,
+						handleLogin: this.handleLogin,
+					}}
+				/>
+				<button
+					onClick={async () => {
+						await this.props.getUserTemplates();
+					}}
+				>
+					fucking work{" "}
+				</button>
+			</div>
 		);
 	}
 }
 
 Login.propTypes = {
 	loginUser: PropTypes.func.isRequired,
+	getUserTemplates: PropTypes.func.isRequired,
 	currentUser: PropTypes.object,
 	error: PropTypes.object,
+	cards: PropTypes.object,
+	templates: PropTypes.object,
 };
 // This is the current state in the store.
 const mapStateToProps = (state) => ({
@@ -65,4 +79,4 @@ const mapStateToProps = (state) => ({
 	error: state.error,
 });
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(mapStateToProps, { loginUser, getUserTemplates })(Login);

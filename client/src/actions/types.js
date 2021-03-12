@@ -16,3 +16,6 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGOUT = "LOGOUT";
 export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
+export const LOADING_CARDS = "LOADING_CARDS";
+export const CARDS_SUCCESS = "CARDS_SUCCESS";
+export const CARDS_FAILURE = "CARDS_FAILURE";

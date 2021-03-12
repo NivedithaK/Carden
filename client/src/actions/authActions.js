@@ -11,6 +11,9 @@ import {
 	REGISTER_FAILURE,
 	LOGOUT,
 	AUTH_ERROR,
+	LOADING_CARDS,
+	CARDS_SUCCESS,
+	CARDS_FAILURE,
 } from "./types";
 
 // Start the register.
@@ -44,6 +47,21 @@ const getLoginFailure = () => ({
 	type: LOGIN_FAILURE,
 });
 
+// Loading cards
+const getLoadingCards = () => ({
+	type: LOADING_CARDS,
+});
+
+// Loading cards Success
+const getCardsSuccess = (templates, cards) => ({
+	type: CARDS_SUCCESS,
+	payload: { templates, cards },
+});
+// Loading cards Success
+const getCardsFailure = () => ({
+	type: CARDS_FAILURE,
+});
+
 /**
  * A thunk to register users asynchronously.
  * @param user: The user to register
@@ -56,18 +74,10 @@ export const registerUser = (user) => async (dispatch) => {
 		.then((res) => {
 			dispatch(clearErrors());
 			dispatch(getRegisterSuccess(res.data));
-			console.log(res.data);
 		})
 		.catch((err) => {
-			dispatch(
-				returnErrors(
-					err.response.data,
-					err.response.status,
-					REGISTER_FAILURE
-				)
-			);
+			dispatch(returnErrors(err.data, err.status, REGISTER_FAILURE));
 			dispatch(getRegisterFailure());
-			console.log(err.response.data);
 		});
 };
 
@@ -83,7 +93,7 @@ export const loginUser = (user) => async (dispatch) => {
 	dispatch(getLoginStart());
 	// Make the request to the server to see if there is a user with the matching credentials.
 	await axios
-		.post("/api/auth/login", user)
+		.post("/api/users/login", user)
 		.then((res) => {
 			dispatch(clearErrors());
 			dispatch(getLoginSuccess(res.data));
@@ -111,9 +121,9 @@ export const loadUser = () => async (dispatch, getState) => {
 	dispatch({ type: USER_LOADING });
 
 	await axios
-		.get("/api/auth/user", tokenConfig(getState))
+		.get("/api/users/user", tokenConfig(getState))
 		.then((res) => {
-			dispatch(clearErrors);
+			dispatch(clearErrors());
 			dispatch({
 				type: USER_LOADED,
 				payload: res.data,
@@ -156,4 +166,45 @@ export const tokenConfig = (getState) => {
 		config.headers["x-auth-token"] = token;
 	}
 	return config;
+};
+
+/**
+ * Query the templates schema to get all of the templates which belong to this user.
+ * @returns the templates of this user by their username
+ */
+export const getUserTemplates = () => async (dispatch, getState) => {
+	// Start loading cards
+	dispatch(getLoadingCards());
+	// Get the username from redux
+	if (
+		!getState().auth ||
+		!getState().auth.user ||
+		!getState().auth.user.username
+	) {
+		dispatch(
+			returnErrors("The username is not present!", "400", "templates")
+		); // Something is null
+		dispatch(getCardsFailure());
+	}
+
+	const user = getState().auth.user;
+	axios
+		.post("/api/templates/user", { postUser: user.username })
+		.then((res) => {
+			dispatch(clearErrors());
+			const templates = [];
+			const cards = [];
+			res.data.forEach((template) => {
+				if (user.cards.includes(template["_id"])) {
+					cards.push(template);
+				} else {
+					templates.push(template);
+				}
+			});
+			dispatch(getCardsSuccess(templates, cards)); // Send cards to redux
+		})
+		.catch((err) => {
+			dispatch(returnErrors(err.data, err.status, "templates"));
+			dispatch(getCardsFailure());
+		});
 };

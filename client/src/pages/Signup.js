@@ -3,7 +3,7 @@ import SignupView from "../components/SignupView.js";
 
 // redux imports
 import { connect } from "react-redux";
-import { registerUser } from "../actions/authActions";
+import { registerUser, getUserTemplates } from "../actions/authActions";
 import PropTypes from "prop-types";
 
 class Signup extends React.Component {
@@ -73,6 +73,7 @@ class Signup extends React.Component {
 
 		await this.props.registerUser(user);
 		// TODO Check for ok response code
+		await this.props.getUserTemplates();
 	};
 	render() {
 		return (
@@ -91,6 +92,7 @@ class Signup extends React.Component {
 
 Signup.propTypes = {
 	registerUser: PropTypes.func.isRequired,
+	getUserTemplates: PropTypes.func.isRequired,
 	user: PropTypes.object,
 };
 // This is the user state from the reducer.
@@ -99,4 +101,6 @@ const mapStateToProps = (state) => ({
 	error: state.error,
 });
 
-export default connect(mapStateToProps, { registerUser })(Signup);
+export default connect(mapStateToProps, { registerUser, getUserTemplates })(
+	Signup
+);
