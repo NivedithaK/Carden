@@ -111,7 +111,7 @@ const ButtonField = Entity.discriminator(
 			type: String,
 			default: "",
 		},
-		type: {
+		content: {
 			type: String,
 			default: "",
 		},

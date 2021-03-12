@@ -29,7 +29,12 @@ function CanvasEditorHeader(props){
             </GridItem>
             <GridItem colSpan={{sm: 2, md: 2, lg: 2, xl: 2}}  rowSpan={{sm: 1, md: 1, lg: 1, xl: 1}}>
                 <Center>
-                    <Button>Save</Button>
+                    <Button onClick={props.save}>Save</Button>
+                </Center>
+            </GridItem>
+            <GridItem colSpan={{sm: 2, md: 2, lg: 2, xl: 2}}  rowSpan={{sm: 1, md: 1, lg: 1, xl: 1}}>
+                <Center>
+                    <Button onClick={props.load}>Load</Button>
                 </Center>
             </GridItem>
             <GridItem colSpan={{sm: 7, md: 7, lg: 8, xl: 8}}  rowSpan={{sm: 1, md: 1, lg: 1, xl: 1}}>

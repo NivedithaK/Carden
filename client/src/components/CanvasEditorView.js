@@ -21,6 +21,7 @@ class CanvasEditorView extends Component {
   }
 
   updatePos = (id, left, top) => {
+    console.log(left, top);
     if (!id) return;
 
     let newPos = this.state.pos;
@@ -67,9 +68,16 @@ class CanvasEditorView extends Component {
     this.wrapComp(newcomp, 0, 0, "absolute");
   }
 
-  //TODO add entity types other than textfields
-  loadComp = (content, x, y, position) => {
-    return this.wrapComp(<p>{content}</p>, x, y, position);
+  loadComp = (entity) => {
+    let newcomp = "";
+    if (entity.kind == "Text") {
+      newcomp = <p>{entity.content}</p>
+    } else if (entity.kind == "Image") {
+      newcomp = <img src={entity.link}></img>
+    } else if (entity.kind == "Button") {
+      newcomp = <Button>{entity.content}</Button>;
+    }
+    return this.wrapComp(newcomp, entity.left, entity.top, "absolute");
   };
 
   wrapComp = (newcomp, x, y, position) => {
@@ -98,9 +106,35 @@ class CanvasEditorView extends Component {
       </DragComp>
     );
 
+    let oldId = this.state.id;
     this.setState({
       comps: addedcomp,
-      id: this.state.id + 1,
+      id: oldId + 1,
+    });
+    return oldId;
+  };
+
+  
+  save = () => {
+    postTemplate(this.state.comps);
+  };
+
+  //TODO Add parsing for multiple scenes
+  //TODO Add error catching if template id is invalid
+  //TODO Correctly load non-absolute components
+  load = () => {
+    let templateId = window.prompt("Enter template id (TODO hookup to template browser instead of prompt)", "");
+    let template = loadTemplate(templateId);
+    let self = this;
+    Promise.resolve(template).then((newTemplate) => {
+      Promise.all(newTemplate.scenes).then((newScenes) => {
+        Promise.all(newScenes[0].entities).then((newEntities) => {
+          newEntities.forEach(function(entity) {
+            let compId = self.loadComp(entity);
+            self.updatePos(compId, entity.left, entity.top);
+          })
+        });
+      });
     });
   };
 
@@ -112,6 +146,7 @@ class CanvasEditorView extends Component {
           w="100%" 
           zIndex={5}
           save={this.save}
+          load={this.load}
         />
         <ThickHDivider flex="0.3" colorstring={"palette.800"} />
         <CanvasEditorBottom
@@ -129,29 +164,6 @@ class CanvasEditorView extends Component {
       </Flex>
     );
   }
-
-  save = () => {
-    postTemplate(this.render().props.children.props.children[1]);
-  };
-
-  //TODO Add parsing for multiple scenes
-  //TODO Add error catching if template id is invalid
-  //TODO Correctly load non-absolute components
-  load = () => {
-    let templateId = window.prompt("Enter template id (TODO hookup to template browser instead of prompt)", "");
-    let template = loadTemplate(templateId);
-    let self = this;
-    Promise.resolve(template).then((newTemplate) => {
-      Promise.all(newTemplate.scenes).then((newScenes) => {
-        Promise.all(newScenes[0].entities).then((newEntities) => {
-          newEntities.forEach(function(entity) {
-            let compId = self.loadComp(entity.content, entity.left, entity.top, "absolute");
-            self.updatePos(compId, entity.left, entity.top);
-          })
-        });
-      });
-    });
-  };
 }
 
 export default CanvasEditorView;

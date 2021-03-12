@@ -15,14 +15,29 @@ export const getTemplate = async (id) => {
 export const postTemplate = async (template) => {
     var i = 0;
     var elemIds = [];
-    template.props.children.forEach(function(entity) {
-        const textfield = {
-            top: entity.props.top,
-            left: entity.props.left,
-            content: entity.props.children.props.children,
-        };
-        
-        elemIds.push(postTextfield(textfield));
+    template.forEach(function(entity) {
+        if (entity.props.children.type == "p") {
+            const textfield = {
+                top: entity.props.top,
+                left: entity.props.left,
+                content: entity.props.children.props.children,
+            };
+            elemIds.push(postTextfield(textfield));
+        } else if ((typeof entity.props.children.type) != "string") { //TODO CHANGE THIS, catches all components that do not have a string for type
+            const buttonfield = {
+                top: entity.props.top,
+                left: entity.props.left,
+                content: entity.props.children.props.children,
+            };
+            elemIds.push(postButtonfield(buttonfield));
+        } else if (entity.props.children.type == "img") {
+            const imgfield = {
+                top: entity.props.top,
+                left: entity.props.left,
+                link: entity.props.children.props.src,
+            };
+            elemIds.push(postImgfield(imgfield));
+        }
         i++;
     })
 
@@ -70,6 +85,28 @@ export const postTextfield = async (textfield) => {
     return id;
 }
 
+export const postButtonfield = async (buttonfield) => {
+    var id;
+    await axios
+        .post("http://localhost:5000/api/buttonfields", buttonfield)
+        .then((res) => {
+            id = res.data._id;
+        })
+        .catch((err) => alert(err.response.data.msg));
+    return id;
+}
+
+export const postImgfield = async (imgfield) => {
+    var id;
+    await axios
+        .post("http://localhost:5000/api/imgfields", imgfield)
+        .then((res) => {
+            id = res.data._id;
+        })
+        .catch((err) => alert(err.response.data.msg));
+    return id;
+}
+
 export const loadTemplate = async (templateId) => {
     var template = {
         scenes: [],
@@ -102,19 +139,12 @@ export const loadScene = async (sceneId) => {
     return scene;
 }
 
-//TODO implement retrieval of entities other than textfields
 export const loadEntity = async (entityId) => {
-    var entity = {
-        top: null,
-        left: null,
-        content: null,
-    }
+    var entity;
     await axios
         .get(`http://localhost:5000/api/entities/${entityId}`)
         .then((res) => {
-            entity.top = res.data.top;
-            entity.left = res.data.left;
-            entity.content = res.data.content;
+            entity = res.data;
         })
         .catch((err) => alert(err.response.data.msg));
     return entity;
