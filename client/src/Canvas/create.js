@@ -8,29 +8,42 @@ class CreateCanvas extends Component {
   constructor() {
     super();
     this.state = {
+      styles: [],
       pos: [],
       comps: [],
       id: 0,
     };
   }
 
-  updatePos(id, left, top){
+  updatePos(id, left, top) {
     let newPos = this.state.pos;
-    newPos[id] = {x:left, y:top};
+    newPos[id] = { x: left, y: top };
+    let newStyles = this.state.styles;
+    newStyles[id] = { ...this.state.styles[id], top: top, left: left };
     //change the component that needs to rerender
     let components = this.state.comps;
     components[id] = React.cloneElement(components[id], {
-      top:this.state.pos[id].y,
-      left:this.state.pos[id].x,
-      id:id
+      top: this.state.pos[id].y,
+      left: this.state.pos[id].x,
+      id: id,
+      style: newStyles[id],
     });
-    this.setState({...this.state, comps: components, pos: newPos});
+
+    this.setState({
+      ...this.state,
+      comps: components,
+      pos: newPos,
+      styles: newStyles,
+    });
   }
 
   addComp = (e) => {
     let newcomp;
-    let userin = window.prompt("Enter input (This is temporary, for demo purposes)", "");
-    if(userin === "" || userin === null){
+    let userin = window.prompt(
+      "Enter input (This is temporary, for demo purposes)",
+      ""
+    );
+    if (userin === "" || userin === null) {
       return;
     }
     switch (e.target.value) {
@@ -44,17 +57,27 @@ class CreateCanvas extends Component {
         newcomp = <img src={userin}></img>;
         break;
     }
+
     let extendedPos = this.state.pos;
-    extendedPos.push({id:this.state.id, x:0, y:0});
-    this.setState({pos: extendedPos});
+    extendedPos.push({ id: this.state.id, x: 0, y: 0 });
+
+    let extendedStyles = this.state.styles;
+    let top = this.state.pos[this.state.id].y;
+    let left = this.state.pos[this.state.id].x;
+    extendedStyles.push({
+      top: top,
+      left: left,
+      position: "static",
+    });
+
+    this.setState({ ...this.state, pos: extendedPos, styles: extendedStyles });
     let addedcomp = this.state.comps.concat(
       <DragComp
         key={this.state.id}
         id={this.state.id}
         className="comp"
         draggable="true"
-        top={this.state.pos[this.state.id].y}
-        left={this.state.pos[this.state.id].x}
+        style={this.state.styles[this.state.id]}
       >
         {newcomp}
       </DragComp>
@@ -81,7 +104,12 @@ class CreateCanvas extends Component {
               Image
             </Button>
           </Canvas>
-          <Canvas id="canvas" className="canvas" dropable={true} changePos={this.updatePos.bind(this)}>
+          <Canvas
+            id="canvas"
+            className="canvas"
+            dropable={true}
+            changePos={this.updatePos.bind(this)}
+          >
             {this.state.comps}
           </Canvas>
         </main>
