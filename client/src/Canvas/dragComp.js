@@ -8,7 +8,6 @@ class DragComp extends React.Component {
       //top and left are place holders
       style: { ...this.props.style, display: "block", top: this.props.top, left: this.props.left },
     };
-    console.log(this.props.style);
   }
 
   dragStart = (e) => {

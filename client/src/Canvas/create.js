@@ -28,7 +28,6 @@ class CreateCanvas extends Component {
       id: id,
       style: newStyles[id],
     });
-    console.log(newStyles[id]);
 
     this.setState({
       ...this.state,
