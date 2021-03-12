@@ -128,8 +128,23 @@ class CanvasEditorView extends Component {
     let template = loadTemplate(templateId);
     let self = this;
     Promise.resolve(template).then((newTemplate) => {
+      if (newTemplate.numScenes == 0) {
+        return;
+      }
       Promise.all(newTemplate.scenes).then((newScenes) => {
+        if (newScenes.length == 0) {
+          return;
+        }
         Promise.all(newScenes[0].entities).then((newEntities) => {
+          self.state = {
+            canvasColor: { r: 220, g: 118, b: 118, a: 1 }, //Will have to have different background colors depending on the Canvas
+            canvasHeight: 500,
+            canvasWidth: 500,
+            styles: [],
+            pos: [],
+            comps: [],
+            id: 0,
+          };
           newEntities.forEach(function (entity) {
             let compId = self.loadComp(entity);
             self.updatePos(compId, entity.left, entity.top);
