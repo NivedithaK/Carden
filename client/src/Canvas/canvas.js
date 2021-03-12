@@ -1,21 +1,21 @@
 import React from "react";
-
+import { Box } from "@chakra-ui/react";
 class Canvas extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { dropable: props.dropable };
+    this.state = {
+      dropable: props.dropable,
+    };
   }
 
   drop = (e) => {
     e.preventDefault();
     let comp_id = e.dataTransfer.getData("compId");
     let comp = document.getElementById(comp_id);
-    if (comp) {
-      let left = ((e.clientX + window.pageXOffset) * 100) / window.innerWidth + "vw";
-      let top = ((e.clientY + window.pageYOffset) * 100) / window.innerHeight + "vh";
-      comp.style.position = "absolute";
-      this.props.changePos(comp_id, left, top);
-    }
+    var rect = e.target.getBoundingClientRect();
+    var x = e.clientX - rect.left; //x position within the element.
+    var y = e.clientY - rect.top; //y position within the element.
+    this.props.changePos(comp_id, x, y);
   };
 
   dragOver = (e) => {
@@ -24,15 +24,15 @@ class Canvas extends React.Component {
 
   render() {
     return (
-      <div
+      <Box
+        style={this.props.style}
         id={this.props.id}
-        className={this.props.className}
+        className="canvas"
         onDrop={this.state.dropable ? this.drop : undefined}
-        overflow-y="hidden"
         onDragOver={this.dragOver}
       >
         {this.props.children}
-      </div>
+      </Box>
     );
   }
 }

@@ -6,15 +6,19 @@ class DragComp extends React.Component {
     super(props);
     this.state = {
       //top and left are place holders
-      style: { ...this.props.style, display: "block", top: this.props.top, left: this.props.left },
+      style: {
+        ...this.props.style,
+        display: "block",
+        top: this.props.top,
+        left: this.props.left,
+      },
     };
   }
 
   dragStart = (e) => {
     const target = e.target;
-
+    e.dataTransfer.setDragImage(target, "50%", "50%");
     e.dataTransfer.setData("compId", target.id);
-
     setTimeout(() => {
       this.setState({
         style: {
@@ -30,20 +34,23 @@ class DragComp extends React.Component {
   };
 
   dragEnd = (e) => {
+    const target = e.target;
+    e.dataTransfer.setDragImage(target, "-50%", "-50%");
+
     setTimeout(() => {
       this.setState({
         style: {
           ...this.state.style,
           display: "block",
           top: this.props.top,
-          left: this.props.left
+          left: this.props.left,
         },
       });
     }, 0);
   };
 
-  changeStyle = (style) =>{
-    this.setState({style:{...this.state.style, ...style}})
+  changeStyle = (style) => {
+    this.setState({ style: { ...this.state.style, ...style } });
   };
 
   render() {
