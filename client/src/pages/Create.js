@@ -1,29 +1,19 @@
-import React from "react";
-import CreateCanvas from "../Canvas/create";
-import {
-  Grid,
-  GridItem,
-  Heading,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import React, {Component } from "react";
+import { Switch, Route, useRouteMatch } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
-export function Create() {
-  return (
-    <Box
-      w="100%"
-      h="100%"
-      bg={useColorModeValue("palette.700", "palette.1000")}
-    >
-      <Heading>Creating Template</Heading>
-      {/* {<CreateTemplate props={cardDetails}/> }*/}
-      <CreateCanvas></CreateCanvas>
-    </Box>
-  );
+import CanvasEditorView from "../components/CanvasEditorView.js";
+
+class Create extends Component{
+    constructor(props) {
+        super(props);
+    }
+
+    render(){
+        return (
+            <CanvasEditorView/>
+        );
+    }  
 }
 
 export default Create;
