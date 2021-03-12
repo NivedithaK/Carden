@@ -171,7 +171,7 @@ function ColorSelector(props) {
               left={{ sm: "50%", lg: "auto" }}
               transform={{ sm: "translate(-50%, -50%)", lg: "auto" }}
             >
-              {<SketchPicker color={color} onChange={(color) => handleChange(color)} />}
+              <SketchPicker color={color} onChange={(color) => handleChange(color)} />
             </Box>
           </Box>
         ) : null

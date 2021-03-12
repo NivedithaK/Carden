@@ -20,21 +20,24 @@ class CanvasEditorView extends Component {
     };
   }
 
+  //update the position of a child component
   updatePos = (id, left, top) => {
     if (!id) return;
-
+    //store the new position of the component
     let newPos = this.state.pos;
     newPos[id] = { x: left, y: top };
     let newStyles = this.state.styles;
     newStyles[id] = { ...this.state.styles[id], top: top, left: left };
     //change the component that needs to rerender
     let components = this.state.comps;
+    //"reprop" the component because render cannot rerender an array
     components[id] = React.cloneElement(components[id], {
       top: this.state.pos[id].y,
       left: this.state.pos[id].x,
       id: id,
       style: newStyles[id],
     });
+    //save the state
     this.setState({
       ...this.state,
       comps: components,
@@ -42,16 +45,19 @@ class CanvasEditorView extends Component {
       styles: newStyles,
     });
   };
-
+  //add component to canvas
   addComp = (e, type) => {
     let newcomp;
+    //take some user input
     let userin = window.prompt(
       "Enter input (This is temporary, for demo purposes)",
       ""
     );
+    //dont make a component if cancel or nothing inputed
     if (userin === "" || userin === null) {
       return;
     }
+    //make the appropriate object
     switch (type) {
       case "Button":
         newcomp = <Button>{userin}</Button>;

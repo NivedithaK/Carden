@@ -27,8 +27,19 @@ class DragComp extends React.Component {
     }, 0);
   };
 
-  dragOver = (e) => {
+  dragEnter = (e) => {
     e.stopPropagation();
+    e.target.style.backgroundColor="red";
+  };
+
+  dragLeave = (e) => {
+    e.stopPropagation();
+    e.target.style.backgroundColor="transparent";
+  };
+
+  drop = (e) => {
+    e.stopPropagation();
+    e.target.style.backgroundColor="transparent";
   };
 
   dragEnd = (e) => {
@@ -40,13 +51,14 @@ class DragComp extends React.Component {
         style: {
           ...this.state.style,
           display: "block",
-          position: this.props.position,
           top: this.props.top,
           left: this.props.left,
         },
       });
     }, 0);
   };
+
+  
 
   changeStyle = (style) => {
     this.setState({ style: { ...this.state.style, ...style } });
@@ -59,9 +71,11 @@ class DragComp extends React.Component {
         draggable={this.props.draggable}
         onDragStart={this.dragStart}
         onDragEnd={this.dragEnd}
-        onDragOver={this.dragOver}
+        onDragEnter={this.dragEnter}
+        onDragLeave={this.dragLeave}
+        onDrop={this.drop}
         className={this.props.className}
-        style={this.props.style}
+        style={this.state.style}
       >
         {this.props.children}
       </div>
