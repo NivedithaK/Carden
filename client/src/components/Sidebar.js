@@ -6,6 +6,7 @@ import { FiGlobe } from "react-icons/fi";
 import { BiCalendarStar } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import { BiLogOut } from "react-icons/bi";
+import { useHistory } from "react-router-dom";
 
 const SidebarItems = ({ children, handleClick, icon }) => {
 	return (
@@ -24,22 +25,25 @@ const SidebarItems = ({ children, handleClick, icon }) => {
 };
 
 const Sidebar = (props) => {
+	const history = useHistory();
+
 	const handleCreate = (e) => {
-		this.props.history.push("/create");
+		e.preventDefault();
+		history.push("/create");
 	};
 
 	const handleExplore = (e) => {
-		this.props.history.push("/explore");
+		history.push("/explore");
 	};
 
 	const handleSettings = (e) => {
-		this.props.history.push("/profile");
+		history.push("/profile");
 	};
 
 	const handleLogout = (e) => {
 		// log user out
 		// remove their user data
-		this.props.history.push("/");
+		history.push("/");
 	};
 
 	const items = [
