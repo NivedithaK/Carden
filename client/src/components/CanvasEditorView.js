@@ -74,7 +74,7 @@ class CanvasEditorView extends Component {
     extendedStyles.push({
       top: top,
       left: left,
-      position: "relative",
+      position: "absolute",
     });
 
     this.setState({ ...this.state, pos: extendedPos, styles: extendedStyles });
