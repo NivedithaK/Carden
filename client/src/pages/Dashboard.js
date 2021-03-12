@@ -1,15 +1,52 @@
 import React from "react";
 import Sidebar from "../components/Sidebar.js";
-import { Grid, GridItem, Box, VStack } from "@chakra-ui/react";
+import {
+	Grid,
+	GridItem,
+	Box,
+	VStack,
+	omitThemingProps,
+} from "@chakra-ui/react";
 import CardSection from "../components/CardSection.js";
 import Title from "../components/Title";
 
-class Dashboard extends React.Component {
+// Redux
+import { getUserTemplates } from "../actions/authActions";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
+class Dashboard extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleLogout = this.handleLogout.bind(this);
 		this.handleBrowse = this.handleBrowse.bind(this);
+		this.state = {
+			cards: [],
+			templates: [],
+		};
+	}
+
+	componentDidMount() {
+		let cards = [];
+		let templates = [];
+		// Check if we are logged in
+		if (!this.props.auth) return;
+
+		// Load cards from redux state
+		if (this.props.auth.cards) {
+			cards = this.props.auth.cards;
+		}
+
+		// Load templates from redux
+		if (this.props.auth.templates) {
+			templates = this.props.auth.templates;
+		}
+
+		// Set the state
+		this.setState({
+			cards,
+			templates,
+		});
 	}
 
 	handleBrowse = (e) => {
@@ -47,7 +84,7 @@ class Dashboard extends React.Component {
 							borderWidth="2px"
 							boxShadow="md"
 						>
-							<CardSection />
+							<CardSection cards={this.state.templates} />
 						</Box>
 						<Title text="CARDS" />
 						<Box
@@ -56,7 +93,7 @@ class Dashboard extends React.Component {
 							borderWidth="2px"
 							boxShadow="md"
 						>
-							<CardSection />
+							<CardSection cards={this.state.cards} />
 						</Box>
 					</VStack>
 				</GridItem>
@@ -65,4 +102,16 @@ class Dashboard extends React.Component {
 	}
 }
 
-export default Dashboard;
+Dashboard.propTypes = {
+	getUserTemplates: PropTypes.func.isRequired,
+	error: PropTypes.object,
+	cards: PropTypes.object,
+	templates: PropTypes.object,
+};
+// This is the current state in the store.
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+	error: state.error,
+});
+
+export default connect(mapStateToProps, { getUserTemplates })(Dashboard);

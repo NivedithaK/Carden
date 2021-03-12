@@ -23,7 +23,7 @@ import {
 import { AiFillHeart } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 
-function CardView() {
+function CardView({ title, date, likes }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const history = useHistory();
 	const handleUse = (e) => {
@@ -47,21 +47,17 @@ function CardView() {
 					w="80%"
 				>
 					<GridItem rowSpan={1} colSpan={2}>
-						<Text fontWeight="bold">Template name</Text>
+						<Text fontWeight="bold">{title}</Text>
 					</GridItem>
 					<GridItem rowSpan={2} colSpan={1}>
-						<Badge
-							ml="1"
-							colorScheme="pink"
-							fontSize="1em"
-						>
+						<Badge ml="1" colorScheme="pink" fontSize="1em">
 							<Flex align="center">
-								14 <AiFillHeart />
+								{likes} <AiFillHeart />
 							</Flex>
 						</Badge>
 					</GridItem>
 					<GridItem rowSpan={1} colSpan={2}>
-						<Text fontSize="sm">Date created</Text>
+						<Text fontSize="sm">{date}</Text>
 					</GridItem>
 				</Grid>
 			</VStack>
