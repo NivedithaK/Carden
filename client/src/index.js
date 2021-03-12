@@ -25,6 +25,8 @@ import theme from "./theme";
 import { Provider } from "react-redux";
 import { store, persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
+import  "./Canvas/style.css"
+
 import "./styles/index.css";
 function App() {
     const history = useHistory();

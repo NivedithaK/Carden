@@ -1,14 +1,18 @@
 import React, { Component } from "react";
-import Canvas from "./canvas";
-import DragComp from "./dragComp";
-import { Button } from "@chakra-ui/react";
+import { Box, Flex, Button } from "@chakra-ui/react";
+import { ThickHDivider } from "./EditorMenuItems.js";
+import CanvasEditorHeader from "./CanvasEditorHeader.js";
+import CanvasEditorBottom from "./CanvasEditorBottom.js";
 import { postTemplate, loadTemplate } from "../actions/cardActions";
-import "./style.css";
+import DragComp from "../Canvas/dragComp";
 
-class CreateCanvas extends Component {
-  constructor() {
-    super();
+class CanvasEditorView extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
+      canvasColor: { r: 191, g: 251, b: 255, a: 1 }, //Will have to have different background colors depending on the Canvas
+      canvasHeight: 500,
+      canvasWidth: 500,
       styles: [],
       pos: [],
       comps: [],
@@ -16,18 +20,10 @@ class CreateCanvas extends Component {
     };
   }
 
-  updatePos(id, left, top) {
+  updatePos = (id, left, top) => {
+    if(!id) return;
+
     let newPos = this.state.pos;
-<<<<<<< HEAD
-    newPos[id] = {x:left, y:top, type:"absolute"};
-    //change the component that needs to rerender
-    let components = this.state.comps;
-    components[id] = React.cloneElement(components[id], {
-      top:this.state.pos[id].y,
-      left:this.state.pos[id].x,
-      position:this.state.pos[id].type,
-      id:id
-=======
     newPos[id] = { x: left, y: top };
     let newStyles = this.state.styles;
     newStyles[id] = { ...this.state.styles[id], top: top, left: left };
@@ -40,16 +36,16 @@ class CreateCanvas extends Component {
       style: newStyles[id],
     });
 
+
     this.setState({
       ...this.state,
       comps: components,
       pos: newPos,
       styles: newStyles,
->>>>>>> WEEB-87
     });
-  }
+  };
 
-  addComp = (e) => {
+  addComp = (e, type) => {
     let newcomp;
     let userin = window.prompt(
       "Enter input (This is temporary, for demo purposes)",
@@ -58,7 +54,7 @@ class CreateCanvas extends Component {
     if (userin === "" || userin === null) {
       return;
     }
-    switch (e.target.value) {
+    switch (type) {
       case "Button":
         newcomp = <Button>{userin}</Button>;
         break;
@@ -69,23 +65,17 @@ class CreateCanvas extends Component {
         newcomp = <img src={userin}></img>;
         break;
     }
-<<<<<<< HEAD
-    this.wrapComp(newcomp, 0, 0, "");
-  };
+    this.wrapComp(newcomp, 0, 0, "absolute");
+  }
 
   //TODO add entity types other than textfields
-  loadComp = (content, x, y, type) => {
-    return this.wrapComp(<p>{content}</p>, x, y, type);
+  loadComp = (content, x, y, position) => {
+    return this.wrapComp(<p>{content}</p>, x, y, position);
   };
 
-  wrapComp = (newcomp, x, y, type) => {
+  wrapComp = (newcomp, x, y, position) => {
     let extendedPos = this.state.pos;
-    extendedPos.push({id:this.state.id, x:x, y:y, type:type});
-    this.setState({pos: extendedPos});
-=======
-
-    let extendedPos = this.state.pos;
-    extendedPos.push({ id: this.state.id, x: 0, y: 0 });
+    extendedPos.push({ id: this.state.id, x: x, y: y });
 
     let extendedStyles = this.state.styles;
     let top = this.state.pos[this.state.id].y;
@@ -93,70 +83,53 @@ class CreateCanvas extends Component {
     extendedStyles.push({
       top: top,
       left: left,
-      position: "static",
+      position: position,
     });
 
     this.setState({ ...this.state, pos: extendedPos, styles: extendedStyles });
->>>>>>> WEEB-87
     let addedcomp = this.state.comps.concat(
       <DragComp
         key={this.state.id}
         id={this.state.id}
         className="comp"
         draggable="true"
-<<<<<<< HEAD
-        top={this.state.pos[this.state.id].y}
-        left={this.state.pos[this.state.id].x}
-        position={this.state.pos[this.state.id].type}
-=======
         style={this.state.styles[this.state.id]}
->>>>>>> WEEB-87
       >
         {newcomp}
       </DragComp>
     );
 
-    let oldId = this.state.id;
     this.setState({
       comps: addedcomp,
-      id: oldId + 1,
+      id: this.state.id + 1,
     });
-    return oldId;
   };
 
   render() {
     return (
-      <div className="App">
-        <main className="flexbox">
-          <Canvas id="pallet" className="pallet" dropable={false}>
-            <Button value="Button" onClick={this.addComp}>
-              Button
-            </Button>
-            <Button value="Text" onClick={this.addComp}>
-              Text
-            </Button>
-            <Button value="Image" onClick={this.addComp}>
-              Image
-            </Button>
-            <Button onClick={this.save}>
-              Save
-            </Button>
-            <Button onClick={this.load}>
-              Load
-            </Button>
-          </Canvas>
-          <Canvas
-            id="canvas"
-            className="canvas"
-            dropable={true}
-            changePos={this.updatePos.bind(this)}
-          >
-            {this.state.comps}
-          </Canvas>
-        </main>
-      </div>
+      <Flex direction="column" h="100vh" width="100%" overflow="scroll">
+        <CanvasEditorHeader 
+          flex="6" 
+          w="100%" 
+          zIndex={5}
+          save={this.save}
+        />
+        <ThickHDivider flex="0.3" colorstring={"palette.800"} />
+        <CanvasEditorBottom
+          flex="93.7"
+          canvasColorSetter={(color) => this.setState({ canvasColor: color })}
+          canvasWidthHook={(width) => this.setState({ canvasWidth: width })}
+          canvasHeightHook={(height) => this.setState({ canvasHeight: height })}
+          canvasColor={`rgba(${this.state.canvasColor.r}, ${this.state.canvasColor.g}, ${this.state.canvasColor.b}, ${this.state.canvasColor.a})`}
+          canvasWidth={this.state.canvasWidth}
+          canvasHeight={this.state.canvasHeight}
+          updatePos={this.updatePos}
+          addComp={this.addComp}
+          comps={this.state.comps}
+        />
+      </Flex>
     );
-  };
+  }
 
   save = () => {
     postTemplate(this.render().props.children.props.children[1]);
@@ -182,4 +155,4 @@ class CreateCanvas extends Component {
   };
 }
 
-export default CreateCanvas;
+export default CanvasEditorView;

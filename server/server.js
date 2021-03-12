@@ -16,13 +16,10 @@ import entities from "./routes/api/entities.js";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
 // If in development, get environment variables
-if (process.env.NODE_ENV !== "production") {
-	const result = dotenv.config();
-	if (result.error) {
-		throw result.error;
-	}
+const result = dotenv.config();
+if (result.error) {
+	throw result.error;
 }
 
 const app = express();
