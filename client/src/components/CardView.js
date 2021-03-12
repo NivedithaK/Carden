@@ -23,7 +23,7 @@ import {
 import { AiFillHeart } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 
-function CardView() {
+function CardView(props) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const history = useHistory();
 	const handleUse = (e) => {
@@ -39,6 +39,8 @@ function CardView() {
 					width="250px"
 					height="250px"
 					onClick={onOpen}
+					isActive={props.isModal ? true : false}
+					isDisabled={props.isModal ? true : false}
 				></Button>
 
 				<Grid
@@ -50,11 +52,7 @@ function CardView() {
 						<Text fontWeight="bold">Template name</Text>
 					</GridItem>
 					<GridItem rowSpan={2} colSpan={1}>
-						<Badge
-							ml="1"
-							colorScheme="pink"
-							fontSize="1em"
-						>
+						<Badge ml="1" colorScheme="pink" fontSize="1em">
 							<Flex align="center">
 								14 <AiFillHeart />
 							</Flex>
@@ -73,7 +71,7 @@ function CardView() {
 					<ModalCloseButton />
 					<ModalBody>
 						<Center>
-							<CardView />
+							<CardView isModal="true" />
 						</Center>
 					</ModalBody>
 

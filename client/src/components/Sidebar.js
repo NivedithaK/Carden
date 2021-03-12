@@ -24,8 +24,16 @@ const SidebarItems = ({ children, handleClick, icon }) => {
 };
 
 const Sidebar = (props) => {
+	const handleCreate = (e) => {
+		this.props.history.push("/create");
+	};
+
 	const handleExplore = (e) => {
-		// e.preventDefault();
+		this.props.history.push("/explore");
+	};
+
+	const handleSettings = (e) => {
+		this.props.history.push("/profile");
 	};
 
 	const handleLogout = (e) => {
@@ -34,17 +42,13 @@ const Sidebar = (props) => {
 		this.props.history.push("/");
 	};
 
-	const handleCreate = (e) => {
-		this.props.history.push("/create");
-	};
-
 	const items = [
 		[<AddIcon />, "Create a template", handleCreate],
 		[<HiOutlineViewGrid />, "Your cards", handleCreate],
-		[<FiGlobe />, "Explore templates", handleCreate],
+		[<FiGlobe />, "Explore templates", handleExplore],
 		[<BiCalendarStar />, "Recommended", handleCreate],
-		[<FiSettings />, "Settings", handleCreate],
-		[<BiLogOut />, "Log out", handleCreate],
+		[<FiSettings />, "Settings", handleSettings],
+		[<BiLogOut />, "Log out", handleLogout],
 	];
 
 	return (

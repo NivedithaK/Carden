@@ -33,6 +33,10 @@ const theme = extendTheme({
 		h1: {
 			fontSize: ["36px", "24px"],
 			lineHeight: "110%",
+		},
+		h2: {
+			fontSize: ["36px", "24px"],
+			lineHeight: "110%",
 			letterSpacing: "5px",
 			fontFamily: "Verdana",
 		},

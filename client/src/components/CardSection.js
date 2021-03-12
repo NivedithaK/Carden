@@ -1,13 +1,13 @@
 import React from "react";
-import { SimpleGrid, Center, Box } from "@chakra-ui/react";
+import { SimpleGrid, Center, Box, useColorModeValue } from "@chakra-ui/react";
 import CardView from "./CardView";
 
 function CardSection() {
     return (
 		<Box
-			bg="palette.200"
+			bg={useColorModeValue("palette.200", "palette.600")}
 			width="100%"
-            height="500px"
+			height="500px"
 			scrollBehavior="inside"
 			overflow="scroll"
 		>

@@ -8,8 +8,8 @@ function Title(props) {
 			borderRadius="lg"
 			borderWidth="2px"
 			boxShadow="md"
-			bg={useColorModeValue("palette.800", "palette.1100")}
-			color={useColorModeValue("palette.700", "palette.1100")}
+			bg={useColorModeValue("palette.800", "palette.400")}
+			color={useColorModeValue("palette.700", "palette.700")}
 			p={5}
 			textStyle="h1"
 		>
