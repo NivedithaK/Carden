@@ -50,11 +50,14 @@ function CanvasEditorBottom(props){
                     displayTextProperties={() => setPropertyMenu(properties.text)}
                     displayImageProperties={() => setPropertyMenu(properties.img)}
                     displayButtonProperties={() => setPropertyMenu(properties.button)}
+                    addComp={props.addComp}
                     />
             </Flex>
             {/**Center box with dark grey bg*/}
             <Box flex={{sm: "9", lg: "6", xl: "17"}} zIndex={1} bg={useColorModeValue("palette.600")} overflow="hidden"> 
                 <ActualCanvasComponent 
+                    comps={props.comps}
+                    updatePos={props.updatePos}
                     bg={canvasColor}
                     h={`${canvasHeight}px`}
                     w={`${canvasWidth}px`}
