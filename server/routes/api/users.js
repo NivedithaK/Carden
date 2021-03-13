@@ -154,10 +154,6 @@ router.delete("/:id", async (req, res) => {
 router.post("/profile/:id", async (req, res) => {
     const id = req.params.id;
     const { username, email, password } = req.body;
-    let passwordUpdate = true;
-    if (password == "") {
-        passwordUpdate = false;
-    }
     if (username == null || email == null || password == null) {
         return res
             .status(400)
@@ -173,63 +169,41 @@ router.post("/profile/:id", async (req, res) => {
             .status(400)
             .json({ msg: "Password must be at least 5 characters" });
     }
-
-    // Update user
-    await User.findOne({ _id: id }).then((eu) => {
-        let updateUser = {};
-        if (!eu) {
-            return res.status(400).json({ msg: "User does not exist." });
+    // 1. Find user
+    await User.findById({ _id: id }).then((user) => {
+        if (!user) {
+            return res.status(400).json({ msg: "User does not exist" });
         }
-        if (eu.username != username) {
-            updateUser.username = username;
-            const check = async () => {
-                // Check for existing username
-                await User.findOne({ username }).then((existingUser) => {
-                    // If the user already exists, send an error message back.
-                    if (existingUser) {
-                        return res
-                            .status(400)
-                            .json({ msg: "Username must be unique." });
-                    }
-                });
-            };
-            check();
-        } else {
-            updateUser.username = eu.username;
-        }
-        if (eu.email != email) {
-            updateUser.email = email;
-        } else {
-            updateUser.email = eu.email;
-        }
-        if (passwordUpdate) {
-            updateUser.password = password;
-            let tempU = new User(updateUser);
-            tempU.setPassword(updateUser.password);
-            updateUser.salt = tempU.salt;
-            updateUser.hash = tempU.hash;
-        }
-        console.log(updateUser);
-        const update = async () => {
-            User.findByIdAndUpdate(id, updateUser, { new: true })
-                .then((user) => {
-                    // return this to action.payload
+        User.findOne({ username }).then((existingUser) => {
+            if (existingUser && existingUser["_id"] != id) {
+                return res.status(400).json({ msg: "Username must be unique" });
+            }
+            user.username = username;
+            if (password != "") {
+                user.setPassword(password);
+            }
+            if (user.email != email) {
+                user.email = email;
+            }
+            user.save()
+                .then((updatedUser) => {
                     const upUser = {
-                        following: user.following,
-                        templates: user.templates,
-                        starredTemplates: user.starredTemplates,
-                        scoring: user.scoring,
-                        isAdmin: user.isAdmin,
-                        _id: user._id,
-                        username: user.username,
+                        following: updatedUser.following,
+                        templates: updatedUser.templates,
+                        starredTemplates: updatedUser.starredTemplates,
+                        scoring: updatedUser.scoring,
+                        isAdmin: updatedUser.isAdmin,
+                        _id: updatedUser._id,
+                        username: updatedUser.username,
                     };
-                    res.status(200).json(upUser);
+                    return res.status(200).json(upUser);
                 })
-                .catch((e) =>
-                    res.status(404).json({ error: "User does not exist" })
-                );
-        };
-        update();
+                .catch((e) => {
+                    return res
+                        .status(500)
+                        .json({ msg: "Internal Server Error" });
+                });
+        });
     });
 });
 

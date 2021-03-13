@@ -105,7 +105,7 @@ export const updateProfile = (user, id) => async (dispatch) => {
         .catch((err) => {
             dispatch(
                 returnErrors(
-                    err.response.data,
+                    err.response.data.msg,
                     err.response.status,
                     PROFILE_FAILURE
                 )

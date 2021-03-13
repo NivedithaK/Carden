@@ -17,7 +17,7 @@ import {
     useColorMode,
     useColorModeValue,
 } from "@chakra-ui/react";
-
+import ErrorPopup from "./ErrorPopup.js";
 export default function ProfileView(props) {
     const [show, setShow] = useState(false);
     const onClick = () => {
@@ -30,6 +30,7 @@ export default function ProfileView(props) {
         setPassword,
         setConfirmPass,
         handleSubmit,
+        error,
     } = props.data;
     const { colorMode } = useColorMode();
     return (
@@ -41,6 +42,7 @@ export default function ProfileView(props) {
             borderRadius="25px"
             boxShadow={colorMode == "light" ? "dark-lg" : "outline"}
         >
+            {error.id && <ErrorPopup error={error} />}
             <form onSubmit={handleSubmit} className="form">
                 <Grid
                     templateColumns={[
