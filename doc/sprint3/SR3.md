@@ -32,21 +32,36 @@ These stories are unchanged on Jira so far.
 ## Practices
 ### Practices we should continue
 
-* 
+* Have reasonably sized stories
+* Showing up to meetings
 
 ### Practices we want to do next sprint
 
-* 
+* Stop saying that we should do things early and actually start doing things early.
+* Admit that we're going to start late. 
+* Maybe do the all-nighters earlier.
+* Set due dates other than the sprint deadline; perhaps have a friday showcase between group members only
 
 ### Practices that were harmful and should be stopped
 
-* 
+* Pulling all-nighters right before the deadline.
+* Figure out which stories are dependent on each other more clearly and earlier, so people don't end up being blocked. (schedule.pdf)
+  * Perhaps have two deadlines: finish all important things that don't depend on something within 1 week, finish the dependent things within the second week.
 
 ## Experience
 ### Best Experiences
 
-* 
+* All-nighters 😂; it didn't feel lonely 
+* Finally getting things to work (like the server)
+* Increased understanding of tools and technologies; Understanding JavaScript code better
+* Not coding alone, being able to ask for help
+* Seeing the canvas integration and load/store
 
 ### Worst Experiences
 
-* 
+* Trying to handle the work from CSC301 A2 being due around sprint due date.
+
+* Panicking over possible broken features right before the sprint 3 demo; unmerged work, broken in develop 
+* Dealing with using React
+* npm not working
+* Seeing that the profile page ended up being broken somehow (crashed back-end and front-end)
