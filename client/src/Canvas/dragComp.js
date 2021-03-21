@@ -5,7 +5,6 @@ class DragComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //top and left are place holders
       style: {
         ...this.props.style,
         display: "block",

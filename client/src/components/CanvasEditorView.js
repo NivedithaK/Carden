@@ -153,7 +153,7 @@ class CanvasEditorView extends Component {
           };
           newEntities.forEach(function (entity) {
             let compId = self.loadComp(entity);
-            self.updatePos(compId, entity.left, entity.top);
+            self.updatePos(compId, parseFloat(entity.left), parseFloat(entity.top));
           });
         });
       });
