@@ -13,11 +13,19 @@ class CanvasEditorView extends Component {
       canvasColor: { r: 220, g: 118, b: 118, a: 1 }, //Will have to have different background colors depending on the Canvas
       canvasHeight: 500,
       canvasWidth: 500,
-      styles: [],
-      pos: [],
-      comps: [],
+      styles: {},
+      pos: {},
+      comps: [{},{}],
+      scene: 0,
       id: 0,
     };
+  }
+
+  setScene = (i) => {
+    this.setState({
+      ...this.state,
+      scene: i
+    });
   }
 
   //update the position of a child component
@@ -31,7 +39,7 @@ class CanvasEditorView extends Component {
     //change the component that needs to rerender
     let components = this.state.comps;
     //"reprop" the component because render cannot rerender an array
-    components[id] = React.cloneElement(components[id], {
+    components[this.state.scene][id] = React.cloneElement(components[this.state.scene][id], {
       top: this.state.pos[id].y,
       left: this.state.pos[id].x,
       id: id,
@@ -86,17 +94,18 @@ class CanvasEditorView extends Component {
 
   wrapComp = (newcomp, x, y, position) => {
     let extendedPos = this.state.pos;
-    extendedPos.push({ id: this.state.id, x: x, y: y });
+    extendedPos[this.state.id] = {x: x, y: y};
 
     let extendedStyles = this.state.styles;
     let top = this.state.pos[this.state.id].y;
     let left = this.state.pos[this.state.id].x;
-    extendedStyles.push({
+    extendedStyles[this.state.id] = {
       top: top,
       left: left,
       position: position,
-    });
-    let addedcomp = this.state.comps.concat(
+    };
+    let addedcomp = this.state.comps;
+    addedcomp[this.state.scene][this.state.id] =
       <DragComp
         key={this.state.id}
         id={this.state.id}
@@ -106,7 +115,7 @@ class CanvasEditorView extends Component {
       >
         {newcomp}
       </DragComp>
-    );
+    ;
 
     let oldId = this.state.id;
     this.setState({
@@ -120,7 +129,7 @@ class CanvasEditorView extends Component {
   };
 
   save = () => {
-    postTemplate(this.state.comps);
+    postTemplate(this.state.comps[this.state.scene]);
   };
 
   //TODO Add parsing for multiple scenes
@@ -148,7 +157,8 @@ class CanvasEditorView extends Component {
             canvasWidth: 500,
             styles: [],
             pos: [],
-            comps: [],
+            comps: [{}, {}],
+            scene: 0,
             id: 0,
           };
           newEntities.forEach(function (entity) {
@@ -169,6 +179,7 @@ class CanvasEditorView extends Component {
           zIndex={5}
           save={this.save}
           load={this.load}
+          setScene={this.setScene}
         />
         <ThickHDivider flex="0.3" colorstring={"palette.800"} />
         <CanvasEditorBottom
@@ -181,7 +192,7 @@ class CanvasEditorView extends Component {
           canvasHeight={this.state.canvasHeight}
           updatePos={this.updatePos}
           addComp={this.addComp}
-          comps={this.state.comps}
+          comps={Object.values(this.state.comps[this.state.scene])}
         />
       </Flex>
     );

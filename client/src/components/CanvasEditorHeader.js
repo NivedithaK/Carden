@@ -40,7 +40,9 @@ function CanvasEditorHeader(props){
             <GridItem colSpan={{sm: 7, md: 7, lg: 8, xl: 8}}  rowSpan={{sm: 1, md: 1, lg: 1, xl: 1}}>
                 <Center>
                     <Heading size="sm">Current page: </Heading>
-                    <SelectionMenu/>
+                    <SelectionMenu
+                        setScene={props.setScene}
+                    />
                 </Center>
             </GridItem>
             <GridItem colSpan={{sm: 2, md: 2, lg: 2, xl: 2}}  rowSpan={{sm: 1, md: 1, lg: 1, xl: 1}}>

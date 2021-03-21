@@ -120,14 +120,11 @@ function SelectionMenu(props) {
         {selection}
       </MenuButton>
       <MenuList>
-        <MenuItem onClick={() => setSelection("Select Option")}>
-          Select Option
+        <MenuItem onClick={() => {setSelection("Page 1"); props.setScene(0)}}>
+          Page 1
         </MenuItem>
-        <MenuItem onClick={() => setSelection("Placeholder1")}>
-          Placeholder1
-        </MenuItem>
-        <MenuItem onClick={() => setSelection("Placeholder2")}>
-          Placeholder2
+        <MenuItem onClick={() => {setSelection("Page 2"); props.setScene(1)}}>
+          Page 2
         </MenuItem>
       </MenuList>
     </Menu>
