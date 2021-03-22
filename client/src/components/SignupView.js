@@ -124,9 +124,7 @@ function SignupView(props) {
                             </Button>
                         </form>
                     </Box>
-                    {/* <Box w="100%" h="100%" bg="blue.500">
-            This is the image in the wireframe
-          </Box> */}
+               
                 </Grid>
             </Center>
         </div>

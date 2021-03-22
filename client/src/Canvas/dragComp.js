@@ -6,15 +6,20 @@ class DragComp extends React.Component {
     super(props);
     this.state = {
       //top and left are place holders
-      style: { display: "block", top: "0", left: "0" },
+      style: {
+        ...this.props.style,
+        display: "block",
+        top: this.props.top,
+        left: this.props.left,
+      },
     };
   }
 
   dragStart = (e) => {
     const target = e.target;
-
+    e.dataTransfer.setDragImage(target, "50%", "50%");
     e.dataTransfer.setData("compId", target.id);
-
+   
     setTimeout(() => {
       this.setState({
         style: {
@@ -25,19 +30,41 @@ class DragComp extends React.Component {
     }, 0);
   };
 
-  dragOver = (e) => {
+  dragEnter = (e) => {
     e.stopPropagation();
+    e.target.style.backgroundColor="red";
+  };
+
+  dragLeave = (e) => {
+    e.stopPropagation();
+    e.target.style.backgroundColor="transparent";
+  };
+
+  drop = (e) => {
+    e.stopPropagation();
+    e.target.style.backgroundColor="transparent";
   };
 
   dragEnd = (e) => {
+    const target = e.target;
+    e.dataTransfer.setDragImage(target, "-50%", "-50%");
+
     setTimeout(() => {
       this.setState({
         style: {
           ...this.state.style,
           display: "block",
+          top: this.props.top,
+          left: this.props.left,
         },
       });
     }, 0);
+  };
+
+  
+
+  changeStyle = (style) => {
+    this.setState({ style: { ...this.state.style, ...style } });
   };
 
   render() {
@@ -47,7 +74,9 @@ class DragComp extends React.Component {
         draggable={this.props.draggable}
         onDragStart={this.dragStart}
         onDragEnd={this.dragEnd}
-        onDragOver={this.dragOver}
+        onDragEnter={this.dragEnter}
+        onDragLeave={this.dragLeave}
+        onDrop={this.drop}
         className={this.props.className}
         style={this.state.style}
       >
