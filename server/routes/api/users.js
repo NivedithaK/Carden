@@ -170,41 +170,37 @@ router.post("/profile/:id", async (req, res) => {
             .json({ msg: "Password must be at least 5 characters" });
     }
     // 1. Find user
-    await User.findById({ _id: id }).then((user) => {
-        if (!user) {
-            return res.status(400).json({ msg: "User does not exist" });
-        }
-        User.findOne({ username }).then((existingUser) => {
-            if (existingUser && existingUser["_id"] != id) {
-                return res.status(400).json({ msg: "Username must be unique" });
-            }
-            user.username = username;
-            if (password != "") {
-                user.setPassword(password);
-            }
-            if (user.email != email) {
-                user.email = email;
-            }
-            user.save()
-                .then((updatedUser) => {
-                    const upUser = {
-                        following: updatedUser.following,
-                        templates: updatedUser.templates,
-                        starredTemplates: updatedUser.starredTemplates,
-                        scoring: updatedUser.scoring,
-                        isAdmin: updatedUser.isAdmin,
-                        _id: updatedUser._id,
-                        username: updatedUser.username,
-                    };
-                    return res.status(200).json(upUser);
-                })
-                .catch((e) => {
-                    return res
-                        .status(500)
-                        .json({ msg: "Internal Server Error" });
-                });
+    const user = await User.findById({ _id: id });
+    if (!user) {
+        return res.status(400).json({ msg: "User does not exist" });
+    }
+    const usernameCheck = await User.findOne({ username });
+    if (usernameCheck && usernameCheck["_id"] != id) {
+        return res.status(400).json({ msg: "Username must be unique" });
+    }
+    user.username = username;
+    if (password != "") {
+        user.setPassword(password);
+    }
+    if (user.email != email) {
+        user.email = email;
+    }
+    user.save()
+        .then((updatedUser) => {
+            const upUser = {
+                following: updatedUser.following,
+                templates: updatedUser.templates,
+                starredTemplates: updatedUser.starredTemplates,
+                scoring: updatedUser.scoring,
+                isAdmin: updatedUser.isAdmin,
+                _id: updatedUser._id,
+                username: updatedUser.username,
+            };
+            return res.status(200).json(upUser);
+        })
+        .catch((e) => {
+            return res.status(500).json({ msg: "Internal Server Error" });
         });
-    });
 });
 
 export default router;
