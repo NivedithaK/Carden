@@ -25,7 +25,7 @@ export default function ErrorPopup(props) {
             w="100%"
             textAlign="center"
             m="20px"
-            color="palette.100"
+            color={useColorModeValue("palette.900", "palette.100")}
             fontSize="1.25rem"
         >
             {errorMsg}

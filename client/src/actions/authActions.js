@@ -111,7 +111,6 @@ export const updateProfile = (user, id) => async (dispatch) => {
                 )
             );
             dispatch(getProfileFailure());
-            console.log(err.response.data);
         });
 };
 
