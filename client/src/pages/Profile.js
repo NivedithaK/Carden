@@ -87,7 +87,8 @@ class Profile extends React.Component {
         await this.props.updateProfile(updatedUser, this.state.user["_id"]);
         this.setState({
             ...this.state,
-            username: this.state.user.username,
+            user: this.props.auth.user,
+            username: this.props.auth.user.username,
         });
     };
     render() {

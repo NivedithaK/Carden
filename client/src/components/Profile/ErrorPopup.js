@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 export default function ErrorPopup(props) {
     const { error } = props;
-    const errorMsg = error.msg.msg;
+    const errorMsg = error.msg;
     return (
         <Box
             w="100%"
