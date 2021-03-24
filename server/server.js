@@ -11,7 +11,9 @@ import textfields from "./routes/api/textfields.js";
 import imgfields from "./routes/api/imgfields.js";
 import audfields from "./routes/api/audfields.js";
 import vidfields from "./routes/api/vidfields.js";
+import buttonfields from "./routes/api/buttonfields.js";
 import animators from "./routes/api/animators.js";
+import entities from "./routes/api/entities.js";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -38,7 +40,10 @@ app.use("/api/textfields", textfields);
 app.use("/api/imgfields", imgfields);
 app.use("/api/audfields", audfields);
 app.use("/api/vidfields", vidfields);
+app.use("/api/buttonfields", buttonfields);
 app.use("/api/animators", animators);
+app.use("/api/entities", entities);
+
 // Connect to MongoDB
 mongoose
 	.connect(process.env.mongoURI, {

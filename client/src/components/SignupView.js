@@ -24,11 +24,11 @@ import Footer from "../components/Footer.js";
 import paint from "../assets/paint.png";
 
 function SignupView(props) {
-	useEffect(() => {
-		console.log(props.handlers);
-	}, []);
-	const [show, setShow] = useState(false);
-	const handleClick = () => setShow(!show);
+    useEffect(() => {
+        console.log(props.data);
+    }, []);
+    const [show, setShow] = useState(false);
+    const handleClick = () => setShow(!show);
 
 	const history = useHistory();
 
@@ -37,14 +37,14 @@ function SignupView(props) {
 	// 	history.push("/dashboard");
 	// };
 
-	const { colorMode } = useColorMode();
-	const {
-		setUsername,
-		setPassword,
-		setConfirmPassword,
-		setEmail,
-		handleSubmit,
-	} = props.handlers;
+    const { colorMode } = useColorMode();
+    const {
+        setUsername,
+        setPassword,
+        setConfirmPassword,
+        setEmail,
+        handleSubmit,
+    } = props.handlers;
 
 	return (
 		<div
