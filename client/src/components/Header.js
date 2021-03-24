@@ -29,6 +29,7 @@ const MenuItems = ({ children, handleClick }) => {
             {children}
         </Button>
     );
+
 };
 
 const Header = (props) => {
@@ -76,7 +77,6 @@ const Header = (props) => {
                     />
                 </Button>
             </Flex>
-
             <Box
                 align="right"
                 display={{ sm: "block", md: "none" }}
@@ -85,7 +85,6 @@ const Header = (props) => {
                 {show ? <CloseIcon /> : <HamburgerIcon />}
                 <title>Menu</title>
             </Box>
-
             <Box
                 display={{ base: show ? "block" : "none", md: "block" }}
                 flexBasis={{ base: "100%", md: "auto" }}

@@ -19,6 +19,7 @@ import {
 import { useHistory } from "react-router-dom";
 import background from "../assets/backgroundLanding.png";
 import backgroundDark from "../assets/backgroundDark.png";
+
 import PageWrapper from "../components/PageWrapper.js";
 import Header from "../components/Header.js";
 import Footer from "../components/Footer.js";
@@ -33,6 +34,7 @@ function SignupView(props) {
 
     const history = useHistory();
 
+
     const { colorMode } = useColorMode();
     const {
         setUsername,
@@ -41,7 +43,6 @@ function SignupView(props) {
         setEmail,
         handleSubmit,
     } = props.handlers;
-
     return (
         <div
             style={{

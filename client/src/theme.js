@@ -45,5 +45,6 @@ const theme = extendTheme({
             letterSpacing: "-1%",
         },
     },
+
 });
 export default theme;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+
     Grid,
     Box,
     FormControl,
@@ -17,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import background from "../assets/backgroundLanding.png";
 import backgroundDark from "../assets/backgroundDark.png";
+
 import PageWrapper from "../components/PageWrapper.js";
 import Header from "../components/Header.js";
 import Footer from "../components/Footer.js";
@@ -27,7 +29,6 @@ function LoginView(props) {
     const handleClick = () => setShow(!show);
     const { colorMode } = useColorMode();
     const { setUsername, setPassword, handleLogin } = props.handlers;
-
     return (
         <div
             style={{
