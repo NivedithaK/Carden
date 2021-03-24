@@ -26,8 +26,9 @@ class Login extends React.Component {
 		};
 		console.log(user);
 		await this.props.loginUser(user);
-		console.log(this.props.auth.cards);
-		console.log(this.props.auth.templates);
+		await this.props.getUserTemplates();
+		// console.log(this.props.auth.cards);
+		// console.log(this.props.auth.templates);
 	};
 	setUsername(e) {
 		e.preventDefault();
@@ -53,13 +54,13 @@ class Login extends React.Component {
 						handleLogin: this.handleLogin,
 					}}
 				/>
-				<button
+				{/* <button
 					onClick={async () => {
 						await this.props.getUserTemplates();
 					}}
 				>
 					fucking work{" "}
-				</button>
+				</button> */}
 			</div>
 		);
 	}

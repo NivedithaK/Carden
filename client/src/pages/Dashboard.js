@@ -27,21 +27,21 @@ class Dashboard extends React.Component {
 		};
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		let cards = [];
 		let templates = [];
 		// Check if we are logged in
 		if (!this.props.auth) return;
-
+		await this.props.getUserTemplates();
 		// Load cards from redux state
-		if (this.props.auth.cards) {
-			cards = this.props.auth.cards;
-		}
+		cards = this.props.auth.cards;
+		console.log(this.props.auth.cards);
 
 		// Load templates from redux
 		if (this.props.auth.templates) {
 			templates = this.props.auth.templates;
 		}
+		console.log(this.props.auth.templates);
 
 		// Set the state
 		this.setState({
@@ -90,7 +90,7 @@ class Dashboard extends React.Component {
 							boxShadow="md"
 						>
 							<CardSection
-								cards={this.state.templates}
+								cards={this.props.auth.templates}
 								handler={this.handleLike}
 							/>
 						</Box>
@@ -102,7 +102,7 @@ class Dashboard extends React.Component {
 							boxShadow="md"
 						>
 							<CardSection
-								cards={this.state.cards}
+								cards={this.props.auth.cards}
 								handler={this.handleLike}
 							/>
 						</Box>

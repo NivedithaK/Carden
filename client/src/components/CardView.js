@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	Center,
 	useDisclosure,
@@ -80,6 +80,8 @@ function CardView({ id, title, date, likes, handler }) {
 							variant="solid"
 							onClick={() => {
 								handler(id);
+								console.log(likes);
+								// likes++;
 							}}
 						>
 							Favourite
