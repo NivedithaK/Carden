@@ -120,13 +120,9 @@ const Header = (props) => {
 							onClick={handleSignup}
 							_hover={{
 								color: useColorModeValue(
-									"palette.700",
+									"palette.200",
 									"palette.900"
-								),
-								background: useColorModeValue(
-									"palette.900",
-									"palette.600"
-								),
+								)
 							}}
 						>
 							Sign Up

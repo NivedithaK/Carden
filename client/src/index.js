@@ -6,7 +6,7 @@ import {
     Switch as RRSwitch,
     Route,
 } from "react-router-dom";
-import Landing2 from "./pages/Landing2.js";
+import Landing from "./pages/Landing.js";
 import Login from "./pages/Login.js";
 import Signup from "./pages/Signup.js";
 import Explore from "./pages/Explore.js";
@@ -23,16 +23,6 @@ import { store, persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import "./styles/index.css";
 
-// export const PageWrapper = ({ children }) => {
-// 	return (
-// 		<div className="container">
-// 			<main className="main">{children}</main>
-// 			<Footer />
-// 		</div>
-// 	);
-// };
-
-
 function App() {
     const history = useHistory();
     return (
@@ -46,7 +36,7 @@ function App() {
 								<Route
 									exact
 									path="/"
-									render={(props) => <Landing2 {...props} />}
+									render={(props) => <Landing {...props} />}
 								/>
 
 								<Route
