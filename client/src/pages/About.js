@@ -6,7 +6,6 @@ import {
 	Heading,
 	useColorModeValue,
 	Text,
-	Center,
 	SimpleGrid,
 	HStack,
 } from "@chakra-ui/react";
@@ -73,15 +72,7 @@ export function About() {
 			<PageWrapper>
 				<Header />
 				<Box w="80%" ml="auto" mr="auto" alignItems="center">
-					<HStack mt={10} ml={10}>
-						<InfoOutlineIcon
-							boxSize={8}
-							mr={3}
-							color={useColorModeValue(
-								"palette.200",
-								"palette.600"
-							)}
-						/>
+					<HStack mt={10} ml={10} spacing={5}>
 						<Heading
 							color={useColorModeValue(
 								"palette.200",
@@ -89,6 +80,14 @@ export function About() {
 							)}
 						>
 							About the Project
+						</Heading>
+						<Heading
+							color={useColorModeValue(
+								"palette.200",
+								"palette.600"
+							)}
+						>
+							💼
 						</Heading>
 					</HStack>
 					<Box
@@ -106,14 +105,6 @@ export function About() {
 						</Text>
 					</Box>
 					<HStack mt={10} ml={10}>
-						<ChatIcon
-							boxSize={8}
-							mr={3}
-							color={useColorModeValue(
-								"palette.200",
-								"palette.600"
-							)}
-						/>
 						<Heading
 							color={useColorModeValue(
 								"palette.200",
@@ -121,6 +112,14 @@ export function About() {
 							)}
 						>
 							Meet the Team
+						</Heading>
+						<Heading
+							color={useColorModeValue(
+								"palette.200",
+								"palette.600"
+							)}
+						>
+							👋
 						</Heading>
 					</HStack>
 					<SimpleGrid columns={4} spacing={10} m={10}>
