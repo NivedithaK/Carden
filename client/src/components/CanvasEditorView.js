@@ -19,6 +19,24 @@ class CanvasEditorView extends Component {
     };
   }
 
+  propertySetter(setterFunction, properties) {
+    this.setState({
+      ...this.state,
+      propertySetter: setterFunction,
+      properties: properties,
+    });
+  }
+
+  drop = (e) => {
+    e.preventDefault();
+    let comp_id = e.dataTransfer.getData("compId");
+    let canvasComp = document.getElementById("canvas");
+    let rect = canvasComp.getBoundingClientRect();
+    var x = e.clientX - rect.left; //x position within the element.
+    var y = e.clientY - rect.top; //y position within the element.
+    this.updatePos(comp_id, x, y);
+  };
+
   //update the position of a child component
   updatePos = (id, left, top) => {
     if (!id) return;
@@ -26,7 +44,7 @@ class CanvasEditorView extends Component {
     let newPos = this.state.pos;
     newPos[id] = { x: left, y: top };
     let newStyles = this.state.styles;
-    newStyles[id] = { ...this.state.styles[id], top: top, left: left };
+    newStyles[id] = { ...this.state.styles[id], top: top, left: left};
     //change the component that needs to rerender
     let components = this.state.comps;
     //"reprop" the component because render cannot rerender an array
@@ -79,6 +97,7 @@ class CanvasEditorView extends Component {
       top: top,
       left: left,
       position: "absolute",
+      fontSize:12
     });
 
     this.setState({ ...this.state, pos: extendedPos, styles: extendedStyles });
@@ -89,11 +108,15 @@ class CanvasEditorView extends Component {
         className="comp"
         draggable="true"
         style={this.state.styles[this.state.id]}
+        changedDrop={this.drop}
+        menuSetter={this.state.propertySetter}
+        displayProperties={this.state.properties}
+        type={type}
       >
         {newcomp}
       </DragComp>
     );
-        //update all the things in the state
+    //update all the things in the state
     this.setState({
       comps: addedcomp,
       id: this.state.id + 1,
@@ -113,9 +136,10 @@ class CanvasEditorView extends Component {
           canvasColor={`rgba(${this.state.canvasColor.r}, ${this.state.canvasColor.g}, ${this.state.canvasColor.b}, ${this.state.canvasColor.a})`}
           canvasWidth={this.state.canvasWidth}
           canvasHeight={this.state.canvasHeight}
-          updatePos={this.updatePos}
+          changedDrop={this.drop}
           addComp={this.addComp}
           comps={this.state.comps}
+          changeSetter={this.propertySetter.bind(this)}
         />
       </Flex>
     );

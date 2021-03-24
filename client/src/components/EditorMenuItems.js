@@ -29,7 +29,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import Canvas from "../Canvas/canvas";
 
-import { SketchPicker } from 'react-color';
+// import { SketchPicker } from 'react-color';
 
 const ToolSection = (props) => {
   return (
@@ -171,7 +171,7 @@ function ColorSelector(props) {
               left={{ sm: "50%", lg: "auto" }}
               transform={{ sm: "translate(-50%, -50%)", lg: "auto" }}
             >
-              <SketchPicker color={color} onChange={(color) => handleChange(color)} />
+              {/* <SketchPicker color={color} onChange={(color) => handleChange(color)} /> */}
             </Box>
           </Box>
         ) : null
@@ -241,7 +241,6 @@ function CanvasDragAndDrop(props) {
           flex="1"
           label="Add Text"
           onClick={(e) => {
-            props.displayTextProperties();
             props.addComp(e, "Text");
           }}
         ></DragAndDropItem>
@@ -250,7 +249,6 @@ function CanvasDragAndDrop(props) {
           flex="1"
           label="Add Image"
           onClick={(e) => {
-            props.displayImageProperties();
             props.addComp(e, "Image");
           }}
         ></DragAndDropItem>
@@ -259,7 +257,6 @@ function CanvasDragAndDrop(props) {
           flex="1"
           label="Add Button"
           onClick={(e) => {
-            props.displayButtonProperties();
             props.addComp(e, "Button");
           }}
         ></DragAndDropItem>
@@ -286,7 +283,7 @@ function ActualCanvasComponent(props) {
       id="canvas"
       className="canvas"
       dropable={true}
-      changePos={props.updatePos}
+      changedDrop={props.changedDrop}
     >
       {props.comps}
     </Canvas>
@@ -306,11 +303,27 @@ function TextPropertiesMenu(props) {
           max={144}
           defaultValue={12}
           step={2}
-          setTargetField={(placeholder) => {}}
+          setTargetField={
+            props.items.changeFunc
+              ? (value) => {
+                  props.items.style = props.items.changeFunc({
+                    fontSize: value,
+                  });
+                }
+              : (value) => {}
+          }
         />
       </ToolItem>
       <ToolItem label="Color">
-        <ColorSelector setClassStateColor={(placeholder) => {}} />
+        <ColorSelector
+          setClassStateColor={
+            props.items.changeFunc
+              ? (value) => {
+                  props.items.style = props.items.changeFunc({ color: value });
+                }
+              : (value) => {}
+          }
+        />
       </ToolItem>
       <Box p="1em" margin="0.25em">
         <Center>
@@ -320,9 +333,45 @@ function TextPropertiesMenu(props) {
         </Center>
         <Center w="100%">
           <ButtonGroup size="sm" isAttached variant="outline">
-            <Button>Bold</Button>
-            <Button>Italics</Button>
-            <Button>Underline</Button>
+            <Button
+              onClick={
+                props.items.changeFunc
+                  ? () => {
+                      props.items.style = props.items.changeFunc({
+                        fontWeight: "bold",
+                      });
+                    }
+                  : () => {}
+              }
+            >
+              Bold
+            </Button>
+            <Button
+              onClick={
+                props.items.changeFunc
+                  ? () => {
+                      props.items.style = props.items.changeFunc({
+                        fontStyle: "italic",
+                      });
+                    }
+                  : () => {}
+              }
+            >
+              Italics
+            </Button>
+            <Button
+              onClick={
+                props.items.changeFunc
+                  ? () => {
+                      props.items.style = props.items.changeFunc({
+                        textDecoration: "underline",
+                      });
+                    }
+                  : () => {}
+              }
+            >
+              Underline
+            </Button>
           </ButtonGroup>
         </Center>
       </Box>
