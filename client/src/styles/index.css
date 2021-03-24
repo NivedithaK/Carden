@@ -1,15 +1,15 @@
-.wave-container {
-  background: url("../assets/wave.svg");
-  background-repeat: no-repeat;
-  position: relative;
-  color: #fff;
-  text-align: center;
-  overflow: hidden;
-}
-.wave-container > svg {
-  display: block;
-}
-
 .form {
   display: grid;
+}
+
+.container {
+  min-height: 100vh; 
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }

@@ -1,71 +1,79 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import {
-    SimpleGrid,
-    Button,
-    Text,
-    Heading,
-    useColorModeValue,
+	Grid,
+	GridItem,
+	Circle,
+	Image,
+	Button,
+	Heading,
+	Text,
+	useColorModeValue,
 } from "@chakra-ui/react";
+import gift from "../assets/gift.png";
 
 function HeroSection() {
-    const history = useHistory();
-    const handleExplore = (e) => {
-        e.preventDefault();
-        history.push("/explore");
-    };
-    return (
-		<SimpleGrid
-			pt={5}
-			pl={20}
-			pr={10}
-			columns={[1, 1, 2]}
-			spacing={10}
-			background={useColorModeValue("palette.800", "palette.1100")}
+	const history = useHistory();
+	const handleExplore = (e) => {
+		e.preventDefault();
+		history.push("/explore");
+	};
+
+	return (
+		<Grid
+			height="100%"
+			width="85vw"
+			templateRows={{ sm: "repeat(3, 1fr)", md: "repeat(2, 1fr)" }}
+			templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+			gap={4}
+			p={10}
+			ml="auto"
+			mr="auto"
 		>
-			<SimpleGrid spacing={8}>
-				<Heading
-					align="left"
-					textStyle="h1"
-					size="3xl"
-					color={useColorModeValue("palette.700", "palette.700")}
-					maxW="90%"
-				>
+			<GridItem
+				colStart={{ sm: 1, md: 2 }}
+				colEnd={{ sm: 1, md: 2 }}
+				rowStart={{ sm: 3, md: 1 }}
+				rowEnd={{ sm: 3, md: 3 }}
+				display="flex"
+				justify-content="center"
+				margin="auto"
+			>
+				<Circle bg="white" w="300px" h="300px">
+					<Image w="150px" objectFit="fit" src={gift} alt="Gift" />
+				</Circle>
+			</GridItem>
+
+			<GridItem
+				colStart={1}
+				colEnd={1}
+				rowStart={1}
+				rowEnd={1}
+				verticalAlign="sub"
+			>
+				<Heading mt="20%" as="h2" size="3xl">
 					Create and send interactive cards
 				</Heading>
-				<Text
-					size="md"
-					align="left"
-					color={useColorModeValue("palette.700", "palette.700")}
-					maxW="60%"
-				>
+			</GridItem>
+
+			<GridItem colStart={1} colEnd={2} rowStart={2} rowEnd={2}>
+				<Text display="flex" align-self="flex-end">
 					Instead of sending your friend a text for their next
 					birthday, send them a webpage. Choose from templates or make
 					your own!
 				</Text>
 				<Button
-					borderRadius="20px"
-					bg={useColorModeValue("palette.700", "palette.700")}
+					bg={useColorModeValue("palette.100", "palette.1000")}
+					color="white"
+					mt={5}
+					pl={10}
+					pr={10}
 					onClick={handleExplore}
-					color={useColorModeValue("palette.800", "palette.800")}
-					maxW="200px"
-					_hover={{
-						color: useColorModeValue("palette.800", "palette.800"),
-						background: useColorModeValue(
-							"palette.200",
-							"palette.200"
-						),
-					}}
 				>
 					Explore Cards
 				</Button>
-			</SimpleGrid>
-			<img
-				width="400px"
-				src="https://cdn.dribbble.com/users/713003/screenshots/14705002/media/5194fe67dfeb5d4e3b8e73aa8fd0a511.gif"
-				alt="Person studying"
-			/>
-		</SimpleGrid>
+			</GridItem>
+		</Grid>
 	);
 }
 
