@@ -24,9 +24,11 @@ class Login extends React.Component {
             username: this.state.username,
             password: this.state.password,
         };
-        console.log(user);
-        await this.props.loginUser(user);
-        this.props.history.push("/dashboard");
+        // console.log(user);
+        const res = await this.props.loginUser(user);
+        if (this.props.auth && this.props.auth.user) {
+            this.props.history.push("/dashboard");
+        }
     };
     setUsername(e) {
         e.preventDefault();

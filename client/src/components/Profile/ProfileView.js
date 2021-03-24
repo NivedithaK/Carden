@@ -19,9 +19,10 @@ import {
     useColorModeValue,
 } from "@chakra-ui/react";
 import background from "../../assets/backgroundLanding.png";
-import Sidebar from "../Sidebar.js";
+import Sidebar from "../SideBar/SideBar.js";
 import backgroundDark from "../../assets/backgroundDark.png";
-import ErrorPopup from "./ErrorPopup.js";
+import StatusPopup from "./StatusPopup.js";
+import { useHistory } from "react-router";
 export default function ProfileView(props) {
     const [show, setShow] = useState(false);
     const onClick = () => {
@@ -36,15 +37,22 @@ export default function ProfileView(props) {
         handleSubmit,
         error,
         isLoggedin,
+        updated,
     } = props.data;
+    const history = useHistory();
     const { colorMode } = useColorMode();
     return (
         <Flex
             flexDirection={["column", "column", "row", "row"]}
             justifyContent="center"
-            alignItems="center"
+            backgroundImage={
+                colorMode === "light"
+                    ? `url(${background})`
+                    : `url(${backgroundDark})`
+            }
+            backgroundSize="cover"
         >
-            <Sidebar isLoggedin={isLoggedin} />
+            <Sidebar isLoggedin={isLoggedin} history={history} />
             <Box
                 w={["95%", "85%", "60%", "60%"]}
                 h={["100%", "90%", "85%", "70%"]}
@@ -53,7 +61,7 @@ export default function ProfileView(props) {
                 borderRadius="25px"
                 boxShadow={colorMode == "light" ? "dark-lg" : "outline"}
             >
-                {/* {error.id && <ErrorPopup error={error} />} */}
+                {updated && <StatusPopup error={error} />}
                 <form onSubmit={handleSubmit} className="form">
                     <Grid
                         templateColumns={[
@@ -69,13 +77,8 @@ export default function ProfileView(props) {
                             </Center>
                             <Box
                                 w="70%"
-                                // bg="white"
-                                // bg={useColorModeValue(
-                                //     "palette.700",
-                                //     "palette.1000"
-                                // )}
                                 color={useColorModeValue(
-                                    "palette.400",
+                                    "palette.200",
                                     "palette.700"
                                 )}
                                 m="15px auto"

@@ -15,6 +15,7 @@ class Profile extends React.Component {
             password: "",
             confirmPassword: "",
             isLoggedin: false,
+            updated: false,
         };
         this.setUsername = this.setUsername.bind(this);
         this.setEmail = this.setEmail.bind(this);
@@ -34,7 +35,6 @@ class Profile extends React.Component {
                 isLoggedin: true,
             });
         } else {
-            console.log("pushing");
             this.props.history.push("/login");
         }
     }
@@ -91,6 +91,7 @@ class Profile extends React.Component {
             ...this.state,
             user: this.props.auth.user,
             username: this.props.auth.user.username,
+            updated: true,
         });
     };
     render() {
@@ -106,6 +107,7 @@ class Profile extends React.Component {
                         handleSubmit: this.handleSubmit,
                         error: this.props.error,
                         isLoggedin: this.state.isLoggedin,
+                        updated: this.state.updated,
                     }}
                 />
             </>

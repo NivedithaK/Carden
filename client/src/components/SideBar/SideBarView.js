@@ -10,10 +10,9 @@ import {
 } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import logo from "../assets/logo.png";
-import logoDark from "../assets/logo-white.png";
+import logo from "../../assets/logo.png";
+import logoDark from "../../assets/logo-white.png";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
-
 const SidebarItems = ({ children, handleClick, isActive }) => {
     return (
         <Button
@@ -34,49 +33,26 @@ const SidebarItems = ({ children, handleClick, isActive }) => {
     );
 };
 
-function Sidebar(props) {
-    const { isLoggedin } = props;
+function SideBarView(props) {
     const location = useLocation();
-    console.log(location.pathname);
+    // console.log(location.pathname);
     const { colorMode, toggleColorMode } = useColorMode();
     const history = useHistory();
-    const handleCreate = (e) => {
-        e.preventDefault();
-        history.push("/create");
-    };
-    const handleCards = (e) => {
-        e.preventDefault();
-        history.push("/dashboard");
-    };
-    const handleTemplates = (e) => {
-        e.preventDefault();
-        history.push("/explore");
-    };
-    const handleSettings = (e) => {
-        e.preventDefault();
-        history.push("/profile");
-    };
-    const handleLogout = (e) => {
-        e.preventDefault();
-        history.push("/");
-    };
-    const handleHome = (e) => {
-        e.preventDefault();
-        history.push("/");
-    };
-    const handleLogin = (e) => {
-        e.preventDefault();
-        history.push("/login");
-    };
-    const handleSignup = (e) => {
-        e.preventDefault();
-        history.push("/signup");
-    };
+    const {
+        handleCreate,
+        handleCards,
+        handleTemplates,
+        handleSettings,
+        handleLogout,
+        handleHome,
+        handleLogin,
+        handleSignup,
+        isLoggedin,
+    } = props.handlers;
     const handleDarkMode = (e) => {
         // e.preventDefault();
         toggleColorMode();
     };
-
     return (
         <>
             <VStack
@@ -163,4 +139,4 @@ function Sidebar(props) {
     );
 }
 
-export default Sidebar;
+export default SideBarView;

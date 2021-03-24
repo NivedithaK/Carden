@@ -100,7 +100,6 @@ export const updateProfile = (user, id) => async (dispatch) => {
         .then((res) => {
             dispatch(clearErrors());
             dispatch(getProfileSuccess(res.data));
-            console.log(res.data);
         })
         .catch((err) => {
             dispatch(

@@ -9,7 +9,7 @@ import {
     Input,
     Button,
 } from "@chakra-ui/react";
-import Sidebar from "../components/Sidebar.js";
+import Sidebar from "../components/SideBar/SideBar.js";
 import { connect } from "react-redux";
 
 import PropTypes from "prop-types";
@@ -54,46 +54,10 @@ class Dashboard extends React.Component {
     render() {
         return (
             <div>
-                <Sidebar isLoggedin={this.state.isLoggedin} />
-                <Grid h="100%" templateColumns="1fr 5fr" gap={2}>
-                    <GridItem>
-                        <Box w="100%" h="100%" bg="blue.500">
-                            <Grid h="100%" templateColumns="1fr" gap={0}>
-                                <GridItem>
-                                    <Button
-                                        isActive="true"
-                                        w="100%"
-                                        onClick={this.handleCreate}
-                                    >
-                                        Create template
-                                    </Button>
-                                    <Button
-                                        w="100%"
-                                        onClick={this.handleBrowse}
-                                    >
-                                        Browse Cards
-                                    </Button>
-                                    <Button w="100%">How to use</Button>
-                                    <Button w="100%" onClick={this.handleAbout}>
-                                        About
-                                    </Button>
-                                    <Button w="100%">Help/Faq</Button>
-                                    <Button
-                                        w="100%"
-                                        onClick={this.handleLogout}
-                                    >
-                                        Log out
-                                    </Button>
-                                </GridItem>
-                            </Grid>
-                        </Box>
-                    </GridItem>
-                    <GridItem>
-                        <Box w="100%" h="100%" bg="blue.500">
-                            <Heading>Browse Cards</Heading>
-                        </Box>
-                    </GridItem>
-                </Grid>
+                <Sidebar
+                    isLoggedin={this.state.isLoggedin}
+                    history={this.props.history}
+                />
             </div>
         );
     }
