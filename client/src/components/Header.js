@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import logoNoBg from "../assets/logo-no-bg.png";
+import logo from "../assets/logo.png";
 import {
 	Box,
 	Stack,
@@ -18,14 +18,12 @@ import { SunIcon, MoonIcon, HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 const MenuItems = ({ children, handleClick }) => {
 	return (
 		<Button
-			variant="outline"
-			borderRadius="20px"
+			variant="ghost"
 			mt={{ base: 4, md: 0 }}
 			mr={6}
 			display="block"
 			onClick={handleClick}
-			borderColor={useColorModeValue("palette.700", "palette.700")}
-			color={useColorModeValue("palette.700", "palette.700")}
+			color={useColorModeValue("palette.200", "palette.700")}
 		>
 			{children}
 		</Button>
@@ -67,26 +65,15 @@ const Header = (props) => {
 			justify="space-between"
 			wrap="wrap"
 			padding="1.5rem"
-			bg={useColorModeValue("palette.800", "palette.1100")}
-			color={useColorModeValue("palette.700", "palette.700")}
 			{...props}
 		>
 			<Flex mr={5}>
 				<Button
-					height="60px"
-					bg={useColorModeValue("palette.800", "palette.1100")}
-					_hover={useColorModeValue("palette.800", "palette.800")}
-					_active={useColorModeValue(
-						"palette.800",
-						"palette.900"
-					)}
+					width="180px"
 					onClick={handleHome}
+					variant="ghost"
 				>
-					<Image
-						height="60px"
-						src={logoNoBg}
-						alt="Logo"
-					/>
+					<Image src={logo} alt="Logo" />
 				</Button>
 			</Flex>
 
@@ -127,26 +114,15 @@ const Header = (props) => {
 						align="center"
 					>
 						<Button
-							borderRadius="20px"
-							bg={useColorModeValue(
-								"palette.200",
-
-								"palette.200"
-							)}
-							color={useColorModeValue(
-								"palette.800",
-								"palette.600"
-							)}
+							borderRadius="lg"
+							bg={useColorModeValue("palette.100", "palette.200")}
+							color="white"
 							onClick={handleSignup}
 							_hover={{
 								color: useColorModeValue(
-									"palette.700",
+									"palette.200",
 									"palette.900"
-								),
-								background: useColorModeValue(
-									"palette.900",
-									"palette.600"
-								),
+								)
 							}}
 						>
 							Sign Up

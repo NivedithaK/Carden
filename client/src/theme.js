@@ -16,12 +16,13 @@ const theme = extendTheme({
 	breakpoints,
 	colors: {
 		palette: {
-			100: "#ffc024", // Orange
-			200: "#EEEEEE", // Soft grey
-			300: "#62d3d4", // Blue
-			400: "#205d75", // Dark blue
-			500: "#fea09e", // Pink
-			600: "#525252", // Dark grey
+			100: "#5bb18c", // Main green
+			200: "#58595a", // Dark grey
+			300: "#fdfdf2", // Peach
+			400: "#ffbe5a", // Orange
+			500: "#ffffff", // White
+			600: "#5ed7a0", // Light green
+
 			700: "#ffffff", // White
 			800: "#826ad7", // Main purple
 			900: "#b19cd9", // Light pastel purple
