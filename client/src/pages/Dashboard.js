@@ -39,7 +39,7 @@ class Dashboard extends React.Component {
 	render() {
 		return (
 			<div>
-				<Sidebar />
+				<Sidebar isLoggedin={true} />
 				<Grid h="100%" templateColumns="1fr 5fr" gap={2}>
 					<GridItem>
 						<Box w="100%" h="100%" bg="blue.500">

@@ -25,7 +25,7 @@ const SidebarItems = ({ children, handleClick, isActive }) => {
 			w="70%"
 			isActive={isActive}
 			_active={{
-				bg: "#5ed7a0"
+				bg: "#5ed7a0",
 			}}
 		>
 			{children}
@@ -33,7 +33,8 @@ const SidebarItems = ({ children, handleClick, isActive }) => {
 	);
 };
 
-function Sidebar() {
+function Sidebar(props) {
+	const { isLoggedin } = props;
 	const location = useLocation();
 	console.log(location.pathname);
 	const { colorMode, toggleColorMode } = useColorMode();
@@ -62,6 +63,14 @@ function Sidebar() {
 		e.preventDefault();
 		history.push("/");
 	};
+	const handleLogin = (e) => {
+		e.preventDefault();
+		history.push("/login");
+	};
+	const handleSignup = (e) => {
+		e.preventDefault();
+		history.push("/signup");
+	};
 	const handleDarkMode = (e) => {
 		// e.preventDefault();
 		toggleColorMode();
@@ -84,6 +93,14 @@ function Sidebar() {
 				>
 					<Image src={logo} alt="Logo" />
 				</Button>
+				{isLoggedin && (
+					<SidebarItems
+						handleClick={handleCards}
+						isActive={location.pathname == "/dashboard"}
+					>
+						Your cards
+					</SidebarItems>
+				)}
 				<SidebarItems
 					handleClick={handleCreate}
 					isActive={location.pathname == "/create"}
@@ -91,26 +108,39 @@ function Sidebar() {
 					Create a card
 				</SidebarItems>
 				<SidebarItems
-					handleClick={handleCards}
-					isActive={location.pathname == "/dashboard"}
-				>
-					Your cards
-				</SidebarItems>
-				<SidebarItems
 					handleClick={handleTemplates}
 					isActive={location.pathname == "/explore"}
 				>
 					Browse templates
 				</SidebarItems>
-				<SidebarItems
-					handleClick={handleSettings}
-					isActive={location.pathname == "/profile"}
-				>
-					Settings
-				</SidebarItems>
-				<SidebarItems handleClick={handleLogout} isActive={false}>
-					Log out
-				</SidebarItems>
+				{isLoggedin && (
+					<SidebarItems
+						handleClick={handleSettings}
+						isActive={location.pathname == "/profile"}
+					>
+						Settings
+					</SidebarItems>
+				)}
+				{isLoggedin ? (
+					<SidebarItems handleClick={handleLogout} isActive={false}>
+						Log out
+					</SidebarItems>
+				) : (
+					<>
+						<SidebarItems
+							handleClick={handleLogin}
+							isActive={false}
+						>
+							Log in
+						</SidebarItems>
+						<SidebarItems
+							handleClick={handleSignup}
+							isActive={false}
+						>
+							Sign up
+						</SidebarItems>
+					</>
+				)}
 				<Center pt={5}>
 					{colorMode === "light" ? (
 						<MoonIcon ml="20px" mr="5px" />
