@@ -21,8 +21,8 @@ const theme = extendTheme({
 			300: "#fdfdf2", // Peach
 			400: "#ffbe5a", // Orange
 			500: "#ffffff", // White
-			
-			600: "#525252", // Dark grey
+			600: "#5ed7a0", // Light green
+
 			700: "#ffffff", // White
 			800: "#826ad7", // Main purple
 			900: "#b19cd9", // Light pastel purple
