@@ -3,6 +3,7 @@ import { Box, Flex, Button } from "@chakra-ui/react";
 import { ThickHDivider } from "./EditorMenuItems.js";
 import CanvasEditorHeader from "./CanvasEditorHeader.js";
 import CanvasEditorBottom from "./CanvasEditorBottom.js";
+import { postTemplate, loadTemplate } from "../actions/cardActions";
 import DragComp from "../Canvas/dragComp";
 
 class CanvasEditorView extends Component {
@@ -68,9 +69,24 @@ class CanvasEditorView extends Component {
         newcomp = <img src={userin}></img>;
         break;
     }
+    this.wrapComp(newcomp, 0, 0, "absolute");
+  };
 
+  loadComp = (entity) => {
+    let newcomp = "";
+    if (entity.kind == "Text") {
+      newcomp = <p>{entity.content}</p>;
+    } else if (entity.kind == "Image") {
+      newcomp = <img src={entity.link}></img>;
+    } else if (entity.kind == "Button") {
+      newcomp = <Button>{entity.content}</Button>;
+    }
+    return this.wrapComp(newcomp, parseFloat(entity.left), parseFloat(entity.top), "absolute");
+  };
+
+  wrapComp = (newcomp, x, y, position) => {
     let extendedPos = this.state.pos;
-    extendedPos.push({ id: this.state.id, x: 0, y: 0 });
+    extendedPos.push({ id: this.state.id, x: x, y: y });
 
     let extendedStyles = this.state.styles;
     let top = this.state.pos[this.state.id].y;
@@ -78,10 +94,8 @@ class CanvasEditorView extends Component {
     extendedStyles.push({
       top: top,
       left: left,
-      position: "absolute",
+      position: position,
     });
-
-    this.setState({ ...this.state, pos: extendedPos, styles: extendedStyles });
     let addedcomp = this.state.comps.concat(
       <DragComp
         key={this.state.id}
@@ -93,17 +107,69 @@ class CanvasEditorView extends Component {
         {newcomp}
       </DragComp>
     );
-        //update all the things in the state
+
+    let oldId = this.state.id;
     this.setState({
+      ...this.state,
       comps: addedcomp,
-      id: this.state.id + 1,
+      id: oldId + 1,
+      pos: extendedPos,
+      styles: extendedStyles,
+    });
+    return oldId;
+  };
+
+  save = () => {
+    postTemplate(this.state.comps);
+  };
+
+  //TODO Add parsing for multiple scenes
+  //TODO Add error catching if template id is invalid
+  //TODO Correctly load non-absolute components
+  load = () => {
+    let templateId = window.prompt(
+      "Enter template id (TODO hookup to template browser instead of prompt)",
+      ""
+    );
+    let template = loadTemplate(templateId);
+    let self = this;
+    Promise.resolve(template).then((newTemplate) => {
+      if (newTemplate.numScenes == 0) {
+        return;
+      }
+      Promise.all(newTemplate.scenes).then((newScenes) => {
+        if (newScenes.length == 0) {
+          return;
+        }
+        Promise.all(newScenes[0].entities).then((newEntities) => {
+          self.state = {
+            canvasColor: { r: 220, g: 118, b: 118, a: 1 }, //Will have to have different background colors depending on the Canvas
+            canvasHeight: 500,
+            canvasWidth: 500,
+            styles: [],
+            pos: [],
+            comps: [],
+            id: 0,
+          };
+          newEntities.forEach(function (entity) {
+            let compId = self.loadComp(entity);
+            self.updatePos(compId, parseFloat(entity.left), parseFloat(entity.top));
+          });
+        });
+      });
     });
   };
 
   render() {
     return (
       <Flex direction="column" h="100vh" width="100%" overflow="scroll">
-        <CanvasEditorHeader flex="6" w="100%" zIndex={5} />
+        <CanvasEditorHeader
+          flex="6"
+          w="100%"
+          zIndex={5}
+          save={this.save}
+          load={this.load}
+        />
         <ThickHDivider flex="0.3" colorstring={"palette.800"} />
         <CanvasEditorBottom
           flex="93.7"
