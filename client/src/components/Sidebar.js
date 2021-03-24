@@ -25,7 +25,7 @@ const SidebarItems = ({ children, handleClick, isActive }) => {
 			w="70%"
 			isActive={isActive}
 			_active={{
-				bg: "#5ed7a0",
+				bg: "#5ed7a0"
 			}}
 		>
 			{children}
