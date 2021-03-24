@@ -20,6 +20,7 @@ import {
 export default function ErrorPopup(props) {
     const { error } = props;
     const errorMsg = error.msg;
+    console.log(error);
     return (
         <Box
             w="100%"
@@ -27,8 +28,6 @@ export default function ErrorPopup(props) {
             m="20px"
             color={useColorModeValue("palette.900", "palette.100")}
             fontSize="1.25rem"
-        >
-            {errorMsg}
-        </Box>
+        ></Box>
     );
 }
