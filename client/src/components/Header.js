@@ -68,11 +68,7 @@ const Header = (props) => {
 			{...props}
 		>
 			<Flex mr={5}>
-				<Button
-					width="180px"
-					onClick={handleHome}
-					variant="ghost"
-				>
+				<Button width="180px" onClick={handleHome} variant="ghost">
 					<Image src={logo} alt="Logo" />
 				</Button>
 			</Flex>
@@ -122,8 +118,9 @@ const Header = (props) => {
 								color: useColorModeValue(
 									"palette.200",
 									"palette.900"
-								)
+								),
 							}}
+							mr={3}
 						>
 							Sign Up
 						</Button>
@@ -137,7 +134,7 @@ const Header = (props) => {
 					<Switch
 						colorScheme="red"
 						size="md"
-						pl="10px"
+						pl={2}
 						onChange={handleDarkMode}
 					/>
 				</Stack>
