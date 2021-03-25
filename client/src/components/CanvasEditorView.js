@@ -15,7 +15,7 @@ class CanvasEditorView extends Component {
       canvasWidth: 500,
       styles: {},
       pos: {},
-      comps: [{}, {}],
+      comps: [{}],
       scene: 0,
       id: 0,
     };
@@ -27,6 +27,16 @@ class CanvasEditorView extends Component {
       scene: i,
     });
   };
+
+  addScene = () => {
+    let components = this.state.comps;
+    components.push({});
+    this.setState({
+      ...this.state,
+      comps: components,
+      scene: components.length-1,
+    });
+  }
 
   //update the position of a child component
   updatePos = (id, left, top) => {
@@ -140,8 +150,6 @@ class CanvasEditorView extends Component {
     console.log(postTemplate(this.state.comps));
   };
 
-  //TODO Add parsing for multiple scenes
-  //TODO Add error catching if template id is invalid
   //TODO Correctly load non-absolute components
   load = () => {
     let templateId = window.prompt(
@@ -206,6 +214,9 @@ class CanvasEditorView extends Component {
           save={this.save}
           load={this.load}
           setScene={this.setScene}
+          addScene={this.addScene}
+          numScenes={this.state.comps.length}
+          currentScene={this.state.scene}
         />
         <ThickHDivider flex="0.3" colorstring={"palette.800"} />
         <CanvasEditorBottom

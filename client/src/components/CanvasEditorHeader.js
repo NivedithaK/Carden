@@ -42,12 +42,14 @@ function CanvasEditorHeader(props){
                     <Heading size="sm">Current page: </Heading>
                     <SelectionMenu
                         setScene={props.setScene}
+                        numScenes={props.numScenes}
+                        currentScene={props.currentScene}
                     />
                 </Center>
             </GridItem>
             <GridItem colSpan={{sm: 2, md: 2, lg: 2, xl: 2}}  rowSpan={{sm: 1, md: 1, lg: 1, xl: 1}}>
                 <Center>
-                    <Button>Add Page</Button>
+                    <Button onClick={props.addScene}>Add Page</Button>
                 </Center>
             </GridItem>
             <GridItem colSpan={{sm: 0, md: 0, lg: 6, xl: 12}}  rowSpan={{sm: 1, md: 1, lg: 1, xl: 1}}>
