@@ -70,7 +70,12 @@ function CanvasEditorHeader(props) {
             >
                 <Center>
                     <Heading size="sm">Current page: </Heading>
-                    <SelectionMenu />
+
+                    <SelectionMenu
+                        setScene={props.setScene}
+                        numScenes={props.numScenes}
+                        currentScene={props.currentScene}
+                    />
                 </Center>
             </GridItem>
             <GridItem
@@ -78,7 +83,7 @@ function CanvasEditorHeader(props) {
                 rowSpan={{ sm: 1, md: 1, lg: 1, xl: 1 }}
             >
                 <Center>
-                    <Button>Add Page</Button>
+                    <Button onClick={props.addScene}>Add Page</Button>
                 </Center>
             </GridItem>
             <GridItem
