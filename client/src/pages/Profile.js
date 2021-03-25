@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { updateProfile } from "../actions/authActions";
 import PropTypes from "prop-types";
 import ProfileView from "../components/Profile/ProfileView";
-
 class Profile extends React.Component {
     constructor(props) {
         super(props);
@@ -15,6 +14,8 @@ class Profile extends React.Component {
             email: "",
             password: "",
             confirmPassword: "",
+            isLoggedin: false,
+            updated: false,
         };
         this.setUsername = this.setUsername.bind(this);
         this.setEmail = this.setEmail.bind(this);
@@ -31,6 +32,7 @@ class Profile extends React.Component {
                 user: this.props.auth.user,
                 username: this.props.auth.user.username,
                 error: this.props.error,
+                isLoggedin: true,
             });
         } else {
             this.props.history.push("/login");
@@ -89,21 +91,26 @@ class Profile extends React.Component {
             ...this.state,
             user: this.props.auth.user,
             username: this.props.auth.user.username,
+            updated: true,
         });
     };
     render() {
         return (
-            <ProfileView
-                data={{
-                    username: this.state.username,
-                    setUsername: this.setUsername,
-                    setEmail: this.setEmail,
-                    setPassword: this.setPassword,
-                    setConfirmPass: this.setConfirmPass,
-                    handleSubmit: this.handleSubmit,
-                    error: this.props.error,
-                }}
-            />
+            <>
+                <ProfileView
+                    data={{
+                        username: this.state.username,
+                        setUsername: this.setUsername,
+                        setEmail: this.setEmail,
+                        setPassword: this.setPassword,
+                        setConfirmPass: this.setConfirmPass,
+                        handleSubmit: this.handleSubmit,
+                        error: this.props.error,
+                        isLoggedin: this.state.isLoggedin,
+                        updated: this.state.updated,
+                    }}
+                />
+            </>
         );
     }
 }

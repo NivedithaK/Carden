@@ -92,7 +92,9 @@ class CanvasEditorView extends Component {
     }
     this.wrapComp(newcomp, 0, 0, "absolute");
   };
-
+   handleBack = () => {
+        this.props.history.push("/dashboard");
+    };
   loadComp = (entity) => {
     let newcomp = "";
     if (entity.kind == "Text") {
@@ -149,8 +151,7 @@ class CanvasEditorView extends Component {
   save = () => {
     console.log(postTemplate(this.state.comps));
   };
-
-  //TODO Correctly load non-absolute components
+  
   load = () => {
     let templateId = window.prompt(
       "Enter template id (TODO hookup to template browser instead of prompt)",
@@ -203,7 +204,7 @@ class CanvasEditorView extends Component {
       });
     });
   };
-
+  
   render() {
     return (
       <Flex direction="column" h="100vh" width="100%" overflow="scroll">
@@ -212,6 +213,7 @@ class CanvasEditorView extends Component {
           w="100%"
           zIndex={5}
           save={this.save}
+          handleBack={this.handleBack}
           load={this.load}
           setScene={this.setScene}
           addScene={this.addScene}

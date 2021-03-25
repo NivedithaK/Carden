@@ -69,7 +69,7 @@ export const registerUser = (user) => async (dispatch) => {
     // Start the register
     dispatch(getRegisterStart());
     await axios
-        .post("http://localhost:5000/api/users", user)
+        .post("/api/users", user)
         .then((res) => {
             dispatch(clearErrors());
             dispatch(getRegisterSuccess(res.data));
@@ -96,11 +96,10 @@ export const updateProfile = (user, id) => async (dispatch) => {
     // Start the update
     dispatch(updateUserProfileStart());
     await axios
-        .post(`http://localhost:5000/api/users/profile/${id}`, user)
+        .post(`/api/users/profile/${id}`, user)
         .then((res) => {
             dispatch(clearErrors());
             dispatch(getProfileSuccess(res.data));
-            console.log(res.data);
         })
         .catch((err) => {
             dispatch(
@@ -126,7 +125,7 @@ export const loginUser = (user) => async (dispatch) => {
     dispatch(getLoginStart());
     // Make the request to the server to see if there is a user with the matching credentials.
     await axios
-        .post("http://localhost:5000/api/users/login", user)
+        .post("/api/users/login", user)
         .then((res) => {
             dispatch(clearErrors());
             dispatch(getLoginSuccess(res.data));
