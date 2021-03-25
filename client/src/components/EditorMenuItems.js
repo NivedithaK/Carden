@@ -113,22 +113,24 @@ function PXStepper({ min, max, defaultValue, step, setTargetField }) {
 
 function SelectionMenu(props) {
   /**Store Menu Items and Menu Selection in State */
-  const [selection, setSelection] = useState("Select Option");
+  const {numScenes, currentScene} = props;
+  const [selection, setSelection] = useState("Page 1");
+  var menuItems = [];
+  var i;
+  for (i=0; i<numScenes; i++) {
+    const sceneNum = i;
+    menuItems.push(
+    <MenuItem onClick={() => {setSelection(`Page ${sceneNum+1}`); props.setScene(sceneNum)}}>
+    Page {sceneNum+1}
+    </MenuItem>);
+  }
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<ChevronDownIcon />} overflow="hidden">
-        {selection}
+        {`Page ${currentScene+1}`}
       </MenuButton>
       <MenuList>
-        <MenuItem onClick={() => setSelection("Select Option")}>
-          Select Option
-        </MenuItem>
-        <MenuItem onClick={() => setSelection("Placeholder1")}>
-          Placeholder1
-        </MenuItem>
-        <MenuItem onClick={() => setSelection("Placeholder2")}>
-          Placeholder2
-        </MenuItem>
+        {menuItems}
       </MenuList>
     </Menu>
   );
