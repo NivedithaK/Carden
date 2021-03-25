@@ -87,6 +87,7 @@ class Signup extends React.Component {
                     setEmail: this.setEmail,
                     handleSubmit: this.handleSubmit,
                 }}
+                error={this.props.error}
             />
         );
     }

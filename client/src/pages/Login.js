@@ -52,6 +52,7 @@ class Login extends React.Component {
                     setPassword: this.setPassword,
                     handleLogin: this.handleLogin,
                 }}
+                error={this.props.error}
             />
         );
     }

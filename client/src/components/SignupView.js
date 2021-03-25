@@ -19,7 +19,7 @@ import {
 import { useHistory } from "react-router-dom";
 import background from "../assets/backgroundLanding.png";
 import backgroundDark from "../assets/backgroundDark.png";
-
+import ErrorPopup from "./Error/ErrorPopup";
 import PageWrapper from "../components/PageWrapper.js";
 import Header from "../components/Header.js";
 import Footer from "../components/Footer.js";
@@ -31,9 +31,8 @@ function SignupView(props) {
     }, []);
     const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);
-
+    const { error } = props;
     const history = useHistory();
-
 
     const { colorMode } = useColorMode();
     const {
@@ -56,7 +55,7 @@ function SignupView(props) {
         >
             <PageWrapper>
                 <Header />
-
+                {error.id && <ErrorPopup error={error} />}
                 <Box
                     w="50%"
                     h="100%"
@@ -181,12 +180,12 @@ function SignupView(props) {
                         mt={5}
                         mb={10}
                         w="20%"
-                        color={useColorModeValue("palette.500", "palette.700")}
-                        bg={useColorModeValue("palette.100", "palette.900")}
+                        color={useColorModeValue("palette.500", "palette.1000")}
+                        bg={useColorModeValue("palette.100", "palette.400")}
                         borderRadius="20px"
                         onClick={handleSubmit}
                     >
-                        Log In
+                        Sign Up
                     </Button>
                 </Box>
             </PageWrapper>

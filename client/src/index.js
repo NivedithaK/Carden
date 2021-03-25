@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { useHistory } from "react-router-dom";
 import {
-	BrowserRouter as Router,
-	Switch as RRSwitch,
-	Route,
+    BrowserRouter as Router,
+    Switch as RRSwitch,
+    Route,
 } from "react-router-dom";
 import Landing from "./pages/Landing.js";
 import Login from "./pages/Login.js";
@@ -63,7 +63,12 @@ function App() {
                                 component={Profile}
                                 history={history}
                             />
-                            <Route exact path="/create" component={Create} />
+                            <Route
+                                exact
+                                path="/create"
+                                component={Create}
+                                history={history}
+                            />
                             <Route exact path="/about" component={About} />
                         </RRSwitch>
                     </ChakraProvider>
@@ -75,9 +80,9 @@ function App() {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
-	<>
-		<ColorModeScript initialColorMode={theme.config.initialColorMode} />
-		<App />
-	</>,
-	rootElement
+    <>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <App />
+    </>,
+    rootElement
 );

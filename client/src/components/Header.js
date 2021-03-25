@@ -29,14 +29,13 @@ const MenuItems = ({ children, handleClick }) => {
             {children}
         </Button>
     );
-
 };
 
 const Header = (props) => {
     const [show, setShow] = React.useState(false);
 
     const { colorMode, toggleColorMode } = useColorMode();
-
+    const mode = localStorage.getItem("chakra-ui-color-mode");
     const handleToggle = () => setShow(!show);
     const history = useHistory();
     const handleLogin = (e) => {
@@ -138,6 +137,7 @@ const Header = (props) => {
                         size="md"
                         pl="10px"
                         onChange={handleDarkMode}
+                        defaultChecked={mode === "light" ? false : true}
                     />
                 </Stack>
             </Box>

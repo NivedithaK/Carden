@@ -8,7 +8,6 @@ import {
     Image,
     Center,
 } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import logoDark from "../../assets/logo-white.png";
@@ -37,7 +36,7 @@ function SideBarView(props) {
     const location = useLocation();
     // console.log(location.pathname);
     const { colorMode, toggleColorMode } = useColorMode();
-    const history = useHistory();
+    const mode = localStorage.getItem("chakra-ui-color-mode");
     const {
         handleCreate,
         handleCards,
@@ -132,6 +131,7 @@ function SideBarView(props) {
                         size="md"
                         pl="10px"
                         onChange={handleDarkMode}
+                        defaultChecked={mode === "light" ? false : true}
                     />
                 </Center>
             </VStack>

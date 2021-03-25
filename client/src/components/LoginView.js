@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-
     Grid,
     Box,
     FormControl,
@@ -23,11 +22,14 @@ import PageWrapper from "../components/PageWrapper.js";
 import Header from "../components/Header.js";
 import Footer from "../components/Footer.js";
 import lock from "../assets/lock.png";
+import ErrorPopup from "./Error/ErrorPopup";
 
 function LoginView(props) {
     const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);
     const { colorMode } = useColorMode();
+    const { error } = props;
+    console.log(error);
     const { setUsername, setPassword, handleLogin } = props.handlers;
     return (
         <div
@@ -42,7 +44,7 @@ function LoginView(props) {
         >
             <PageWrapper>
                 <Header />
-
+                {error.id && <ErrorPopup error={error} />}
                 <Box
                     w="50%"
                     h="100%"
@@ -131,9 +133,9 @@ function LoginView(props) {
                         mt={5}
                         mb={10}
                         w="20%"
-                        color={useColorModeValue("palette.500", "palette.700")}
+                        color={useColorModeValue("palette.500", "palette.1000")}
                         type="submit"
-                        bg={useColorModeValue("palette.100", "palette.900")}
+                        bg={useColorModeValue("palette.100", "palette.400")}
                         borderRadius="20px"
                         onClick={handleLogin}
                     >
