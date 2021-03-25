@@ -44,15 +44,15 @@ class CanvasEditorView extends Component {
     let newPos = this.state.pos;
     newPos[id] = { x: left, y: top };
     let newStyles = this.state.styles;
-    newStyles[id] = { ...this.state.styles[id], top: top, left: left};
+    newStyles[id] = { ...this.state.styles[id], top: top, left: left };
     //change the component that needs to rerender
     let components = this.state.comps;
     //"reprop" the component because render cannot rerender an array
     components[id] = React.cloneElement(components[id], {
-      top: this.state.pos[id].y,
-      left: this.state.pos[id].x,
+      top: top,
+      left: left,
       id: id,
-      style: newStyles[id],
+      style: {...this.state.styles[id], top: top, left: left},
     });
     //save the state
     this.setState({
@@ -70,23 +70,6 @@ class CanvasEditorView extends Component {
       "Enter input (This is temporary, for demo purposes)",
       ""
     );
-    //dont make a component if cancel or nothing inputed
-    if (userin === "" || userin === null) {
-      return;
-    }
-    //make the appropriate object
-    switch (type) {
-      case "Button":
-        newcomp = <Button>{userin}</Button>;
-        break;
-      case "Text":
-        newcomp = <p>{userin}</p>;
-        break;
-      case "Image":
-        newcomp = <img src={userin}></img>;
-        break;
-    }
-
     let extendedPos = this.state.pos;
     extendedPos.push({ id: this.state.id, x: 0, y: 0 });
 
@@ -97,10 +80,32 @@ class CanvasEditorView extends Component {
       top: top,
       left: left,
       position: "absolute",
-      fontSize:12
+      fontSize: 12,
     });
-
     this.setState({ ...this.state, pos: extendedPos, styles: extendedStyles });
+    //dont make a component if cancel or nothing inputed
+    if (userin === "" || userin === null) {
+      return;
+    }
+    let compStyle = { ...this.state.styles[this.state.id] };
+    compStyle.top = undefined;
+    compStyle.left = undefined;
+    compStyle.position = "initial";
+    //make the appropriate object
+    switch (type) {
+      case "Button":
+        newcomp = <Button style={compStyle}>{userin}</Button>;
+        break;
+      case "Text":
+        newcomp = <p style={compStyle}>{userin}</p>;
+        break;
+      case "Image":
+        newcomp = (
+          <img src={userin} style={compStyle}></img>
+        );
+        break;
+    }
+
     let addedcomp = this.state.comps.concat(
       <DragComp
         key={this.state.id}

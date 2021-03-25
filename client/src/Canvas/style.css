@@ -1,6 +1,17 @@
 .canvas .comp {
-    padding: 15px 25px;
     cursor: pointer;
     border: solid black;
-    height: fit-content;
+    word-wrap: break-word;
+}
+
+.leftWorkaround {
+    text-align: left;
+}
+
+.centerWorkaround {
+    text-align: center;
+}
+
+.rightWorkaround {
+    text-align: right;
 }

@@ -13,6 +13,8 @@ class DragComp extends React.Component {
         left: this.props.left,
       },
       type: this.props.type,
+      className: this.props.className,
+      comp: this.props.children,
     };
   }
 
@@ -44,32 +46,58 @@ class DragComp extends React.Component {
           left: this.props.left,
         },
       });
+      this.onClick();
     }, 0);
   };
 
   changeStyle = (style) => {
     //store the property being changed
     let newStyle = Object.keys(style)[0];
+    let compStyle = null;
+    //handle the workaround ;-;
+    if (newStyle === "className") {
+      this.setState({ ...this.state, className: style[newStyle] });
+      return this.state.style;
+    }
     //if its a number in string from, convert it
     if (typeof style[newStyle] && !isNaN(style[newStyle])) {
       style[newStyle] = parseFloat(style[newStyle]);
     }
-    //check if its already in the style in which case toggle it everything other than font-size
+    let editedStyle = null;
+    //check if its already in the style in which case toggle it
     if (
-      newStyle !== "fontSize" &&
+      (newStyle === "fontWeight" ||
+        newStyle === "fontStyle" ||
+        newStyle === "textDecoration") &&
       Object.keys(this.state.style).includes(newStyle) &&
       this.state.style[newStyle] === style[newStyle]
     ) {
+      console.log(style, this.state.style[newStyle]);
       let newState = { ...this.state.style };
       newState[newStyle] = "initial";
-      this.setState({ ...this.state, style: { ...newState } });
+      editedStyle = { ...this.state, style: { ...newState } };
+      compStyle = { ...newState };
     } else {
       //new style so append it
-      this.setState({
+      editedStyle = {
         ...this.state,
         style: { ...this.state.style, ...style },
-      });
+      };
+      compStyle = {
+        ...this.state.style,
+        ...style,
+      };
     }
+    compStyle.left = undefined;
+    compStyle.top = undefined;
+    compStyle.position = "initial";
+    let newComp = React.cloneElement(this.state.comp, {
+      style: compStyle,
+    });
+    this.setState({
+      ...editedStyle,
+      comp: newComp,
+    });
     return this.state.style;
   };
 
@@ -112,10 +140,10 @@ class DragComp extends React.Component {
         onDragLeave={this.dragLeave}
         onDrop={this.props.changedDrop ? this.props.changedDrop : undefined}
         onClick={this.onClick}
-        className={this.props.className}
+        className={this.state.className}
         style={this.state.style}
       >
-        {this.props.children}
+        {this.state.comp}
       </div>
     );
   }

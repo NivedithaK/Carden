@@ -122,7 +122,7 @@ function CanvasEditorBottom(props) {
             </Center>
           ) : null}
           {propertyMenu.property !== properties.default ? (
-            <ComponentPositionMenu items={propertyMenu} />
+            <ComponentPositionMenu items={propertyMenu} canvasWidth={canvasWidth} canvasHeight={canvasHeight}/>
           ) : null}
           {propertyMenu.property === properties.button ? (
             <ButtonSpecificMenu items={propertyMenu} />

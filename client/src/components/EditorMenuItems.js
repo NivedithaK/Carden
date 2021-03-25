@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Grid,
   GridItem,
@@ -90,6 +90,13 @@ const ThickHDivider = (props) => {
 function PXStepper({ min, max, defaultValue, step, setTargetField }) {
   //Todo: add a hook that changes the canvas size
   const [value, setValue] = React.useState(defaultValue);
+  const prevValRef = useRef();
+  useEffect(() => {
+    if (defaultValue != prevValRef.current) {
+      setValue(defaultValue);
+    }
+    prevValRef.current = defaultValue;
+  });
 
   return (
     <NumberInput
@@ -301,7 +308,9 @@ function TextPropertiesMenu(props) {
         <PXStepper
           min={8}
           max={144}
-          defaultValue={12}
+          defaultValue={
+            props.items.style.fontSize ? props.items.style.fontSize : 12
+          }
           step={2}
           setTargetField={
             props.items.changeFunc
@@ -389,9 +398,45 @@ function TextAlignmentMenu(props) {
       </Center>
       <Center w="100%">
         <ButtonGroup size="sm" isAttached variant="outline">
-          <Button>Left</Button>
-          <Button>Center</Button>
-          <Button>Right</Button>
+          <Button
+            onClick={
+              props.items.changeFunc
+                ? () => {
+                    props.items.style = props.items.changeFunc({
+                      className: "comp leftWorkaround",
+                    });
+                  }
+                : () => {}
+            }
+          >
+            Left
+          </Button>
+          <Button
+            onClick={
+              props.items.changeFunc
+                ? () => {
+                    props.items.style = props.items.changeFunc({
+                      className: "comp centerWorkaround",
+                    });
+                  }
+                : () => {}
+            }
+          >
+            Center
+          </Button>
+          <Button
+            onClick={
+              props.items.changeFunc
+                ? () => {
+                    props.items.style = props.items.changeFunc({
+                      className: "comp rightWorkaround",
+                    });
+                  }
+                : () => {}
+            }
+          >
+            Right
+          </Button>
         </ButtonGroup>
       </Center>
     </Box>
@@ -403,42 +448,64 @@ function ComponentPositionMenu(props) {
     <Box>
       <ToolItem label="x-position">
         <PXStepper
-          min={100}
-          max={2000}
-          defaultValue={500}
+          min={0}
+          max={props.canvasWidth}
+          defaultValue={props.items.style.left ? props.items.style.left : 0}
           step={10}
-          setTargetField={(placeholder) => {}}
+          setTargetField={(value) => {
+            if (value > props.canvasWidth) {
+              value = props.canvasWidth;
+            }
+            props.items.style = props.items.changeFunc({ left: value });
+          }}
         />
       </ToolItem>
       <ToolItem label="y-position">
         <PXStepper
-          min={100}
-          max={2000}
-          defaultValue={500}
+          min={0}
+          max={props.canvasHeight - props.items.style.top}
+          defaultValue={props.items.style.top ? props.items.style.top : 0}
           step={10}
-          setTargetField={(placeholder) => {}}
+          setTargetField={(value) => {
+            if (value > props.canvasHeight) {
+              value = props.canvasHeight;
+            }
+            props.items.style = props.items.changeFunc({ top: value });
+          }}
         />
       </ToolItem>
       <ToolItem label="box-width">
         <PXStepper
-          min={100}
-          max={2000}
-          defaultValue={500}
+          min={1}
+          max={props.canvasWidth - props.items.style.left}
+          defaultValue={props.items.style.width ? props.items.style.width : 50}
           step={10}
-          setTargetField={(placeholder) => {}}
+          setTargetField={(value) => {
+            props.items.style = props.items.changeFunc({ width: value });
+          }}
         />
       </ToolItem>
       <ToolItem label="box-height">
         <PXStepper
-          min={100}
-          max={2000}
-          defaultValue={500}
+          min={1}
+          max={props.canvasHeight}
+          defaultValue={
+            props.items.style.height ? props.items.style.height : 50
+          }
           step={10}
-          setTargetField={(placeholder) => {}}
+          setTargetField={(value) => {
+            props.items.style = props.items.changeFunc({ height: value });
+          }}
         />
       </ToolItem>
       <ToolItem label="box-color">
-        <ColorSelector setClassStateColor={(placeholder) => {}} />
+        <ColorSelector
+          setClassStateColor={(value) => {
+            props.items.style = props.items.changeFunc({
+              backgroundColor: value,
+            });
+          }}
+        />
       </ToolItem>
       <ToolItem label="Animation">
         <SelectionMenu />
