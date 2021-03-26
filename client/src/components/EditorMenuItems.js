@@ -29,7 +29,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import Canvas from "../Canvas/canvas";
 
-import { SketchPicker } from 'react-color';
+// import { SketchPicker } from 'react-color';
 
 const ToolSection = (props) => {
   return (
@@ -178,7 +178,7 @@ function ColorSelector(props) {
               left={{ sm: "50%", lg: "auto" }}
               transform={{ sm: "translate(-50%, -50%)", lg: "auto" }}
             >
-              { <SketchPicker color={color} onChange={(color) => handleChange(color)} /> }
+              {/* { <SketchPicker color={color} onChange={(color) => handleChange(color)} /> } */}
             </Box>
           </Box>
         ) : null
@@ -464,7 +464,7 @@ function ComponentPositionMenu(props) {
       <ToolItem label="y-position">
         <PXStepper
           min={0}
-          max={props.canvasHeight - props.items.style.top}
+          max={props.canvasHeight}
           defaultValue={props.items.style.top ? props.items.style.top : 0}
           step={10}
           setTargetField={(value) => {
@@ -478,7 +478,7 @@ function ComponentPositionMenu(props) {
       <ToolItem label="box-width">
         <PXStepper
           min={1}
-          max={props.canvasWidth - props.items.style.left}
+          max={props.canvasWidth}
           defaultValue={props.items.style.width ? props.items.style.width : 50}
           step={10}
           setTargetField={(value) => {
