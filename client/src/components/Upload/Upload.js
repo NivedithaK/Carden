@@ -19,13 +19,10 @@ const UploadComponent = props => (
             imgExtension={['.jpg', '.png', '.jpeg', '.gif', '.mp4']}
             maxFileSize={5242880}
         ></ImageUploader>
-
-        <text> hello hehe who is watching me rn be dumbdumb
-        </text>
     </form>
 );
 
-const About = () => {
+const Upload = () => {
     const [progress, setProgress] = useState('getUpload');
     const [url, setImageURL] = useState(undefined);
     const [errorMessage, setErrorMessage] = useState('');
@@ -82,9 +79,11 @@ const About = () => {
     };
 
     return (
-        <div className="About">
+        <div className="Upload">
             <h1>Image Upload Website</h1>
             {content()}
         </div>
     );
 };
+
+export default Upload;
