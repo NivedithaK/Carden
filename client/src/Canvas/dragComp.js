@@ -1,4 +1,4 @@
-import { omitThemingProps } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import React from "react";
 
 class DragComp extends React.Component {
@@ -14,8 +14,39 @@ class DragComp extends React.Component {
       },
       type: this.props.type,
       className: this.props.className,
-      comp: this.props.children,
+      id: this.props.id,
+      content: this.props.content ? this.props.content : "Input Content",
+      src: this.props.src ? this.props.src : "Input Source",
     };
+  }
+
+  componentDidMount() {
+    this.setState({ ...this.state, comp: this.generateComponent() });
+  }
+
+  generateComponent() {
+    let compStyle = { ...this.props.style };
+    compStyle.left = undefined;
+    compStyle.top = undefined;
+    compStyle.position = "initial";
+    let newcomp = null;
+    switch (this.props.type) {
+      case "Button":
+        // onClick={() => {window.location.replace("http://"+this.state.src);}}
+        newcomp = (
+          <Button style={compStyle} >
+            {this.state.content}
+          </Button>
+        );
+        break;
+      case "Text":
+        newcomp = <p style={compStyle}>{this.state.content}</p>;
+        break;
+      case "Image":
+        newcomp = <img style={compStyle} src={this.state.src}></img>;
+        break;
+    }
+    return newcomp;
   }
 
   dragStart = (e) => {
@@ -72,7 +103,6 @@ class DragComp extends React.Component {
       Object.keys(this.state.style).includes(newStyle) &&
       this.state.style[newStyle] === style[newStyle]
     ) {
-      console.log(style, this.state.style[newStyle]);
       let newState = { ...this.state.style };
       newState[newStyle] = "initial";
       editedStyle = { ...this.state, style: { ...newState } };
@@ -110,6 +140,10 @@ class DragComp extends React.Component {
           property: this.props.displayProperties.text,
           changeFunc: this.changeStyle,
           style: this.state.style,
+          id: this.state.id,
+          contentChanger: this.changeContent,
+          content:this.state.content,
+          src:this.state.src
         });
         break;
       case "Button":
@@ -117,6 +151,8 @@ class DragComp extends React.Component {
           property: this.props.displayProperties.button,
           changeFunc: this.changeStyle,
           style: this.state.style,
+          id: this.state.id,
+          contentChanger: this.changeContent,
         });
         break;
       case "Image":
@@ -124,8 +160,19 @@ class DragComp extends React.Component {
           property: this.props.displayProperties.img,
           changeFunc: this.changeStyle,
           style: this.state.style,
+          id: this.state.id,
+          contentChanger: this.changeContent,
         });
         break;
+    }
+  };
+
+  changeContent = (newContent = undefined, src = undefined) => {
+    if (newContent) {
+      this.setState({ ...this.state, content: newContent });
+    }
+    if (src) {
+      this.setState({ ...this.state, src: src });
     }
   };
 
@@ -143,7 +190,7 @@ class DragComp extends React.Component {
         className={this.state.className}
         style={this.state.style}
       >
-        {this.state.comp}
+        {this.generateComponent()}
       </div>
     );
   }

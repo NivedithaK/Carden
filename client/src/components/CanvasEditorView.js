@@ -15,6 +15,7 @@ class CanvasEditorView extends Component {
       styles: [],
       pos: [],
       comps: [],
+      content: [],
       id: 0,
     };
   }
@@ -26,6 +27,28 @@ class CanvasEditorView extends Component {
       properties: properties,
     });
   }
+
+  deleteComponent = (id) => {
+    let tmpStyles = this.state.styles;
+    let tmpPos = this.state.pos;
+    let tmpComps = this.state.comps;
+    tmpStyles[id] = undefined;
+    tmpPos[id] = undefined;
+    tmpComps[id] = undefined;
+    this.state.propertySetter({
+      property: this.state.properties.default,
+      changeFunc: undefined,
+      style: null,
+      id: null,
+      contentChanger: null,
+    });
+    this.setState({
+      ...this.state,
+      styles: tmpStyles,
+      pos: tmpPos,
+      comps: tmpComps,
+    });
+  };
 
   drop = (e) => {
     e.preventDefault();
@@ -52,7 +75,7 @@ class CanvasEditorView extends Component {
       top: top,
       left: left,
       id: id,
-      style: {...this.state.styles[id], top: top, left: left},
+      style: { ...this.state.styles[id], top: top, left: left },
     });
     //save the state
     this.setState({
@@ -64,12 +87,6 @@ class CanvasEditorView extends Component {
   };
   //add component to canvas
   addComp = (e, type) => {
-    let newcomp;
-    //take some user input
-    let userin = window.prompt(
-      "Enter input (This is temporary, for demo purposes)",
-      ""
-    );
     let extendedPos = this.state.pos;
     extendedPos.push({ id: this.state.id, x: 0, y: 0 });
 
@@ -83,28 +100,6 @@ class CanvasEditorView extends Component {
       fontSize: 12,
     });
     this.setState({ ...this.state, pos: extendedPos, styles: extendedStyles });
-    //dont make a component if cancel or nothing inputed
-    if (userin === "" || userin === null) {
-      return;
-    }
-    let compStyle = { ...this.state.styles[this.state.id] };
-    compStyle.top = undefined;
-    compStyle.left = undefined;
-    compStyle.position = "initial";
-    //make the appropriate object
-    switch (type) {
-      case "Button":
-        newcomp = <Button style={compStyle}>{userin}</Button>;
-        break;
-      case "Text":
-        newcomp = <p style={compStyle}>{userin}</p>;
-        break;
-      case "Image":
-        newcomp = (
-          <img src={userin} style={compStyle}></img>
-        );
-        break;
-    }
 
     let addedcomp = this.state.comps.concat(
       <DragComp
@@ -118,7 +113,6 @@ class CanvasEditorView extends Component {
         displayProperties={this.state.properties}
         type={type}
       >
-        {newcomp}
       </DragComp>
     );
     //update all the things in the state
@@ -145,6 +139,7 @@ class CanvasEditorView extends Component {
           addComp={this.addComp}
           comps={this.state.comps}
           changeSetter={this.propertySetter.bind(this)}
+          deleteComp={this.deleteComponent}
         />
       </Flex>
     );

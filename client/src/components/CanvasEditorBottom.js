@@ -6,6 +6,7 @@ import {
   Flex,
   Divider,
   Center,
+  Button,
 } from "@chakra-ui/react";
 
 import {
@@ -18,6 +19,8 @@ import {
   TextAlignmentMenu,
   ComponentPositionMenu,
   ButtonSpecificMenu,
+  ContentInput,
+  SrcInput
 } from "./EditorMenuItems.js";
 
 const properties = { default: 1, text: 2, img: 3, button: 4 };
@@ -98,12 +101,21 @@ function CanvasEditorBottom(props) {
       >
         {/**Properties of the currently selected item with conditional rendering */}
         <ToolSection title="Properties" w="100%">
+          {propertyMenu.property !== properties.default ? (
+            <center>
+              <Button
+                onClick={() => {
+                  props.deleteComp(propertyMenu.id);
+                }}
+              >
+                Delete
+              </Button>
+            </center>
+          ) : null}
           <Divider />
-          <ToolItem
-            label="Component"
-            m="auto"
-            textAlign="center"
-          >
+          {propertyMenu.property === properties.text || propertyMenu.property === properties.button ? <ContentInput defaultValue={propertyMenu.content} setTargetField={propertyMenu.contentChanger}></ContentInput> : null}
+          {propertyMenu.property === properties.img || propertyMenu.property === properties.button ? <SrcInput defaultValue={propertyMenu.src} setTargetField={propertyMenu.contentChanger}></SrcInput> : null}
+          <ToolItem label="Component" m="auto" textAlign="center">
             {propertyMenu.property === properties.default
               ? "No Component Selected"
               : null}
@@ -122,7 +134,11 @@ function CanvasEditorBottom(props) {
             </Center>
           ) : null}
           {propertyMenu.property !== properties.default ? (
-            <ComponentPositionMenu items={propertyMenu} canvasWidth={canvasWidth} canvasHeight={canvasHeight}/>
+            <ComponentPositionMenu
+              items={propertyMenu}
+              canvasWidth={canvasWidth}
+              canvasHeight={canvasHeight}
+            />
           ) : null}
           {propertyMenu.property === properties.button ? (
             <ButtonSpecificMenu items={propertyMenu} />

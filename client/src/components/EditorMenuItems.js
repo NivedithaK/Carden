@@ -29,7 +29,57 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import Canvas from "../Canvas/canvas";
 
-// import { SketchPicker } from 'react-color';
+import { SketchPicker } from 'react-color';
+
+const ContentInput = (props) => {
+  const [value, setValue] = React.useState(props.defaultValue);
+  const prevValRef = useRef();
+  useEffect(() => {
+    if (props.defaultValue != prevValRef.current) {
+      setValue(props.defaultValue);
+    }
+    prevValRef.current = props.defaultValue;
+  });
+  return (
+    <ToolItem label="Content">
+      <Input
+        onChange={(valueString) => {
+          setValue(valueString.target.value);
+          props.setTargetField(valueString.target.value, undefined);
+        }}
+        placeholder="Text"
+        size="sm"
+        variant="outline"
+        value={value}
+      />
+    </ToolItem>
+  );
+};
+
+const SrcInput = (props) => {
+  const [value, setValue] = React.useState(props.defaultValue);
+  const prevValRef = useRef();
+  useEffect(() => {
+    if (props.defaultValue != prevValRef.current) {
+      setValue(props.defaultValue);
+    }
+    prevValRef.current = props.defaultValue;
+  });
+  return (
+    <ToolItem label="Source">
+      <Input
+        onChange={(valueString) => {
+          setValue(valueString.target.value);
+          props.setTargetField(undefined, valueString.target.value);
+        }}
+        placeholder="Text"
+        size="sm"
+        variant="outline"
+        value={value}
+      />
+    </ToolItem>
+  );
+};
 
 const ToolSection = (props) => {
   return (
@@ -178,7 +228,7 @@ function ColorSelector(props) {
               left={{ sm: "50%", lg: "auto" }}
               transform={{ sm: "translate(-50%, -50%)", lg: "auto" }}
             >
-              {/* { <SketchPicker color={color} onChange={(color) => handleChange(color)} /> } */}
+              { <SketchPicker color={color} onChange={(color) => handleChange(color)} /> }
             </Box>
           </Box>
         ) : null
@@ -544,4 +594,6 @@ export {
   TextAlignmentMenu,
   ComponentPositionMenu,
   ButtonSpecificMenu,
+  ContentInput,
+  SrcInput,
 };
