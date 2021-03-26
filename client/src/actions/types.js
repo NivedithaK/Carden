@@ -16,3 +16,6 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGOUT = "LOGOUT";
 export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
+export const PROFILE_START = "PROFILE_START";
+export const PROFILE_SUCCESS = "PROFILE_SUCCESS";
+export const PROFILE_FAILURE = "PROFILE_FAILURE";

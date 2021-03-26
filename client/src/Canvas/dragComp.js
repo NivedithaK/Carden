@@ -5,12 +5,9 @@ class DragComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //top and left are place holders
       style: {
         ...this.props.style,
         display: "block",
-        top: this.props.top,
-        left: this.props.left,
       },
       type: this.props.type,
       className: this.props.className,
@@ -53,7 +50,6 @@ class DragComp extends React.Component {
     const target = e.target;
     e.dataTransfer.setDragImage(target, "50%", "50%");
     e.dataTransfer.setData("compId", target.id);
-
     setTimeout(() => {
       this.setState({
         style: {
