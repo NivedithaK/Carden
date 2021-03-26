@@ -13,13 +13,30 @@ class CanvasEditorView extends Component {
       canvasColor: { r: 220, g: 118, b: 118, a: 1 }, //Will have to have different background colors depending on the Canvas
       canvasHeight: 500,
       canvasWidth: 500,
-      styles: [],
-      pos: [],
-      comps: [],
-      content: [],
+      styles: {},
+      comps: [{}],
+      scene: 0,
       id: 0,
+      content: {},
     };
   }
+
+  contentSetter = (newContent, id) => {
+    console.log("changing ", id, "with content", newContent);
+    let tmpContent = this.state.content;
+    tmpContent[id] = newContent;
+    let components = this.state.comps;
+    components[this.state.scene][id] = React.cloneElement(
+      components[this.state.scene][id],
+      {
+        top: this.state.styles[id].top,
+        left:  this.state.styles[id].left,
+        id: id,
+        content: tmpContent[id],
+      }
+    );
+    this.setState({ ...this.state, content: tmpContent, comps: components });
+  };
 
   propertySetter(setterFunction, properties) {
     this.setState({
@@ -31,11 +48,9 @@ class CanvasEditorView extends Component {
 
   deleteComponent = (id) => {
     let tmpStyles = this.state.styles;
-    let tmpPos = this.state.pos;
     let tmpComps = this.state.comps;
     tmpStyles[id] = undefined;
-    tmpPos[id] = undefined;
-    tmpComps[id] = undefined;
+    tmpComps[this.state.scene][id] = undefined;
     this.state.propertySetter({
       property: this.state.properties.default,
       changeFunc: undefined,
@@ -46,7 +61,6 @@ class CanvasEditorView extends Component {
     this.setState({
       ...this.state,
       styles: tmpStyles,
-      pos: tmpPos,
       comps: tmpComps,
     });
   };
@@ -61,48 +75,101 @@ class CanvasEditorView extends Component {
     this.updatePos(comp_id, x, y);
   };
 
+  setScene = (i) => {
+    this.state.propertySetter({
+      property: this.state.properties.default,
+      changeFunc: undefined,
+      style: null,
+      id: null,
+      contentChanger: null,
+    });
+    this.setState({
+      ...this.state,
+      scene: i,
+    });
+    console.log(this.state.content[0]);
+  };
+
+  addScene = () => {
+    this.state.propertySetter({
+      property: this.state.properties.default,
+      changeFunc: undefined,
+      style: null,
+      id: null,
+      contentChanger: null,
+    });
+    let components = this.state.comps;
+    components.push({});
+    this.setState({
+      ...this.state,
+      comps: components,
+      scene: components.length - 1,
+    });
+    console.log(this.state.content[0]);
+  };
+
   //update the position of a child component
   updatePos = (id, left, top) => {
     if (!id) return;
     //store the new position of the component
-    let newPos = this.state.pos;
-    newPos[id] = { x: left, y: top };
     let newStyles = this.state.styles;
     newStyles[id] = { ...this.state.styles[id], top: top, left: left };
     //change the component that needs to rerender
     let components = this.state.comps;
     //"reprop" the component because render cannot rerender an array
-    components[id] = React.cloneElement(components[id], {
-      top: top,
-      left: left,
-      id: id,
-      style: { ...this.state.styles[id], top: top, left: left },
-    });
+    components[this.state.scene][id] = React.cloneElement(
+      components[this.state.scene][id],
+      {
+        top: top,
+        left: left,
+        id: id,
+        style: { ...this.state.styles[id], top: top, left: left },
+      }
+    );
     //save the state
     this.setState({
       ...this.state,
       comps: components,
-      pos: newPos,
       styles: newStyles,
     });
   };
   //add component to canvas
-  addComp = (e, type) => {
-    let extendedPos = this.state.pos;
-    extendedPos.push({ id: this.state.id, x: x, y: y });
 
+  handleBack = () => {
+    this.props.history.push("/dashboard");
+  };
+  loadComp = (entity) => {
+    let newcomp = "";
+    if (entity.kind == "Text") {
+      newcomp = <p>{entity.content}</p>;
+    } else if (entity.kind == "Image") {
+      newcomp = <img src={entity.link}></img>;
+    } else if (entity.kind == "Button") {
+      newcomp = <Button>{entity.content}</Button>;
+    }
+    return this.addComp(
+      null,
+      parseFloat(entity.left),
+      parseFloat(entity.top),
+      entity.kind
+    );
+  };
+  ////////////////////////////////////////////////////////////////////
+
+  addComp = (e, x, y, type) => {
     let extendedStyles = this.state.styles;
-    let top = this.state.pos[this.state.id].y;
-    let left = this.state.pos[this.state.id].x;
-    extendedStyles.push({
+    let top = y;
+    let left = x;
+    extendedStyles[this.state.id] = {
       top: top,
       left: left,
       position: "absolute",
       fontSize: 12,
-    });
-    this.setState({ ...this.state, pos: extendedPos, styles: extendedStyles });
-
-    let addedcomp = this.state.comps.concat(
+    };
+    let extendedContent = this.state.content;
+    extendedContent[this.state.id] = { content: undefined, src: undefined };
+    let addedcomp = this.state.comps;
+    addedcomp[this.state.scene][this.state.id] = (
       <DragComp
         key={this.state.id}
         id={this.state.id}
@@ -113,27 +180,26 @@ class CanvasEditorView extends Component {
         menuSetter={this.state.propertySetter}
         displayProperties={this.state.properties}
         type={type}
-      >
-      </DragComp>
+        content={this.state.content[this.state.id]}
+        contentSetter={this.contentSetter}
+      ></DragComp>
     );
     //update all the things in the state
+    let oldId = this.state.id;
     this.setState({
       ...this.state,
       comps: addedcomp,
       id: oldId + 1,
-      pos: extendedPos,
       styles: extendedStyles,
+      content: extendedContent,
     });
     return oldId;
   };
 
   save = () => {
-    postTemplate(this.state.comps);
+    console.log(postTemplate(this.state.comps));
   };
 
-  //TODO Add parsing for multiple scenes
-  //TODO Add error catching if template id is invalid
-  //TODO Correctly load non-absolute components
   load = () => {
     let templateId = window.prompt(
       "Enter template id (TODO hookup to template browser instead of prompt)",
@@ -146,22 +212,40 @@ class CanvasEditorView extends Component {
         return;
       }
       Promise.all(newTemplate.scenes).then((newScenes) => {
-        if (newScenes.length == 0) {
-          return;
-        }
-        Promise.all(newScenes[0].entities).then((newEntities) => {
+        Promise.all(
+          newScenes.map(function (sceneElems) {
+            return Promise.all(sceneElems.entities);
+          })
+        ).then((newScenes) => {
+          if (newScenes.length == 0) {
+            return;
+          }
           self.state = {
             canvasColor: { r: 220, g: 118, b: 118, a: 1 }, //Will have to have different background colors depending on the Canvas
             canvasHeight: 500,
             canvasWidth: 500,
             styles: [],
-            pos: [],
             comps: [],
+            scene: 0,
             id: 0,
           };
-          newEntities.forEach(function (entity) {
-            let compId = self.loadComp(entity);
-            self.updatePos(compId, parseFloat(entity.left), parseFloat(entity.top));
+          var sceneNum = 0;
+          newScenes.forEach(function (scene) {
+            self.state.comps.push({});
+            self.state.scene = sceneNum;
+            scene.forEach(function (entity) {
+              let compId = self.loadComp(entity);
+              self.updatePos(
+                compId,
+                parseFloat(entity.left),
+                parseFloat(entity.top)
+              );
+            });
+            sceneNum++;
+          });
+          this.setState({
+            ...this.state,
+            scene: 0,
           });
         });
       });
@@ -176,7 +260,12 @@ class CanvasEditorView extends Component {
           w="100%"
           zIndex={5}
           save={this.save}
+          handleBack={this.handleBack}
           load={this.load}
+          setScene={this.setScene}
+          addScene={this.addScene}
+          numScenes={this.state.comps.length}
+          currentScene={this.state.scene}
         />
         <ThickHDivider flex="0.3" colorstring={"palette.800"} />
         <CanvasEditorBottom
@@ -189,9 +278,9 @@ class CanvasEditorView extends Component {
           canvasHeight={this.state.canvasHeight}
           changedDrop={this.drop}
           addComp={this.addComp}
-          comps={this.state.comps}
           changeSetter={this.propertySetter.bind(this)}
           deleteComp={this.deleteComponent}
+          comps={Object.values(this.state.comps[this.state.scene])}
         />
       </Flex>
     );

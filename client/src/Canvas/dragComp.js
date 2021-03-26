@@ -12,13 +12,15 @@ class DragComp extends React.Component {
       type: this.props.type,
       className: this.props.className,
       id: this.props.id,
-      content: this.props.content ? this.props.content : "Input Content",
-      src: this.props.src ? this.props.src : "Input Source",
+      content: this.props.content.content
+        ? this.props.content.content
+        : "Input Content",
+      src: this.props.content.src ? this.props.content.src : "Input Source",
     };
   }
 
   componentDidMount() {
-    this.setState({ ...this.state, comp: this.generateComponent() });
+      this.setState({ ...this.state, comp: this.generateComponent(), content: this.props.content });
   }
 
   generateComponent() {
@@ -27,20 +29,18 @@ class DragComp extends React.Component {
     compStyle.top = undefined;
     compStyle.position = "initial";
     let newcomp = null;
+    let src = this.state.src ? this.state.src : "Input Source";
+    let content = this.state.content ? this.state.content : "Input Content";
     switch (this.state.type) {
       case "Button":
         // onClick={() => {window.location.replace("http://"+this.state.src);}}
-        newcomp = (
-          <Button style={compStyle} >
-            {this.state.content}
-          </Button>
-        );
+        newcomp = <Button style={compStyle}>{content}</Button>;
         break;
       case "Text":
-        newcomp = <p style={compStyle}>{this.state.content}</p>;
+        newcomp = <p style={compStyle}>{content}</p>;
         break;
       case "Image":
-        newcomp = <img style={compStyle} src={this.state.src}></img>;
+        newcomp = <img style={compStyle} src={src}></img>;
         break;
     }
     return newcomp;
@@ -138,8 +138,7 @@ class DragComp extends React.Component {
           style: this.state.style,
           id: this.state.id,
           contentChanger: this.changeContent,
-          content:this.state.content,
-          src:this.state.src
+          content: this.state.content,
         });
         break;
       case "Button":
@@ -149,6 +148,7 @@ class DragComp extends React.Component {
           style: this.state.style,
           id: this.state.id,
           contentChanger: this.changeContent,
+          src: this.state.src,
         });
         break;
       case "Image":
@@ -158,6 +158,7 @@ class DragComp extends React.Component {
           style: this.state.style,
           id: this.state.id,
           contentChanger: this.changeContent,
+          src: this.state.src,
         });
         break;
     }
@@ -170,6 +171,7 @@ class DragComp extends React.Component {
     if (src) {
       this.setState({ ...this.state, src: src });
     }
+    this.props.contentSetter({ newContent, src }, this.state.id);
   };
 
   render() {

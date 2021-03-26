@@ -73,6 +73,9 @@ class Signup extends React.Component {
 
         await this.props.registerUser(user);
         // TODO Check for ok response code
+        if (this.props.auth && this.props.auth.user) {
+            this.props.history.push("/dashboard");
+        }
     };
     render() {
         return (
@@ -84,6 +87,7 @@ class Signup extends React.Component {
                     setEmail: this.setEmail,
                     handleSubmit: this.handleSubmit,
                 }}
+                error={this.props.error}
             />
         );
     }

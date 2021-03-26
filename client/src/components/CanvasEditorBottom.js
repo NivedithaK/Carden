@@ -20,7 +20,7 @@ import {
   ComponentPositionMenu,
   ButtonSpecificMenu,
   ContentInput,
-  SrcInput
+  SrcInput,
 } from "./EditorMenuItems.js";
 
 const properties = { default: 1, text: 2, img: 3, button: 4 };
@@ -113,8 +113,20 @@ function CanvasEditorBottom(props) {
             </center>
           ) : null}
           <Divider />
-          {propertyMenu.property === properties.text || propertyMenu.property === properties.button ? <ContentInput defaultValue={propertyMenu.content} setTargetField={propertyMenu.contentChanger}></ContentInput> : null}
-          {propertyMenu.property === properties.img || propertyMenu.property === properties.button ? <SrcInput defaultValue={propertyMenu.src} setTargetField={propertyMenu.contentChanger}></SrcInput> : null}
+          {propertyMenu.property === properties.text ||
+          propertyMenu.property === properties.button ? (
+            <ContentInput
+              defaultValue={propertyMenu.content}
+              setTargetField={propertyMenu.contentChanger}
+            ></ContentInput>
+          ) : null}
+          {propertyMenu.property === properties.img ||
+          propertyMenu.property === properties.button ? (
+            <SrcInput
+              defaultValue={propertyMenu.src}
+              setTargetField={propertyMenu.contentChanger}
+            ></SrcInput>
+          ) : null}
           <ToolItem label="Component" m="auto" textAlign="center">
             {propertyMenu.property === properties.default
               ? "No Component Selected"

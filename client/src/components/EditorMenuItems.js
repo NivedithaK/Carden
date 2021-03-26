@@ -46,6 +46,8 @@ const ContentInput = (props) => {
         onChange={(valueString) => {
           setValue(valueString.target.value);
           props.setTargetField(valueString.target.value, undefined);
+          console.log(valueString.target.value);
+
         }}
         placeholder="Text"
         size="sm"
@@ -170,23 +172,29 @@ function PXStepper({ min, max, defaultValue, step, setTargetField }) {
 
 function SelectionMenu(props) {
   /**Store Menu Items and Menu Selection in State */
-  const [selection, setSelection] = useState("Select Option");
+  const { numScenes, currentScene } = props;
+  const [selection, setSelection] = useState("Page 1");
+  var menuItems = [];
+  var i;
+  for (i = 0; i < numScenes; i++) {
+    const sceneNum = i;
+    menuItems.push(
+      <MenuItem
+        onClick={() => {
+          setSelection(`Page ${sceneNum + 1}`);
+          props.setScene(sceneNum);
+        }}
+      >
+        Page {sceneNum + 1}
+      </MenuItem>
+    );
+  }
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<ChevronDownIcon />} overflow="hidden">
-        {selection}
+        {`Page ${currentScene + 1}`}
       </MenuButton>
-      <MenuList>
-        <MenuItem onClick={() => setSelection("Select Option")}>
-          Select Option
-        </MenuItem>
-        <MenuItem onClick={() => setSelection("Placeholder1")}>
-          Placeholder1
-        </MenuItem>
-        <MenuItem onClick={() => setSelection("Placeholder2")}>
-          Placeholder2
-        </MenuItem>
-      </MenuList>
+      <MenuList>{menuItems}</MenuList>
     </Menu>
   );
 }
@@ -298,7 +306,7 @@ function CanvasDragAndDrop(props) {
           flex="1"
           label="Add Text"
           onClick={(e) => {
-            props.addComp(e, "Text");
+            props.addComp(e, 0, 0, "Text");
           }}
         ></DragAndDropItem>
         <DragAndDropItem
@@ -306,7 +314,7 @@ function CanvasDragAndDrop(props) {
           flex="1"
           label="Add Image"
           onClick={(e) => {
-            props.addComp(e, "Image");
+            props.addComp(e, 0, 0, "Image");
           }}
         ></DragAndDropItem>
         <DragAndDropItem
@@ -314,7 +322,7 @@ function CanvasDragAndDrop(props) {
           flex="1"
           label="Add Button"
           onClick={(e) => {
-            props.addComp(e, "Button");
+            props.addComp(e, 0, 0, "Button");
           }}
         ></DragAndDropItem>
       </Flex>
