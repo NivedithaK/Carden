@@ -19,5 +19,7 @@
         "url": "https://github.com/UTMCSC301/final-project-301-weebs/issues"
     },
     "homepage": "https://github.com/UTMCSC301/final-project-301-weebs#readme",
-    "dependencies": {}
+    "dependencies": {
+        "aws-sdk": "^2.872.0"
+    }
 }
