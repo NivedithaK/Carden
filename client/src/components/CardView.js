@@ -16,6 +16,8 @@ import {
 import { StarIcon } from "@chakra-ui/icons";
 import { useHistory } from "react-router-dom";
 
+import html2canvas from 'html2canvas';
+
 function CardView(props) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const history = useHistory();
@@ -23,6 +25,11 @@ function CardView(props) {
 		e.preventDefault();
 		history.push("/edit");
 	};
+
+	let canvas = <canvas width="100px" height="100px"/>
+
+
+
 	return (
 		<>
 			<Button
@@ -33,7 +40,9 @@ function CardView(props) {
 				bg="palette.500"
 				onClick={onOpen}
 				w="20vw" h="20vw" maxH="50vh" maxW = "50vw"
-			></Button>
+			>
+
+			</Button>
 			<Modal isOpen={isOpen} onClose={onClose} size="6xl" isCentered>
 				<ModalOverlay />
 				<ModalContent>
