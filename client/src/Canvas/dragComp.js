@@ -25,12 +25,12 @@ class DragComp extends React.Component {
   }
 
   generateComponent() {
-    let compStyle = { ...this.props.style };
+    let compStyle = { ...this.state.style };
     compStyle.left = undefined;
     compStyle.top = undefined;
     compStyle.position = "initial";
     let newcomp = null;
-    switch (this.props.type) {
+    switch (this.state.type) {
       case "Button":
         // onClick={() => {window.location.replace("http://"+this.state.src);}}
         newcomp = (
