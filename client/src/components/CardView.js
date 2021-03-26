@@ -41,7 +41,11 @@ function CardView(props) {
 				onClick={onOpen}
 				w="20vw" h="20vw" maxH="50vh" maxW = "50vw"
 			>
-				<ScreenShotRender></ScreenShotRender>
+				<ScreenShotRender>
+					<Box>
+						honk
+					</Box>
+				</ScreenShotRender>
 			</Button>
 			<Modal isOpen={isOpen} onClose={onClose} size="6xl" isCentered>
 				<ModalOverlay />
@@ -58,7 +62,11 @@ function CardView(props) {
 								bg="palette.500"
 								w="20vw" h="20vw" maxH="50vh" maxW = "50vw"
 							>
-								<ScreenShotRender></ScreenShotRender>
+								<ScreenShotRender>
+									<Box>
+										honk
+									</Box>
+								</ScreenShotRender>
 							</Box>
 						</Center>
 					</ModalBody>
