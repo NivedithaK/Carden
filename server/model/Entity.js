@@ -5,9 +5,13 @@ const Schema = mongoose.Schema;
 
 const entitySchema = new Schema(
 	{
-		location: {
+		top: {
 			type: String,
-			default: "",
+			default: "0",
+		},
+        left: {
+			type: String,
+			default: "0",
 		},
 		Animation: {
 			type: String,
@@ -107,7 +111,7 @@ const ButtonField = Entity.discriminator(
 			type: String,
 			default: "",
 		},
-		type: {
+		content: {
 			type: String,
 			default: "",
 		},
@@ -128,6 +132,7 @@ const BoxField = Entity.discriminator(
 	})
 );
 export default {
+    Entity,
 	TextField,
 	ImgField,
 	AudField,

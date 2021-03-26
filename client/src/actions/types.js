@@ -16,8 +16,14 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGOUT = "LOGOUT";
 export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
+<<<<<<< HEAD
 export const LOADING_CARDS = "LOADING_CARDS";
 export const CARDS_SUCCESS = "CARDS_SUCCESS";
 export const CARDS_FAILURE = "CARDS_FAILURE";
 export const UPDATE_SUCCESS = "UPDATE_SUCCESS";
 export const UPDATE_FAILURE = "UPDATE_FAILURE";
+=======
+export const PROFILE_START = "PROFILE_START";
+export const PROFILE_SUCCESS = "PROFILE_SUCCESS";
+export const PROFILE_FAILURE = "PROFILE_FAILURE";
+>>>>>>> develop

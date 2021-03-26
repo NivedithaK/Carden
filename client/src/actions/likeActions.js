@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { returnErrors, clearErrors } from './errorActions';
 import {
-    USER_LOADING,
     UPDATE_SUCCESS,
     UPDATE_FAILURE,
     LOADING_CARDS,
@@ -43,10 +42,9 @@ export const adjustLikeTemplate = (templateId) => async (
             let updatedTemplates = [];
             if (inc === 1) {
                 updatedTemplates = [...starredTemplates, templateId];
-                // starredTemplates.push(templateId);
             } else {
                 starredTemplates.forEach((tId) => {
-                    if (tId != templateId) {
+                    if (tId !== templateId) {
                         updatedTemplates.push(tId);
                     }
                 });
@@ -58,6 +56,7 @@ export const adjustLikeTemplate = (templateId) => async (
                 })
                 .then((resUsr) => {
                     dispatch(getUpdateSuccess(resUsr.data));
+                    dispatch(clearErrors());
                 })
                 .catch((err) => {
                     dispatch(
