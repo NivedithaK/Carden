@@ -21,6 +21,14 @@ class CanvasEditorView extends Component {
     };
   }
 
+
+  styleSetter = (newStyle, id) =>{
+    let tmpStyle = this.state.styles;
+    tmpStyle[id] = newStyle;
+    this.setState({...this.state, styles:tmpStyle});
+    console.log(newStyle);
+  }
+
   contentSetter = (newContent, id) => {
     console.log("changing ", id, "with content", newContent);
     let tmpContent = this.state.content;
@@ -182,6 +190,7 @@ class CanvasEditorView extends Component {
         type={type}
         content={this.state.content[this.state.id]}
         contentSetter={this.contentSetter}
+        styleSetter={this.styleSetter}
       ></DragComp>
     );
     //update all the things in the state
