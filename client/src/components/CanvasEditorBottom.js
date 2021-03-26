@@ -59,7 +59,7 @@ function CanvasEditorBottom(props){
                         borderColor={useColorModeValue("palette.600")}
                         >
                         <ModalPopup buttonText="Upload Image">
-                            <Upload/>
+                            <Upload uploadToCanvas={props.addComp}/>
                         </ModalPopup>
                     </Box>  
                 </Box>

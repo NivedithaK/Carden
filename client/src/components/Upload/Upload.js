@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ImageUploader from 'react-images-upload';
 import Axios from 'axios';
+import addComp from '../CanvasEditorView';
 
 const UploadComponent = props => (
     <form>
@@ -22,9 +23,9 @@ const UploadComponent = props => (
     </form>
 );
 
-const Upload = () => {
+const Upload = (props) => {
     const [progress, setProgress] = useState('getUpload');
-    const [url, setImageURL] = useState(undefined);
+    const [url, setImageURL] = useState('https://g892ued5af.execute-api.us-east-1.amazonaws.com/dev/image-upload');
     const [errorMessage, setErrorMessage] = useState('');
 
     const onUrlChange = e => {
@@ -32,12 +33,6 @@ const Upload = () => {
     };
 
     const onImage = async (failedImages, successImages) => {
-        if (!url) {
-            console.log('missing Url');
-            setErrorMessage('missing a url to upload to');
-            setProgress('uploadError');
-            return;
-        }
 
         setProgress('uploading');
 
@@ -47,11 +42,13 @@ const Upload = () => {
             const mime = parts[0].split(':')[1];
             const name = parts[1].split('=')[1];
             const data = parts[2];
-            const res = await Axios.post(url, { mime, name, image: data});
+            const res = await Axios.post("https://g892ued5af.execute-api.us-east-1.amazonaws.com/dev/image-upload", { mime, name, image: data});
 
             setImageURL(res.data.imageURL);
             setProgress('uploaded');
-            // await Axios.get(url, {});
+            const files = await Axios.get(url, { mime, name, image: data});
+            console.log(files.data.Contents);
+            props.uploadToCanvas(null, 'Image', res.data.imageURL);
         } catch (error) {
             console.log('error in upload', error);
             setErrorMessage(error.message);

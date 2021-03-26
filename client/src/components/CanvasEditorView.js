@@ -6,6 +6,7 @@ import CanvasEditorBottom from "./CanvasEditorBottom.js";
 import { postTemplate, loadTemplate } from "../actions/cardActions";
 import DragComp from "../Canvas/dragComp";
 
+
 class CanvasEditorView extends Component {
   constructor(props) {
     super(props);
@@ -67,13 +68,19 @@ class CanvasEditorView extends Component {
     });
   };
   //add component to canvas
-  addComp = (e, type) => {
+  addComp = (e, type, defo=null) => {
     let newcomp;
+    let userin;
     //take some user input
-    let userin = window.prompt(
-      "Enter input (This is temporary, for demo purposes)",
-      ""
-    );
+    if (defo == null)
+    {
+      userin = window.prompt(
+        "Enter input (This is temporary, for demo purposes)",
+        ""
+      );
+    } else {
+      userin = defo;
+    }
     //dont make a component if cancel or nothing inputed
     if (userin === "" || userin === null) {
       return;

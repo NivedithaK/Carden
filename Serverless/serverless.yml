@@ -36,9 +36,9 @@ functions:
         handler: lambdas/endpoints/imageList.handler
         events:
             - http:
-                  path: image-list
+                  path: file-list
                   method: GET
-                  cors: false
+                  cors: true
 
 resources:
     Resources:
