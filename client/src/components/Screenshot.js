@@ -1,15 +1,23 @@
-
-
 import React, { createRef, useEffect } from 'react'
 import { useScreenshot } from 'use-react-screenshot'
- 
+
+const simplePromise = new Promise(() => {
+    setTimeout(() => {}, 100);
+});
+
 function ScreenShotRender(props){
 	const ref = createRef(null)
 	const [image, takeScreenshot] = useScreenshot()
     const getImage = () => takeScreenshot(ref.current)
 
+
+
     useEffect(() => {
-            getImage()
+            let isMounted = true;
+            simplePromise.then(() =>{
+                if(isMounted) getImage();
+            });
+            return () => { isMounted = false };
         });
 
 	return (

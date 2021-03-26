@@ -18,6 +18,10 @@ import { StarIcon } from "@chakra-ui/icons";
 import { useHistory } from "react-router-dom";
 import ScreenShotRender from "./Screenshot.js";
 
+const simplePromise = new Promise(() => {
+    setTimeout(() => {}, 100);
+});
+
 function CardView(props) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const history = useHistory();
@@ -37,6 +41,7 @@ function CardView(props) {
 				onClick={onOpen}
 				w="20vw" h="20vw" maxH="50vh" maxW = "50vw"
 			>
+				<ScreenShotRender></ScreenShotRender>
 			</Button>
 			<Modal isOpen={isOpen} onClose={onClose} size="6xl" isCentered>
 				<ModalOverlay />
@@ -53,7 +58,7 @@ function CardView(props) {
 								bg="palette.500"
 								w="20vw" h="20vw" maxH="50vh" maxW = "50vw"
 							>
-								
+								<ScreenShotRender></ScreenShotRender>
 							</Box>
 						</Center>
 					</ModalBody>
