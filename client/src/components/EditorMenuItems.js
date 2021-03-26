@@ -29,7 +29,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import Canvas from "../Canvas/canvas";
 
-// import { SketchPicker } from 'react-color';
+import { SketchPicker } from 'react-color';
 
 const ToolSection = (props) => {
   return (
@@ -178,7 +178,7 @@ function ColorSelector(props) {
               left={{ sm: "50%", lg: "auto" }}
               transform={{ sm: "translate(-50%, -50%)", lg: "auto" }}
             >
-              {/* <SketchPicker color={color} onChange={(color) => handleChange(color)} /> */}
+              { <SketchPicker color={color} onChange={(color) => handleChange(color)} /> }
             </Box>
           </Box>
         ) : null
@@ -189,7 +189,7 @@ function ColorSelector(props) {
               <SketchPicker color={color} onChange={(color) => handleChange(color)} />
             </Box>
           </Box>
-           */
+          **/
       }
     </Box>
   );
@@ -328,7 +328,8 @@ function TextPropertiesMenu(props) {
           setClassStateColor={
             props.items.changeFunc
               ? (value) => {
-                  props.items.style = props.items.changeFunc({ color: value });
+                  let color = `rgba(${value.r}, ${value.g}, ${value.b}, ${value.a}`;
+                  props.items.style = props.items.changeFunc({ color: color });
                 }
               : (value) => {}
           }
@@ -501,8 +502,9 @@ function ComponentPositionMenu(props) {
       <ToolItem label="box-color">
         <ColorSelector
           setClassStateColor={(value) => {
+            let color = `rgba(${value.r}, ${value.g}, ${value.b}, ${value.a}`;
             props.items.style = props.items.changeFunc({
-              backgroundColor: value,
+              backgroundColor: color,
             });
           }}
         />
