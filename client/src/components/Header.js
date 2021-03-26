@@ -126,7 +126,6 @@ const Header = (props) => {
                             Sign Up
                         </Button>
                     </Box>
-
                     {colorMode === "light" ? (
                         <MoonIcon ml="20px" />
                     ) : (
