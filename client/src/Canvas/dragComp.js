@@ -20,7 +20,9 @@ class DragComp extends React.Component {
   }
 
   componentDidMount() {
-      this.setState({ ...this.state, comp: this.generateComponent(), content: this.props.content });
+    if (!this.state.comp) {
+      this.setState({ ...this.state, comp: this.generateComponent() });
+    }
   }
 
   generateComponent() {
