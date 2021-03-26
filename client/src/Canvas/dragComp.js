@@ -116,12 +116,15 @@ class DragComp extends React.Component {
         ...style,
       };
     }
+    this.props.styleSetter(compStyle, this.state.id);
     compStyle.left = undefined;
     compStyle.top = undefined;
     compStyle.position = "initial";
     let newComp = React.cloneElement(this.state.comp, {
       style: compStyle,
     });
+
+    
     this.setState({
       ...editedStyle,
       comp: newComp,
