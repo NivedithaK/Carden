@@ -1,9 +1,10 @@
-import React from "react";
+import React from 'react';
 import {Box, VStack, Heading, Flex } from "@chakra-ui/react";
 import { SearchBar, SearchFilter } from "../components/SearchBar.js";
 import {IndexedGallery} from "../components/ImageGallery.js";
 import TwoGrid from "../components/FourGrid.js";
 import CardViewWrapper from "../components/CardViewWrapper";
+
 
 class Explore extends React.Component {
 	constructor(props) {

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { createRef, useEffect } from 'react'
+import { useScreenshot } from 'use-react-screenshot'
 import {
 	Center,
 	useDisclosure,
@@ -15,8 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 import { useHistory } from "react-router-dom";
-
-import html2canvas from 'html2canvas';
+import ScreenShotRender from "./Screenshot.js";
 
 function CardView(props) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,10 +25,6 @@ function CardView(props) {
 		e.preventDefault();
 		history.push("/edit");
 	};
-
-	let canvas = <canvas width="100px" height="100px"/>
-
-
 
 	return (
 		<>
@@ -41,7 +37,6 @@ function CardView(props) {
 				onClick={onOpen}
 				w="20vw" h="20vw" maxH="50vh" maxW = "50vw"
 			>
-
 			</Button>
 			<Modal isOpen={isOpen} onClose={onClose} size="6xl" isCentered>
 				<ModalOverlay />
@@ -57,7 +52,9 @@ function CardView(props) {
 								borderColor="palette.100"
 								bg="palette.500"
 								w="20vw" h="20vw" maxH="50vh" maxW = "50vw"
-							></Box>
+							>
+								
+							</Box>
 						</Center>
 					</ModalBody>
 
