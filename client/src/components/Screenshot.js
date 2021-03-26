@@ -8,17 +8,14 @@ const simplePromise = new Promise(() => {
 function ScreenShotRender(props) {
     const ref = createRef(null);
     const [image, takeScreenshot] = useScreenshot();
-    const getImage = () => takeScreenshot(ref.current);
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         if (!loaded) {
-            getImage();
+            takeScreenshot(ref.current);
+            if (image) setLoaded(true);
         }
-        if (image) {
-            setLoaded(true);
-        }
-    }, [loaded, getImage, image]);
+    }, [loaded, takeScreenshot, ref, image]);
 
     return (
         <div>
