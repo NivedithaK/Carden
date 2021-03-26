@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import logo from "../assets/logo.png";
 import logoDark from "../assets/logo-white.png";
@@ -33,7 +33,6 @@ const MenuItems = ({ children, handleClick }) => {
 
 const Header = (props) => {
     const [show, setShow] = React.useState(false);
-
     const { colorMode, toggleColorMode } = useColorMode();
     const mode = localStorage.getItem("chakra-ui-color-mode");
     const handleToggle = () => setShow(!show);

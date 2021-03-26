@@ -16,6 +16,8 @@ class Profile extends React.Component {
             confirmPassword: "",
             isLoggedin: false,
             updated: false,
+            errored: false,
+            errorMsg: "",
         };
         this.setUsername = this.setUsername.bind(this);
         this.setEmail = this.setEmail.bind(this);
@@ -27,7 +29,6 @@ class Profile extends React.Component {
         console.log("Component mounted");
         // load user info in here for profile
         if (this.props.auth && this.props.auth.user) {
-            console.log("REDUX: " + this.props.auth.user);
             this.setState({
                 user: this.props.auth.user,
                 username: this.props.auth.user.username,
@@ -38,45 +39,73 @@ class Profile extends React.Component {
             this.props.history.push("/login");
         }
     }
+
     setUsername = (e) => {
         this.setState({
             ...this.state,
             username: e.target.value,
+            updated: false,
+            errored: false,
         });
     };
     setEmail = (e) => {
         this.setState({
             ...this.state,
             email: e.target.value,
+            updated: false,
+            errored: false,
         });
     };
     setPassword = (e) => {
         this.setState({
             ...this.state,
             password: e.target.value,
+            updated: false,
+            errored: false,
         });
     };
     setConfirmPass = (e) => {
         this.setState({
             ...this.state,
             confirmPassword: e.target.value,
+            updated: false,
+            errored: false,
         });
     };
     handleSubmit = async (e) => {
         e.preventDefault();
-
+        this.setState({
+            ...this.state,
+            errored: false,
+            errorMsg: "",
+            updated: false,
+        });
         if (this.state.password !== this.state.confirmPassword) {
-            alert("passwords dont match");
-            console.log("passwords dont match");
+            this.setState({
+                ...this.state,
+                username: this.props.auth.user.username,
+                errored: true,
+                errorMsg: "Passwords must match",
+            });
             return;
         }
         if (this.state.password != "" && this.state.password.length < 5) {
-            alert("Password must be at least 5 characters");
+            this.setState({
+                ...this.state,
+                username: this.props.auth.user.username,
+                errored: true,
+                errorMsg: "Password must be at least 5 characters",
+            });
             return;
         }
 
         if (this.state.username.length < 5) {
-            alert("Username must be at least 5 characters");
+            this.setState({
+                ...this.state,
+                username: this.props.auth.user.username,
+                errored: true,
+                errorMsg: "Username must be at least 5 characters",
+            });
             return;
         }
 
@@ -87,12 +116,23 @@ class Profile extends React.Component {
         };
 
         await this.props.updateProfile(updatedUser, this.state.user["_id"]);
-        this.setState({
-            ...this.state,
-            user: this.props.auth.user,
-            username: this.props.auth.user.username,
-            updated: true,
-        });
+        if (this.props.error.id) {
+            this.setState({
+                ...this.state,
+                user: this.props.auth.user,
+                username: this.props.auth.user.username,
+                errored: true,
+                errorMsg: "Username must be unique",
+            });
+        } else {
+            this.setState({
+                ...this.state,
+                user: this.props.auth.user,
+                username: this.props.auth.user.username,
+                updated: true,
+                errorMsg: "",
+            });
+        }
     };
     render() {
         return (
@@ -105,9 +145,10 @@ class Profile extends React.Component {
                         setPassword: this.setPassword,
                         setConfirmPass: this.setConfirmPass,
                         handleSubmit: this.handleSubmit,
-                        error: this.props.error,
                         isLoggedin: this.state.isLoggedin,
                         updated: this.state.updated,
+                        errored: this.state.errored,
+                        errorMsg: this.state.errorMsg,
                     }}
                 />
             </>
