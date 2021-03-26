@@ -13,11 +13,29 @@ class CanvasEditorView extends Component {
       canvasColor: { r: 220, g: 118, b: 118, a: 1 }, //Will have to have different background colors depending on the Canvas
       canvasHeight: 500,
       canvasWidth: 500,
-      styles: [],
-      pos: [],
-      comps: [],
+      styles: {},
+      pos: {},
+      comps: [{}],
+      scene: 0,
       id: 0,
     };
+  }
+
+  setScene = (i) => {
+    this.setState({
+      ...this.state,
+      scene: i,
+    });
+  };
+
+  addScene = () => {
+    let components = this.state.comps;
+    components.push({});
+    this.setState({
+      ...this.state,
+      comps: components,
+      scene: components.length-1,
+    });
   }
 
   //update the position of a child component
@@ -31,12 +49,15 @@ class CanvasEditorView extends Component {
     //change the component that needs to rerender
     let components = this.state.comps;
     //"reprop" the component because render cannot rerender an array
-    components[id] = React.cloneElement(components[id], {
-      top: this.state.pos[id].y,
-      left: this.state.pos[id].x,
-      id: id,
-      style: newStyles[id],
-    });
+    components[this.state.scene][id] = React.cloneElement(
+      components[this.state.scene][id],
+      {
+        top: this.state.pos[id].y,
+        left: this.state.pos[id].x,
+        id: id,
+        style: newStyles[id],
+      }
+    );
     //save the state
     this.setState({
       ...this.state,
@@ -71,7 +92,9 @@ class CanvasEditorView extends Component {
     }
     this.wrapComp(newcomp, 0, 0, "absolute");
   };
-
+   handleBack = () => {
+        this.props.history.push("/dashboard");
+    };
   loadComp = (entity) => {
     let newcomp = "";
     if (entity.kind == "Text") {
@@ -81,22 +104,28 @@ class CanvasEditorView extends Component {
     } else if (entity.kind == "Button") {
       newcomp = <Button>{entity.content}</Button>;
     }
-    return this.wrapComp(newcomp, parseFloat(entity.left), parseFloat(entity.top), "absolute");
+    return this.wrapComp(
+      newcomp,
+      parseFloat(entity.left),
+      parseFloat(entity.top),
+      "absolute"
+    );
   };
 
   wrapComp = (newcomp, x, y, position) => {
     let extendedPos = this.state.pos;
-    extendedPos.push({ id: this.state.id, x: x, y: y });
+    extendedPos[this.state.id] = { x: x, y: y };
 
     let extendedStyles = this.state.styles;
     let top = this.state.pos[this.state.id].y;
     let left = this.state.pos[this.state.id].x;
-    extendedStyles.push({
+    extendedStyles[this.state.id] = {
       top: top,
       left: left,
       position: position,
-    });
-    let addedcomp = this.state.comps.concat(
+    };
+    let addedcomp = this.state.comps;
+    addedcomp[this.state.scene][this.state.id] = (
       <DragComp
         key={this.state.id}
         id={this.state.id}
@@ -120,12 +149,9 @@ class CanvasEditorView extends Component {
   };
 
   save = () => {
-    postTemplate(this.state.comps);
+    console.log(postTemplate(this.state.comps));
   };
-
-  //TODO Add parsing for multiple scenes
-  //TODO Add error catching if template id is invalid
-  //TODO Correctly load non-absolute components
+  
   load = () => {
     let templateId = window.prompt(
       "Enter template id (TODO hookup to template browser instead of prompt)",
@@ -138,10 +164,14 @@ class CanvasEditorView extends Component {
         return;
       }
       Promise.all(newTemplate.scenes).then((newScenes) => {
-        if (newScenes.length == 0) {
-          return;
-        }
-        Promise.all(newScenes[0].entities).then((newEntities) => {
+        Promise.all(
+          newScenes.map(function (sceneElems) {
+            return Promise.all(sceneElems.entities);
+          })
+        ).then((newScenes) => {
+          if (newScenes.length == 0) {
+            return;
+          }
           self.state = {
             canvasColor: { r: 220, g: 118, b: 118, a: 1 }, //Will have to have different background colors depending on the Canvas
             canvasHeight: 500,
@@ -149,17 +179,32 @@ class CanvasEditorView extends Component {
             styles: [],
             pos: [],
             comps: [],
+            scene: 0,
             id: 0,
           };
-          newEntities.forEach(function (entity) {
-            let compId = self.loadComp(entity);
-            self.updatePos(compId, parseFloat(entity.left), parseFloat(entity.top));
+          var sceneNum = 0;
+          newScenes.forEach(function (scene) {
+            self.state.comps.push({});
+            self.state.scene = sceneNum;
+            scene.forEach(function (entity) {
+              let compId = self.loadComp(entity);
+              self.updatePos(
+                compId,
+                parseFloat(entity.left),
+                parseFloat(entity.top)
+              );
+            });
+            sceneNum++;
+          });
+          this.setState({
+            ...this.state,
+            scene: 0,
           });
         });
       });
     });
   };
-
+  
   render() {
     return (
       <Flex direction="column" h="100vh" width="100%" overflow="scroll">
@@ -168,7 +213,12 @@ class CanvasEditorView extends Component {
           w="100%"
           zIndex={5}
           save={this.save}
+          handleBack={this.handleBack}
           load={this.load}
+          setScene={this.setScene}
+          addScene={this.addScene}
+          numScenes={this.state.comps.length}
+          currentScene={this.state.scene}
         />
         <ThickHDivider flex="0.3" colorstring={"palette.800"} />
         <CanvasEditorBottom
@@ -181,7 +231,7 @@ class CanvasEditorView extends Component {
           canvasHeight={this.state.canvasHeight}
           updatePos={this.updatePos}
           addComp={this.addComp}
-          comps={this.state.comps}
+          comps={Object.values(this.state.comps[this.state.scene])}
         />
       </Flex>
     );

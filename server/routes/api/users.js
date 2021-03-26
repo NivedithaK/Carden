@@ -92,12 +92,12 @@ router.post("/login", async (req, res) => {
     await User.findOne({ username }).then((existingUser) => {
         // If the user does not exist.
         if (!existingUser) {
-            return res.status(400).json({ msg: "User does not exist." });
+            return res.status(404).json({ msg: "User does not exist." });
         }
 
         // Validate password
         if (!existingUser.validatePassword(password)) {
-            return res.status(400).json({
+            return res.status(403).json({
                 msg: "Invalid credentials",
             });
         }
@@ -172,7 +172,7 @@ router.post("/profile/:id", async (req, res) => {
     // 1. Find user
     const user = await User.findById({ _id: id });
     if (!user) {
-        return res.status(400).json({ msg: "User does not exist" });
+        return res.status(404).json({ msg: "User does not exist" });
     }
     const usernameCheck = await User.findOne({ username });
     if (usernameCheck && usernameCheck["_id"] != id) {
