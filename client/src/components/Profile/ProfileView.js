@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     GridItem,
     Grid,
@@ -15,6 +15,7 @@ import {
     Avatar,
     AvatarBadge,
     Center,
+    useToast,
     useColorMode,
     useColorModeValue,
 } from "@chakra-ui/react";
@@ -22,10 +23,12 @@ import background from "../../assets/backgroundLanding.png";
 import Sidebar from "../SideBar/SideBar.js";
 import Footer from "../Footer";
 import backgroundDark from "../../assets/backgroundDark.png";
-import StatusPopup from "./StatusPopup.js";
 import { useHistory } from "react-router";
 export default function ProfileView(props) {
     const [show, setShow] = useState(false);
+    const toast = useToast();
+    const id = "error-toast";
+    const successId = "success-toast";
     const onClick = () => {
         setShow(!show);
     };
@@ -36,12 +39,32 @@ export default function ProfileView(props) {
         setPassword,
         setConfirmPass,
         handleSubmit,
-        error,
+        errored,
         isLoggedin,
         updated,
+        errorMsg,
     } = props.data;
     const history = useHistory();
     const { colorMode } = useColorMode();
+    if (errored && !toast.isActive(id)) {
+        toast({
+            id: id,
+            title: "Error Updating Profile",
+            status: "error",
+            description: errorMsg,
+            duration: 3000,
+            isClosable: true,
+        });
+    } else if (updated && !errored && !toast.isActive(successId)) {
+        toast({
+            id: successId,
+            title: "Profile Update Successful",
+            status: "success",
+            description: "Successfully updated profile!",
+            duration: 3000,
+            isClosable: true,
+        });
+    }
     return (
         <div>
             <Flex
@@ -64,7 +87,6 @@ export default function ProfileView(props) {
                     borderRadius="25px"
                     boxShadow={colorMode == "light" ? "dark-lg" : "outline"}
                 >
-                    {updated && <StatusPopup error={error} />}
                     <form onSubmit={handleSubmit} className="form">
                         <Grid
                             templateColumns={[
@@ -92,6 +114,14 @@ export default function ProfileView(props) {
                                             value={username}
                                             placeholder="Username"
                                             onChange={setUsername}
+                                            isInvalid={
+                                                errorMsg ==
+                                                    "Username must be unique" ||
+                                                errorMsg ==
+                                                    "Username must be at least 5 characters"
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                     </FormControl>
                                     <FormControl id="email" p="10px">
