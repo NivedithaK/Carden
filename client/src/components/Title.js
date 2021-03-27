@@ -4,7 +4,7 @@ import { Heading, Box } from "@chakra-ui/react";
 function Title(props) {
 	return (
 		<Box
-			width="45vw"
+			width="100%"
 			borderRadius="sm"
 			borderWidth="2px"
 			boxShadow="md"
