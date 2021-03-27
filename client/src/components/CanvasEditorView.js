@@ -21,16 +21,17 @@ class CanvasEditorView extends Component {
     };
   }
 
+  contentGetter = (id) => {
+    return this.state.content[id];
+  };
 
-  styleSetter = (newStyle, id) =>{
+  styleSetter = (newStyle, id) => {
     let tmpStyle = this.state.styles;
-    tmpStyle[id] = newStyle;
-    this.setState({...this.state, styles:tmpStyle});
-    console.log(newStyle);
-  }
+    tmpStyle[id] = { ...newStyle };
+    this.setState({ ...this.state, styles: tmpStyle });
+  };
 
   contentSetter = (newContent, id) => {
-    console.log("changing ", id, "with content", newContent);
     let tmpContent = this.state.content;
     tmpContent[id] = newContent;
     let components = this.state.comps;
@@ -38,7 +39,7 @@ class CanvasEditorView extends Component {
       components[this.state.scene][id],
       {
         top: this.state.styles[id].top,
-        left:  this.state.styles[id].left,
+        left: this.state.styles[id].left,
         id: id,
         content: tmpContent[id],
       }
@@ -95,7 +96,6 @@ class CanvasEditorView extends Component {
       ...this.state,
       scene: i,
     });
-    console.log(this.state.content[0]);
   };
 
   addScene = () => {
@@ -113,7 +113,6 @@ class CanvasEditorView extends Component {
       comps: components,
       scene: components.length - 1,
     });
-    console.log(this.state.content[0]);
   };
 
   //update the position of a child component
@@ -175,7 +174,7 @@ class CanvasEditorView extends Component {
       fontSize: 12,
     };
     let extendedContent = this.state.content;
-    extendedContent[this.state.id] = { content: undefined, src: undefined };
+    extendedContent[this.state.id] = { content: "Input Content", src: "Input Source" };
     let addedcomp = this.state.comps;
     addedcomp[this.state.scene][this.state.id] = (
       <DragComp
@@ -191,6 +190,7 @@ class CanvasEditorView extends Component {
         content={this.state.content[this.state.id]}
         contentSetter={this.contentSetter}
         styleSetter={this.styleSetter}
+        contentGetter={this.contentGetter}
       ></DragComp>
     );
     //update all the things in the state

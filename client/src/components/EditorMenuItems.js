@@ -46,7 +46,6 @@ const ContentInput = (props) => {
         onChange={(valueString) => {
           setValue(valueString.target.value);
           props.setTargetField(valueString.target.value, undefined);
-          console.log(valueString.target.value);
 
         }}
         placeholder="Text"

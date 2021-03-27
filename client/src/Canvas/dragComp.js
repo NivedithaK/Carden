@@ -12,17 +12,15 @@ class DragComp extends React.Component {
       type: this.props.type,
       className: this.props.className,
       id: this.props.id,
-      content: this.props.content.content
-        ? this.props.content.content
-        : "Input Content",
-      src: this.props.content.src ? this.props.content.src : "Input Source",
+      content: this.props.content.content,
+      src: this.props.content.src,
     };
   }
 
+
+
   componentDidMount() {
-    if (!this.state.comp) {
-      this.setState({ ...this.state, comp: this.generateComponent() });
-    }
+    this.setState({ ...this.state, comp: this.generateComponent() });
   }
 
   generateComponent() {
@@ -31,8 +29,8 @@ class DragComp extends React.Component {
     compStyle.top = undefined;
     compStyle.position = "initial";
     let newcomp = null;
-    let src = this.state.src ? this.state.src : "Input Source";
-    let content = this.state.content ? this.state.content : "Input Content";
+    let src = this.state.src;
+    let content = this.state.content;
     switch (this.state.type) {
       case "Button":
         // onClick={() => {window.location.replace("http://"+this.state.src);}}
@@ -124,7 +122,6 @@ class DragComp extends React.Component {
       style: compStyle,
     });
 
-    
     this.setState({
       ...editedStyle,
       comp: newComp,
