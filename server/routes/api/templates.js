@@ -28,7 +28,41 @@ router.get("/:id", async (req, res) => {
 });
 
 /**
- * @route       GET api/templates/alphabetical
+ * @route       GET api/templates/search
+ * @description Get a list of templates as search results
+ * @access      public
+ */
+router.get("/tag/search/", async (req, res) => {
+	console.log(req);
+	if (!req.query.titletag) {
+		return res.status(400).json({ msg: "Missing search query." });
+	}
+
+	await Template.find({ $text: { $search: req.query.titletag } })
+		.sort({ score: { $meta: "textScore" } })
+		.then((template) => res.json(template))
+		.catch((e) => res.status(404).json({ error: "Not found" }));
+});
+
+/**
+ * @route       GET api/templates/usersearch
+ * @description Get a list of templates as search results by a user
+ * @access      public
+ */
+router.get("/tag/usersearch/", async (req, res) => {
+	console.log(req);
+	if (!req.query.titletag || !req.query.username) {
+		return res.status(400).json({ msg: "Missing search query." });
+	}
+
+	await Template.find({ $text: { $search: req.query.titletag } })
+		.sort({ score: { $meta: "textScore" } })
+		.then((template) => res.json(template))
+		.catch((e) => res.status(404).json({ error: "Not found" }));
+});
+
+/**
+ * @route       GET api/templates/tag/alphabetical
  * @description Get a list of templates in alphabetical order
  * @access      public
  */
@@ -48,7 +82,7 @@ router.get("/tag/alphabetical", async (req, res) => {
  */
 router.get("/tag/popular", async (req, res) => {
 	await Template.find()
-		.sort({ stars: 1 })
+		.sort({ stars: -1 })
 		.then((template) => res.json(template))
 		.catch((e) =>
 			res.status(404).json({ error: "template does not exist" })
@@ -79,17 +113,6 @@ router.get("/tag/oldest", async (req, res) => {
 		.catch((e) =>
 			res.status(404).json({ error: "template does not exist" })
 		);
-});
-
-/**
- * @route       POST api/templates
- * @description Find template by partial title match
- * @access      public
- */
-router.post("/", async (req, res) => {
-	await Template.create(req.body)
-		.then((template) => res.json(template))
-		.catch((e) => res.status(500).json({ error: e.message }));
 });
 
 /**

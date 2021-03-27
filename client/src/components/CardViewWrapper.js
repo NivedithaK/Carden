@@ -13,28 +13,29 @@ import CardView from "./CardView.js";
 import { AiFillHeart } from "react-icons/ai";
 
 function CardViewWrapper(props) {
+    const { title, username, numlikes } = props;
     return(
             <VStack
                 {...props}
                 >
                 <Center>
-                    <CardView/>
+                    <CardView  />
                 </Center>
                 
                 <HStack w="100%">
                     <VStack>
                         <Text fontSize="md" fontWeight="bold" mr="auto">
-                            Placeholder Title
+                            { title }
                         </Text>
                         <Text fontSize="md" mr="auto">
-                            Placeholder Description
+                            { username }
                         </Text>
                     </VStack>
                     
                         <Box ml="auto" mb="auto">
                             <HStack>
                                 <Icon as={AiFillHeart} color="red"/>
-                                <Text fontSize="sm" color="red">No.</Text>
+                                <Text fontSize="sm" color="red">{ numlikes }</Text>
                             </HStack>
                         </Box>
                 
