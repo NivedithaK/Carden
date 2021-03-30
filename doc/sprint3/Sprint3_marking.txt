@@ -127,7 +127,7 @@ Tracking on Jira:  (Max 24 marks)
 Sprint Completion: (Max 20 marks) 
 - With A Minimum Of 5 Stories
   [x = Percentage of story points completed * 20]
-Mark: 9.4/20
+  Mark: 20/20
 
 System Design - (PDF or MD file or another suitable format) (Max 10 marks) 
 - Cover Page and Table of Contents 
@@ -156,4 +156,4 @@ System Design - (PDF or MD file or another suitable format) (Max 10 marks)
   [0 marks: No diagram present or the presented document does not look like a software architecture diagram]
   Mark: 4/4
 
-Total: 65.4 / 78
+Total: 76 / 78
