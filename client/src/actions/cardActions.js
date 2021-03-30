@@ -11,31 +11,30 @@ export const getTemplate = async (id) => {
   return template;
 };
 
-export const postTemplate = async (template) => {
+export const postTemplate = async (color, width, height, template, sceneRef) => {
   var elemIds = [];
   template.forEach(function (scene) {
     var sceneElemIds = [];
     Object.values(scene).forEach(function (entity) {
-      if (entity.props.children.type == "p") {
+      if (entity.props.type == "Text") {
         const textfield = {
-          top: entity.props.top,
-          left: entity.props.left,
-          content: entity.props.children.props.children,
+          style: entity.props.style,
+          content: entity.props.content.content,
         };
         sceneElemIds.push(postTextfield(textfield));
-      } else if (typeof entity.props.children.type != "string") {
-        //TODO CHANGE THIS, catches all components that do not have a string for type
+      } else if (entity.props.type == "Button") {
+		console.log(sceneRef[entity.props.id]);
         const buttonfield = {
-          top: entity.props.top,
-          left: entity.props.left,
-          content: entity.props.children.props.children,
+          style: entity.props.style,
+          content: entity.props.content.content,
+		  src: entity.props.content.src,
+		  sceneRef: sceneRef[entity.props.id],
         };
         sceneElemIds.push(postButtonfield(buttonfield));
-      } else if (entity.props.children.type == "img") {
+      } else if (entity.props.type == "Image") {
         const imgfield = {
-          top: entity.props.top,
-          left: entity.props.left,
-          link: entity.props.children.props.src,
+		  style: entity.props.style,
+          src: entity.props.content.src,
         };
         sceneElemIds.push(postImgfield(imgfield));
       }
@@ -47,11 +46,11 @@ export const postTemplate = async (template) => {
       return Promise.all(sceneElemIds);
     })
   ).then((values) => {
-    return postSceneAndTemplate(values);
+    return postSceneAndTemplate(color, width, height, values);
   });
 };
 
-export const postSceneAndTemplate = async (elemIds) => {
+export const postSceneAndTemplate = async (color, width, height, elemIds) => {
   const sceneIds = await elemIds.map(async (sceneElemIds) => {
     const scene = {
       entities: sceneElemIds,
@@ -70,6 +69,9 @@ export const postSceneAndTemplate = async (elemIds) => {
     const newTemplate = {
       scenes: values,
       numScenes: values.length,
+	  canvasColor: color,
+	  canvasWidth: width,
+	  canvasHeight: height,
     };
 
     await axios

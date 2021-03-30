@@ -263,7 +263,8 @@ class CanvasEditorView extends Component {
   };
 
   save = () => {
-    console.log(postTemplate(this.state.comps));
+    console.log(this.state.comps);
+    console.log(postTemplate(this.state.canvasColor, this.state.canvasWidth, this.state.canvasHeight, this.state.comps, this.state.sceneRef));
   };
 
   load = () => {

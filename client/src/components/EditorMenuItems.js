@@ -29,7 +29,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import Canvas from "../Canvas/canvas";
 
-// import { SketchPicker } from 'react-color';
+import { SketchPicker } from 'react-color';
 
 const ContentInput = (props) => {
   const [value, setValue] = React.useState(
@@ -268,7 +268,7 @@ function ColorSelector(props) {
               left={{ sm: "50%", lg: "auto" }}
               transform={{ sm: "translate(-50%, -50%)", lg: "auto" }}
             >
-              {/* { <SketchPicker color={color} onChange={(color) => handleChange(color)} /> } */}
+               { <SketchPicker color={color} onChange={(color) => handleChange(color)} /> }
             </Box>
           </Box>
         ) : null
