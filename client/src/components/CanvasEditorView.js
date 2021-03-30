@@ -163,23 +163,32 @@ class CanvasEditorView extends Component {
   handleBack = () => {
     this.props.history.push("/dashboard");
   };
+
   loadComp = (entity) => {
-    let newcomp = "";
-    if (entity.kind === "Text") {
-      newcomp = <p>{entity.content}</p>;
-    } else if (entity.kind === "Image") {
-      newcomp = <img src={entity.link}></img>;
-    } else if (entity.kind === "Button") {
-      newcomp = <Button>{entity.content}</Button>;
+    console.log(this.state);
+    let extendedStyles = this.state.styles;
+    extendedStyles[this.state.id] = entity.style;
+    let extendedContent = this.state.content;
+    extendedContent[this.state.id] = {
+      content: "Input Content",
+      src: "Input Source",
+    };
+    if (entity.kind == "Text") {
+      extendedContent[this.state.id].content = entity.content;
+    } else if (entity.kind == "Image") {
+      extendedContent[this.state.id].src = entity.src;
+    } else if (entity.kind == "Button") {
+      extendedContent[this.state.id].content = entity.content;
+      extendedContent[this.state.id].src = entity.src;
+      let extendedSceneRef = this.state.sceneRef;
+      extendedSceneRef[this.state.id] = entity.sceneRef;
+      this.setState({
+        ...this.state,
+        sceneRef: extendedSceneRef,
+      });
     }
-    return this.addComp(
-      null,
-      parseFloat(entity.left),
-      parseFloat(entity.top),
-      entity.kind
-    );
+    return this.createDragComp(extendedStyles, extendedContent, entity.kind);
   };
-  ////////////////////////////////////////////////////////////////////
 
   addComp = (e, x, y, type) => {
     let extendedStyles = this.state.styles;
@@ -200,6 +209,10 @@ class CanvasEditorView extends Component {
       src: "Input Source",
     };
 
+    return this.createDragComp(extendedStyles, extendedContent, type);
+  };
+
+  createDragComp = (extendedStyles, extendedContent, type) => {
     let addedcomp = this.state.comps;
     addedcomp[this.state.scene][this.state.id] = (
       <DragComp
@@ -267,7 +280,31 @@ class CanvasEditorView extends Component {
 
   save = () => {
     console.log(this.state.comps);
-    console.log(postTemplate(this.state.canvasColor, this.state.canvasWidth, this.state.canvasHeight, this.state.comps, this.state.sceneRef));
+    console.log(
+      postTemplate(
+        this.state.canvasColor,
+        this.state.canvasWidth,
+        this.state.canvasHeight,
+        this.state.comps,
+        this.state.sceneRef
+      )
+    );
+  };
+
+  redefineProps = (self) => {
+    let components = self.state.comps;
+    for (let sceneid = 0; sceneid < self.state.comps.length; sceneid++) {
+      Object.keys(self.state.comps[sceneid]).forEach(function (id) {
+        components[sceneid][id] = React.cloneElement(components[sceneid][id], {
+          menuSetter: self.state.propertySetter,
+          displayProperties: self.state.properties,
+        });
+      });
+    }
+    this.setState({
+      ...this.state,
+      comps: components,
+    });
   };
 
   load = () => {
@@ -291,14 +328,17 @@ class CanvasEditorView extends Component {
             return;
           }
           self.state = {
-            canvasColor: { r: 220, g: 118, b: 118, a: 1 }, //Will have to have different background colors depending on the Canvas
-            canvasHeight: 500,
-            canvasWidth: 500,
-            styles: [],
+            canvasColor: newTemplate.canvasColor,
+            canvasHeight: newTemplate.canvasHeight,
+            canvasWidth: newTemplate.canvasWidth,
+            styles: {},
             comps: [],
             scene: 0,
             id: 0,
+            content: {},
+            sceneRef: {},
           };
+
           var sceneNum = 0;
           newScenes.forEach(function (scene) {
             self.state.comps.push({});
@@ -307,8 +347,8 @@ class CanvasEditorView extends Component {
               let compId = self.loadComp(entity);
               self.updatePos(
                 compId,
-                parseFloat(entity.left),
-                parseFloat(entity.top)
+                parseFloat(entity.style.left),
+                parseFloat(entity.style.top)
               );
             });
             sceneNum++;
@@ -317,6 +357,7 @@ class CanvasEditorView extends Component {
             ...this.state,
             scene: 0,
           });
+          this.redefineProps(self);
         });
       });
     });

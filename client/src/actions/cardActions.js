@@ -121,12 +121,18 @@ export const postImgfield = async (imgfield) => {
 
 export const loadTemplate = async (templateId) => {
   var template = {
+	canvasColor: {},
+	canvasHeight: 500,
+	canvasWidth: 500,
     scenes: [],
     numScenes: 0,
   };
   await axios
     .get(`http://localhost:5000/api/templates/${templateId}`)
     .then((res) => {
+	  template.canvasColor = res.data.canvasColor;
+	  template.canvasHeight = res.data.canvasHeight;
+	  template.canvasWidth = res.data.canvasWidth;
       template.numScenes = res.data.numScenes;
       res.data.scenes.forEach(function (sceneId) {
         template.scenes.push(loadScene(sceneId));
