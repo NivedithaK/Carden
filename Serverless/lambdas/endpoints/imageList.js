@@ -2,14 +2,17 @@ import * as AWS from 'aws-sdk';
 
 const s3 = new AWS.S3();
 
-exports.handler = async (event, context) => {
-
+exports.handler = async event => {
+    console.log(event)
     // console.log('Received event:', JSON.stringify(event, null, 2));
     try {
+        const id = event.queryStringParameters ? event.queryStringParameters.ID : null;
+        console.log(id);
         var params = { 
-            Bucket: process.env.imageUploadBucket
+            Bucket: process.env.imageUploadBucket,
+            Prefix: id + "/"
         }
-
+    
         console.log("Checkpoint 1");
 
         let s3Objects
