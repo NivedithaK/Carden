@@ -203,8 +203,6 @@ class CanvasEditorView extends Component {
   };
 
   addComp = (e, x, y, type) => {
-    let extendedClasses = this.state.classNames;
-    extendedClasses[this.state.id] = "comp";
     let extendedStyles = this.state.styles;
     let top = y;
     let left = x;
@@ -227,6 +225,8 @@ class CanvasEditorView extends Component {
   };
 
   createDragComp = (extendedStyles, extendedContent, type) => {
+    let extendedClasses = this.state.classNames;
+    extendedClasses[this.state.id] = "comp";
     let addedcomp = this.state.comps;
     addedcomp[this.state.scene][this.state.id] = (
       <DragComp
@@ -362,6 +362,7 @@ class CanvasEditorView extends Component {
             id: 0,
             content: {},
             sceneRef: {},
+            classNames: {},
           };
 
           var sceneNum = 0;
