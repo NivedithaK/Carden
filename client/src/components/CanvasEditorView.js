@@ -19,6 +19,7 @@ class CanvasEditorView extends Component {
       id: 0,
       content: {},
       sceneRef: {},
+      classNames: {},
     };
   }
 
@@ -46,7 +47,10 @@ class CanvasEditorView extends Component {
       }
     );
     let sceneref = this.state.sceneRef;
-    if (Object.keys(newContent).includes("src") && Object.keys(newContent).includes(id)) {
+    if (
+      Object.keys(newContent).includes("src") &&
+      Object.keys(newContent).includes(id)
+    ) {
       delete sceneref[id];
     }
     this.setState(
@@ -75,10 +79,12 @@ class CanvasEditorView extends Component {
     let tmpComps = this.state.comps;
     let tmpContent = this.state.content;
     let tmpSceneRef = this.state.sceneRef;
+    let tmpClassNames = this.state.classNames;
+    delete tmpClassNames[id];
     delete tmpContent[id];
     delete tmpStyles[id];
     delete tmpComps[this.state.scene][id];
-    if(Object.keys(tmpSceneRef).includes(String(id))){
+    if (Object.keys(tmpSceneRef).includes(String(id))) {
       delete tmpSceneRef[id];
     }
     this.state.propertySetter({
@@ -93,7 +99,8 @@ class CanvasEditorView extends Component {
       styles: tmpStyles,
       comps: tmpComps,
       content: tmpContent,
-      sceneRef: tmpSceneRef
+      sceneRef: tmpSceneRef,
+      classNames: tmpClassNames,
     });
   };
 
@@ -187,6 +194,8 @@ class CanvasEditorView extends Component {
   ////////////////////////////////////////////////////////////////////
 
   addComp = (e, x, y, type) => {
+    let extendedClasses = this.state.classNames;
+    extendedClasses[this.state.id] = "comp";
     let extendedStyles = this.state.styles;
     let top = y;
     let left = x;
@@ -256,8 +265,18 @@ class CanvasEditorView extends Component {
             : undefined
         }
         sceneSetter={this.setScene}
+        getclass={(id) => {
+          return this.state.classNames[id];
+        }}
+        setclass={(id, newclass) => {
+          this.setState({
+            ...this.state,
+            classNames: { ...this.state.classNames, [id]: newclass },
+          });
+        }}
       ></DragComp>
     );
+
     //update all the things in the state
     let oldId = this.state.id;
     this.setState({
@@ -266,6 +285,7 @@ class CanvasEditorView extends Component {
       id: oldId + 1,
       styles: extendedStyles,
       content: extendedContent,
+      classNames: extendedClasses,
     });
     return oldId;
   };

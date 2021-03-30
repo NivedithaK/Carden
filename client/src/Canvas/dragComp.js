@@ -9,7 +9,7 @@ class DragComp extends React.Component {
         ...this.props.styleGetter(this.props.id),
       },
       type: this.props.type,
-      className: this.props.className,
+      className: this.props.getclass(this.props.id),
       id: this.props.id,
       content: this.props.content.content,
       src: this.props.content.src,
@@ -112,6 +112,7 @@ class DragComp extends React.Component {
     //handle the workaround ;-;
     if (newStyle === "className") {
       this.setState({ ...this.state, className: style[newStyle] });
+      this.props.setclass(this.state.id, style[newStyle]);
       return this.state.style;
     }
     //if its a number in string from, convert it
@@ -230,7 +231,7 @@ class DragComp extends React.Component {
         onDragLeave={this.dragLeave}
         onDrop={this.props.changedDrop ? this.props.changedDrop : undefined}
         onContextMenu={this.onClick}
-        className={this.state.className}
+        className={this.props.getclass(this.state.id)}
         style={this.state.style}
       >
         {this.state.comp}
