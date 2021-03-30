@@ -46,8 +46,8 @@ class CanvasEditorView extends Component {
       }
     );
     let sceneref = this.state.sceneRef;
-    if (Object.keys(newContent).includes("src")) {
-      sceneref[id] = undefined;
+    if (Object.keys(newContent).includes("src") && Object.keys(newContent).includes(id)) {
+      delete sceneref[id];
     }
     this.setState(
       {
@@ -74,10 +74,13 @@ class CanvasEditorView extends Component {
     let tmpStyles = this.state.styles;
     let tmpComps = this.state.comps;
     let tmpContent = this.state.content;
+    let tmpSceneRef = this.state.sceneRef;
     delete tmpContent[id];
     delete tmpStyles[id];
     delete tmpComps[this.state.scene][id];
-
+    if(Object.keys(tmpSceneRef).includes(String(id))){
+      delete tmpSceneRef[id];
+    }
     this.state.propertySetter({
       property: this.state.properties.default,
       changeFunc: undefined,
@@ -89,6 +92,8 @@ class CanvasEditorView extends Component {
       ...this.state,
       styles: tmpStyles,
       comps: tmpComps,
+      content: tmpContent,
+      sceneRef: tmpSceneRef
     });
   };
 
