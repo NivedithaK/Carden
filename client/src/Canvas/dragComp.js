@@ -104,7 +104,11 @@ class DragComp extends React.Component {
 
   changeStyle = (style) => {
     //store the property being changed
+    if (typeof style === 'string') {
+      style = { fontFamily: style };
+    }
     let newStyle = Object.keys(style)[0];
+   
     //handle the workaround ;-;
     if (newStyle === "className") {
       this.setState({ ...this.state, className: style[newStyle] });

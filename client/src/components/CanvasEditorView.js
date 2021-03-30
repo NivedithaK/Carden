@@ -73,8 +73,11 @@ class CanvasEditorView extends Component {
   deleteComponent = (id) => {
     let tmpStyles = this.state.styles;
     let tmpComps = this.state.comps;
-    tmpStyles[id] = undefined;
-    tmpComps[this.state.scene][id] = undefined;
+    let tmpContent = this.state.content;
+    delete tmpContent[id];
+    delete tmpStyles[id];
+    delete tmpComps[this.state.scene][id];
+
     this.state.propertySetter({
       property: this.state.properties.default,
       changeFunc: undefined,

@@ -393,8 +393,28 @@ function TextPropertiesMenu(props) {
     <Box>
       <ToolItem label="Font">
         <SelectionMenu
-          defaultValue="Serif"
-          items={["Serif", "Times New Roman", "Sans-serif"]}
+          defaultValue={props.items.style.fontFamily? props.items.style.fontFamily : "Serif"}
+          items={[
+            "Arial",
+            "Arial Black",
+            "Verdana",
+            "Tahoma",
+            "Trebuchet MS",
+            "Impact",
+            "Times New Roman",
+            "Didot",
+            "Georgia",
+            "American Typewriter",
+            "Andalé Mono",
+            "Courier",
+            "Lucida Console",
+            "Monaco",
+            "Bradley Hand",
+            "Brush Script MT",
+            "Luminari",
+            "Comic Sans MS",
+          ]}
+          callback={props.items.changeFunc}
         />
       </ToolItem>
       <ToolItem label="Font-Size">
@@ -611,7 +631,11 @@ function ButtonSpecificMenu(props) {
     <Box>
       <ToolItem label="Link to page">
         <SelectionMenu
-          defaultValue={props.items.currentScene != null ? props.items.currentScene : "Select Page"}
+          defaultValue={
+            props.items.currentScene != null
+              ? props.items.currentScene
+              : "Select Page"
+          }
           items={["Select Page"].concat(props.items.options())}
           callback={props.items.callback}
         />
