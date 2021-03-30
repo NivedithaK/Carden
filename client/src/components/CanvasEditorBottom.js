@@ -116,6 +116,7 @@ function CanvasEditorBottom(props) {
           {propertyMenu.property === properties.text ||
           propertyMenu.property === properties.button ? (
             <ContentInput
+              id={propertyMenu.id}
               defaultValue={propertyMenu.content}
               setTargetField={propertyMenu.contentChanger}
             ></ContentInput>
@@ -123,7 +124,8 @@ function CanvasEditorBottom(props) {
           {propertyMenu.property === properties.img ||
           propertyMenu.property === properties.button ? (
             <SrcInput
-              defaultValue={propertyMenu.src}
+            id={propertyMenu.id}
+              defaultValue={propertyMenu.content}
               setTargetField={propertyMenu.contentChanger}
             ></SrcInput>
           ) : null}

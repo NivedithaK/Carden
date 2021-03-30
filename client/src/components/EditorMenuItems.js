@@ -29,14 +29,16 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import Canvas from "../Canvas/canvas";
 
-import { SketchPicker } from 'react-color';
+// import { SketchPicker } from 'react-color';
 
 const ContentInput = (props) => {
-  const [value, setValue] = React.useState(props.defaultValue);
+  const [value, setValue] = React.useState(
+    props.defaultValue(props.id).content
+  );
   const prevValRef = useRef();
   useEffect(() => {
     if (props.defaultValue != prevValRef.current) {
-      setValue(props.defaultValue);
+      setValue(props.defaultValue(props.id).content);
     }
     prevValRef.current = props.defaultValue;
   });
@@ -46,7 +48,6 @@ const ContentInput = (props) => {
         onChange={(valueString) => {
           setValue(valueString.target.value);
           props.setTargetField(valueString.target.value, undefined);
-
         }}
         placeholder="Text"
         size="sm"
@@ -58,11 +59,11 @@ const ContentInput = (props) => {
 };
 
 const SrcInput = (props) => {
-  const [value, setValue] = React.useState(props.defaultValue);
+  const [value, setValue] = React.useState(props.defaultValue(props.id).src);
   const prevValRef = useRef();
   useEffect(() => {
     if (props.defaultValue != prevValRef.current) {
-      setValue(props.defaultValue);
+      setValue(props.defaultValue(props.id).src);
     }
     prevValRef.current = props.defaultValue;
   });
@@ -169,7 +170,7 @@ function PXStepper({ min, max, defaultValue, step, setTargetField }) {
   );
 }
 
-function SelectionMenu(props) {
+function SelectionSceneMenu(props) {
   /**Store Menu Items and Menu Selection in State */
   const { numScenes, currentScene } = props;
   const [selection, setSelection] = useState("Page 1");
@@ -194,6 +195,38 @@ function SelectionMenu(props) {
         {`Page ${currentScene + 1}`}
       </MenuButton>
       <MenuList>{menuItems}</MenuList>
+    </Menu>
+  );
+}
+
+function SelectionMenu(props) {
+  /**Store Menu Items and Menu Selection in State */
+  const [selection, setSelection] = useState(props.defaultValue);
+  const prevValRef = useRef();
+  useEffect(() => {
+    if (props.defaultValue != prevValRef.current) {
+      setSelection(props.defaultValue);
+    }
+    prevValRef.current = props.defaultValue;
+  });
+  let menu = props.items.map((item) => {
+    return (
+      <MenuItem
+        onClick={() => {
+          props.callback(item);
+          setSelection(item);
+        }}
+      >
+        {item}
+      </MenuItem>
+    );
+  });
+  return (
+    <Menu>
+      <MenuButton as={Button} rightIcon={<ChevronDownIcon />} overflow="hidden">
+        {selection}
+      </MenuButton>
+      <MenuList>{menu}</MenuList>
     </Menu>
   );
 }
@@ -235,7 +268,7 @@ function ColorSelector(props) {
               left={{ sm: "50%", lg: "auto" }}
               transform={{ sm: "translate(-50%, -50%)", lg: "auto" }}
             >
-              { <SketchPicker color={color} onChange={(color) => handleChange(color)} /> }
+              {/* { <SketchPicker color={color} onChange={(color) => handleChange(color)} /> } */}
             </Box>
           </Box>
         ) : null
@@ -359,7 +392,10 @@ function TextPropertiesMenu(props) {
   return (
     <Box>
       <ToolItem label="Font">
-        <SelectionMenu />
+        <SelectionMenu
+          defaultValue="Serif"
+          items={["Serif", "Times New Roman", "Sans-serif"]}
+        />
       </ToolItem>
       <ToolItem label="Font-Size">
         <PXStepper
@@ -566,9 +602,6 @@ function ComponentPositionMenu(props) {
           }}
         />
       </ToolItem>
-      <ToolItem label="Animation">
-        <SelectionMenu />
-      </ToolItem>
     </Box>
   );
 }
@@ -576,11 +609,12 @@ function ComponentPositionMenu(props) {
 function ButtonSpecificMenu(props) {
   return (
     <Box>
-      <ToolItem label="Links to">
-        <SelectionMenu />
-      </ToolItem>
-      <ToolItem label="Transition">
-        <SelectionMenu />
+      <ToolItem label="Link to page">
+        <SelectionMenu
+          defaultValue={props.items.currentScene != null ? props.items.currentScene : "Select Page"}
+          items={["Select Page"].concat(props.items.options())}
+          callback={props.items.callback}
+        />
       </ToolItem>
     </Box>
   );
@@ -592,6 +626,7 @@ export {
   DragAndDropItem,
   ThickHDivider,
   SelectionMenu,
+  SelectionSceneMenu,
   PXStepper,
   ColorSelector,
   CanvasAttributesTools,

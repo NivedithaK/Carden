@@ -1,7 +1,8 @@
 .canvas .comp {
     cursor: pointer;
-    border: solid black;
+    /* border: solid black; */
     word-wrap: break-word;
+    padding:2px;
 }
 
 .leftWorkaround {

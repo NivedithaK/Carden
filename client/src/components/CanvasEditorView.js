@@ -18,11 +18,12 @@ class CanvasEditorView extends Component {
       scene: 0,
       id: 0,
       content: {},
+      sceneRef: {},
     };
   }
 
-  contentGetter = (id) => {
-    return this.state.content[id];
+  styleGetter = (id) => {
+    return this.state.styles[id];
   };
 
   styleSetter = (newStyle, id) => {
@@ -31,9 +32,9 @@ class CanvasEditorView extends Component {
     this.setState({ ...this.state, styles: tmpStyle });
   };
 
-  contentSetter = (newContent, id) => {
+  contentSetter = (newContent, id, callback) => {
     let tmpContent = this.state.content;
-    tmpContent[id] = newContent;
+    tmpContent[id] = { ...tmpContent[id], ...newContent };
     let components = this.state.comps;
     components[this.state.scene][id] = React.cloneElement(
       components[this.state.scene][id],
@@ -44,7 +45,21 @@ class CanvasEditorView extends Component {
         content: tmpContent[id],
       }
     );
-    this.setState({ ...this.state, content: tmpContent, comps: components });
+    let sceneref = this.state.sceneRef;
+    if (Object.keys(newContent).includes("src")) {
+      sceneref[id] = undefined;
+    }
+    this.setState(
+      {
+        ...this.state,
+        content: tmpContent,
+        comps: components,
+        sceneRef: sceneref,
+      },
+      () => {
+        callback();
+      }
+    );
   };
 
   propertySetter(setterFunction, properties) {
@@ -147,11 +162,11 @@ class CanvasEditorView extends Component {
   };
   loadComp = (entity) => {
     let newcomp = "";
-    if (entity.kind == "Text") {
+    if (entity.kind === "Text") {
       newcomp = <p>{entity.content}</p>;
-    } else if (entity.kind == "Image") {
+    } else if (entity.kind === "Image") {
       newcomp = <img src={entity.link}></img>;
-    } else if (entity.kind == "Button") {
+    } else if (entity.kind === "Button") {
       newcomp = <Button>{entity.content}</Button>;
     }
     return this.addComp(
@@ -172,9 +187,16 @@ class CanvasEditorView extends Component {
       left: left,
       position: "absolute",
       fontSize: 12,
+      display: "block",
+      height: 30,
+      width: 100,
     };
     let extendedContent = this.state.content;
-    extendedContent[this.state.id] = { content: "Input Content", src: "Input Source" };
+    extendedContent[this.state.id] = {
+      content: "Input Content",
+      src: "Input Source",
+    };
+
     let addedcomp = this.state.comps;
     addedcomp[this.state.scene][this.state.id] = (
       <DragComp
@@ -189,8 +211,43 @@ class CanvasEditorView extends Component {
         type={type}
         content={this.state.content[this.state.id]}
         contentSetter={this.contentSetter}
+        contentGetter={(id) => {
+          return this.state.content[id];
+        }}
         styleSetter={this.styleSetter}
-        contentGetter={this.contentGetter}
+        styleGetter={this.styleGetter}
+        scenes={
+          type === "Button"
+            ? () => {
+                return this.state.comps.length;
+              }
+            : undefined
+        }
+        getSceneRef={
+          type === "Button"
+            ? (id) => {
+                return this.state.sceneRef[id];
+              }
+            : undefined
+        }
+        setSceneRef={
+          type === "Button"
+            ? (id, scene) => {
+                let newSceneref = this.state.sceneRef;
+                if (scene !== "Select Page")
+                  newSceneref = { ...this.state.sceneRef, [id]: scene };
+                this.setState({
+                  ...this.state,
+                  sceneRef: newSceneref,
+                  content: {
+                    ...this.state.content,
+                    [id]: { ...this.state.content[id], src: "Input Source" },
+                  },
+                });
+              }
+            : undefined
+        }
+        sceneSetter={this.setScene}
       ></DragComp>
     );
     //update all the things in the state

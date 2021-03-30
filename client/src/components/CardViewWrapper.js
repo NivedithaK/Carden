@@ -10,7 +10,7 @@ import {
 
 import CardView from "./CardView.js";
 
-import { AiFillHeart } from "react-icons/ai";
+// import { AiFillHeart } from "react-icons/ai";
 
 function CardViewWrapper(props) {
     return(
@@ -33,7 +33,7 @@ function CardViewWrapper(props) {
                     
                         <Box ml="auto" mb="auto">
                             <HStack>
-                                <Icon as={AiFillHeart} color="red"/>
+                                {/* <Icon as={AiFillHeart} color="red"/> */}
                                 <Text fontSize="sm" color="red">No.</Text>
                             </HStack>
                         </Box>

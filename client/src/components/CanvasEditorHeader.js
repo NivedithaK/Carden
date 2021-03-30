@@ -10,7 +10,7 @@ import {
     GridItem,
 } from "@chakra-ui/react";
 
-import { ToolItem, SelectionMenu } from "./EditorMenuItems.js";
+import { ToolItem, SelectionSceneMenu } from "./EditorMenuItems.js";
 
 function CanvasEditorHeader(props) {
     const { handleBack } = props;
@@ -71,7 +71,7 @@ function CanvasEditorHeader(props) {
                 <Center>
                     <Heading size="sm">Current page: </Heading>
 
-                    <SelectionMenu
+                    <SelectionSceneMenu
                         setScene={props.setScene}
                         numScenes={props.numScenes}
                         currentScene={props.currentScene}

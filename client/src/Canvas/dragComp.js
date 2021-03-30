@@ -6,8 +6,7 @@ class DragComp extends React.Component {
     super(props);
     this.state = {
       style: {
-        ...this.props.style,
-        display: "block",
+        ...this.props.styleGetter(this.props.id),
       },
       type: this.props.type,
       className: this.props.className,
@@ -17,10 +16,8 @@ class DragComp extends React.Component {
     };
   }
 
-
-
   componentDidMount() {
-    this.setState({ ...this.state, comp: this.generateComponent() });
+    this.generateComponent();
   }
 
   generateComponent() {
@@ -29,21 +26,49 @@ class DragComp extends React.Component {
     compStyle.top = undefined;
     compStyle.position = "initial";
     let newcomp = null;
-    let src = this.state.src;
-    let content = this.state.content;
+    let gotContent = this.props.contentGetter(this.state.id);
+    let src = gotContent.src;
+    let content = gotContent.content;
     switch (this.state.type) {
       case "Button":
-        // onClick={() => {window.location.replace("http://"+this.state.src);}}
-        newcomp = <Button style={compStyle}>{content}</Button>;
+        let onclick = null;
+        if (src) {
+          onclick = () => {
+            let prefix = "";
+            if (!src.includes("http://") && !src.includes("https://")) {
+              prefix = "http://";
+            }
+            try {
+              window.open(prefix + src, "_blank");
+            } catch (e) {
+              return;
+            }
+          };
+        }
+        if (this.props.getSceneRef(this.state.id)) {
+          onclick = () => {
+            let sceneref = this.props.getSceneRef(this.state.id);
+            sceneref = sceneref.split(" ")[1];
+            sceneref = parseInt(sceneref) - 1;
+            this.props.sceneSetter(sceneref);
+          };
+        }
+        newcomp = (
+          <Button style={compStyle} onClick={onclick}>
+            {content}
+          </Button>
+        );
         break;
       case "Text":
         newcomp = <p style={compStyle}>{content}</p>;
         break;
       case "Image":
-        newcomp = <img style={compStyle} src={src}></img>;
+        newcomp = (
+          <img style={compStyle} src={src} alt="Invalid Image link"></img>
+        );
         break;
     }
-    return newcomp;
+    this.setState({ ...this.state, comp: newcomp });
   }
 
   dragStart = (e) => {
@@ -80,17 +105,16 @@ class DragComp extends React.Component {
   changeStyle = (style) => {
     //store the property being changed
     let newStyle = Object.keys(style)[0];
-    let compStyle = null;
     //handle the workaround ;-;
     if (newStyle === "className") {
       this.setState({ ...this.state, className: style[newStyle] });
       return this.state.style;
     }
     //if its a number in string from, convert it
-    if (typeof style[newStyle] && !isNaN(style[newStyle])) {
+    if (typeof style[newStyle] === "string" && !isNaN(style[newStyle])) {
       style[newStyle] = parseFloat(style[newStyle]);
     }
-    let editedStyle = null;
+    let editedStyle = { ...this.state.style, ...style };
     //check if its already in the style in which case toggle it
     if (
       (newStyle === "fontWeight" ||
@@ -99,39 +123,30 @@ class DragComp extends React.Component {
       Object.keys(this.state.style).includes(newStyle) &&
       this.state.style[newStyle] === style[newStyle]
     ) {
-      let newState = { ...this.state.style };
-      newState[newStyle] = "initial";
-      editedStyle = { ...this.state, style: { ...newState } };
-      compStyle = { ...newState };
-    } else {
-      //new style so append it
-      editedStyle = {
-        ...this.state,
-        style: { ...this.state.style, ...style },
-      };
-      compStyle = {
-        ...this.state.style,
-        ...style,
-      };
+      //toggle the three text modifications
+      editedStyle[newStyle] = "initial";
     }
-    this.props.styleSetter(compStyle, this.state.id);
-    compStyle.left = undefined;
-    compStyle.top = undefined;
-    compStyle.position = "initial";
+    let pureStyle = { ...editedStyle };
+    this.props.styleSetter(pureStyle, this.state.id);
+    editedStyle.left = undefined;
+    editedStyle.top = undefined;
+    editedStyle.position = "initial";
     let newComp = React.cloneElement(this.state.comp, {
-      style: compStyle,
+      style: editedStyle,
     });
 
     this.setState({
-      ...editedStyle,
+      style: { ...pureStyle },
       comp: newComp,
     });
-    return this.state.style;
+
+    return pureStyle;
   };
 
-  onClick = () => {
+  onClick = (e) => {
     //open the editor menu according to the type of content
     //for testing, only the text one will show
+    if (e) e.preventDefault();
     switch (this.state.type) {
       case "Text":
         this.props.menuSetter({
@@ -140,7 +155,7 @@ class DragComp extends React.Component {
           style: this.state.style,
           id: this.state.id,
           contentChanger: this.changeContent,
-          content: this.state.content,
+          content: this.props.contentGetter,
         });
         break;
       case "Button":
@@ -150,7 +165,26 @@ class DragComp extends React.Component {
           style: this.state.style,
           id: this.state.id,
           contentChanger: this.changeContent,
-          src: this.state.src,
+          content: this.props.contentGetter,
+          currentScene: this.props.getSceneRef(this.state.id),
+          callback: (scene) => {
+            this.props.setSceneRef(this.state.id, scene);
+            this.setState(
+              {
+                ...this.state,
+                content: { ...this.state.content, src: undefined },
+              },
+              this.generateComponent
+            );
+            //change on click
+          },
+          options: () => {
+            let pages = [];
+            for (let i = 1; i <= this.props.scenes(); i++) {
+              pages = pages.concat("Page " + i);
+            }
+            return pages;
+          },
         });
         break;
       case "Image":
@@ -160,20 +194,25 @@ class DragComp extends React.Component {
           style: this.state.style,
           id: this.state.id,
           contentChanger: this.changeContent,
-          src: this.state.src,
+          content: this.props.contentGetter,
         });
         break;
     }
   };
 
   changeContent = (newContent = undefined, src = undefined) => {
-    if (newContent) {
-      this.setState({ ...this.state, content: newContent });
+    let updatedContent = {};
+    if (newContent !== undefined) {
+      updatedContent = { content: newContent };
     }
-    if (src) {
-      this.setState({ ...this.state, src: src });
+    if (src !== undefined) {
+      updatedContent = { ...updatedContent, src: src };
     }
-    this.props.contentSetter({ newContent, src }, this.state.id);
+    this.props.contentSetter(
+      updatedContent,
+      this.state.id,
+      this.generateComponent.bind(this)
+    );
   };
 
   render() {
@@ -186,11 +225,11 @@ class DragComp extends React.Component {
         onDragEnter={this.dragEnter}
         onDragLeave={this.dragLeave}
         onDrop={this.props.changedDrop ? this.props.changedDrop : undefined}
-        onClick={this.onClick}
+        onContextMenu={this.onClick}
         className={this.state.className}
         style={this.state.style}
       >
-        {this.generateComponent()}
+        {this.state.comp}
       </div>
     );
   }
