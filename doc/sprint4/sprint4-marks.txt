@@ -73,7 +73,7 @@ Tracking on Jira:  (Max 24 marks) 24/24
 
 2/2
 
-- Did you start all stories for sprint Three? 
+- Did you start all stories for sprint Four? 
   [0=no story started]
   [1=part of the stories not started and explanation why not provided]
   [2=all stories started or some stories not started, but logical explanation provided as a story comment]
