@@ -5,12 +5,13 @@
     "main": "webpack.config.js",
     "dependencies": {
         "file-type": "^16.3.0",
+        "memoizee": "^0.4.15",
         "serverless-jest-plugin": "^0.3.0",
         "uuid": "^8.3.2"
     },
     "devDependencies": {
         "aws-sdk": "^2.872.0",
-        "serverless": "^2.31.0",
+        "serverless": "^2.32.0",
         "serverless-webpack": "^5.4.0",
         "webpack": "^5.28.0"
     },

@@ -10,8 +10,7 @@ const allowedMimes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'vide
 exports.handler = async event => {
     try {
         const body = JSON.parse(event.body);
-
-        if (!body || !body.image || !body.mime) {
+        if (!body || !body.image || !body.mime, !body.userID) {
             return Responses._400({ message: 'incorrect body on request' });
         }
 
@@ -32,12 +31,18 @@ exports.handler = async event => {
         if (detectedMime !== body.mime) {
             return Responses._400({ message: 'mime types dont match' });
         }
-
-        const name = uuid();
-        const key = `${name}.${detectedExt}`;
+        const name;
+        if (!body.pfp){
+            name = body.pfp;
+        }else{
+            name = uuid();
+        }
+        console.log('this is the userid', body.userID);
+        const key = body.userID + `/${name}.${detectedExt}`;
+        // body.userID
 
         console.log(`writing image to bucket called ${key}`);
-
+        
         await s3
             .putObject({
                 Body: buffer,
@@ -47,7 +52,7 @@ exports.handler = async event => {
                 ACL: 'public-read',
             })
             .promise();
-
+        
         const url = `https://${process.env.imageUploadBucket}.s3.amazonaws.com/${key}`;
         return Responses._200({
             imageURL: url,

@@ -27,6 +27,7 @@ const properties = {default: 1, text: 2, img: 3, button: 4}
 
 
 function CanvasEditorBottom(props){
+    console.log("canvas editor bottom", props)
 
     const [propertyMenu, setPropertyMenu] = useState(properties.default);
     const {canvasColorSetter, canvasWidthHook, canvasHeightHook} = props;
@@ -59,7 +60,9 @@ function CanvasEditorBottom(props){
                         borderColor={useColorModeValue("palette.600")}
                         >
                         <ModalPopup buttonText="Upload Image">
-                            <Upload uploadToCanvas={props.addComp}/>
+                            <Upload uploadToCanvas=
+                            {props.addComp}
+                            auth = {props.auth}/>
                         </ModalPopup>
                     </Box>  
                 </Box>
