@@ -1,15 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
-  Grid,
-  GridItem,
   Heading,
   Box,
-  FormControl,
-  FormLabel,
-  Input,
   Button,
   ButtonGroup,
-  Stack,
   useColorModeValue,
   Flex,
   Divider,
@@ -44,7 +38,7 @@ const ContentInput = (props) => {
   });
   return (
     <ToolItem label="Content">
-      <Input
+      <input
         onChange={(valueString) => {
           setValue(valueString.target.value);
           props.setTargetField(valueString.target.value, undefined);
@@ -69,7 +63,7 @@ const SrcInput = (props) => {
   });
   return (
     <ToolItem label="Source">
-      <Input
+      <input
         onChange={(valueString) => {
           setValue(valueString.target.value);
           props.setTargetField(undefined, valueString.target.value);

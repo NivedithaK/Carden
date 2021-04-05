@@ -19,10 +19,13 @@ import { useHistory } from "react-router-dom";
 function CardView(props) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const history = useHistory();
+
 	const handleUse = (e) => {
 		e.preventDefault();
-		history.push("/edit");
+		// call load with template id 
+		history.push("/create");
 	};
+
 	return (
 		<>
 			<Button

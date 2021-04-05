@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const model = mongoose.model;
 
 var TemplateSchema = new mongoose.Schema({
@@ -52,5 +52,6 @@ var TemplateSchema = new mongoose.Schema({
     }
 });
 
-const Template = mongoose.model('Template', TemplateSchema);
+TemplateSchema.index({ title: "text" });
+const Template = mongoose.model("Template", TemplateSchema);
 export default Template;
