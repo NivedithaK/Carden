@@ -4,10 +4,6 @@ import Axios from 'axios';
 
 const UploadComponent = props => (
     <form>
-        <label>
-            File Upload URL:
-            <input id="urlInput" type="text" onChange={props.onUrlChange} value={props.url}></input>
-        </label>
         <ImageUploader
             key="image-uploader"
             withIcon={true}
@@ -52,6 +48,12 @@ const Upload = (props) => {
                 setImageURL(res.data.imageURL);
                 setProgress('uploaded');
                 const files = await Axios.get(url, { params: {ID: userID} });
+                console.log(files);
+                console.log(files.data);
+                var index;
+                for (index in files.data.Contents){
+                    console.log(files.data.Contents[index].Key)
+                }
                 console.log(files.data.Contents);
                 props.uploadToCanvas(null, 'Image', res.data.imageURL);
             } catch (error) {
@@ -69,12 +71,14 @@ const Upload = (props) => {
             case 'uploading':
                 return <h2>Uploading....</h2>;
             case 'uploaded':
-                return <img src={url} alt="uploaded" />;
+                return (<>
+                        <h2>Image Successfully Uploaded </h2>
+                        <img src={url} alt="uploaded"/>
+                       </>);
             case 'uploadError':
                 return (
                     <>
-                        <div>Error message = {errorMessage}</div>
-                        <UploadComponent onUrlChange={onUrlChange} onImage={onImage} url={url} />
+                        <div>Error Failed to Upload {errorMessage}</div>
                     </>
                 );
         }
@@ -82,7 +86,7 @@ const Upload = (props) => {
 
     return (
         <div className="Upload">
-            <h1>Image Upload Website</h1>
+            <h1></h1>
             {content()}
         </div>
     );
