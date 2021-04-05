@@ -21,14 +21,11 @@ import background from "../assets/backgroundLanding.png";
 import backgroundDark from "../assets/backgroundDark.png";
 import ErrorPopup from "./Error/ErrorPopup";
 import PageWrapper from "../components/PageWrapper.js";
-import Header from "../components/Header.js";
+import Header from "../components/Header/Header.js";
 import Footer from "../components/Footer.js";
 import paint from "../assets/paint.png";
 
 function SignupView(props) {
-    useEffect(() => {
-        console.log(props.data);
-    }, []);
     const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);
     const { error } = props;
@@ -54,7 +51,7 @@ function SignupView(props) {
             }}
         >
             <PageWrapper>
-                <Header />
+                <Header history={history} />
                 {error.id && <ErrorPopup error={error} />}
                 <Box
                     w="50%"

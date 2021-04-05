@@ -4,13 +4,12 @@ import {
     Heading,
     Button,
     useColorModeValue,
-    Flex,
     Center,
     Grid,
     GridItem,
 } from "@chakra-ui/react";
 
-import { ToolItem, SelectionMenu } from "./EditorMenuItems.js";
+import { SelectionMenu } from "./EditorMenuItems.js";
 
 function CanvasEditorHeader(props) {
     const { handleBack } = props;
