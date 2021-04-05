@@ -5,8 +5,6 @@ import CanvasEditorHeader from "./CanvasEditorHeader.js";
 import CanvasEditorBottom from "./CanvasEditorBottom.js";
 import { postTemplate, loadTemplate } from "../actions/cardActions";
 import DragComp from "../Canvas/dragComp";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
 
 
 class CanvasEditorView extends Component {
@@ -240,7 +238,6 @@ class CanvasEditorView extends Component {
           canvasHeight={this.state.canvasHeight}
           updatePos={this.updatePos}
           addComp={this.addComp}
-          auth={this.props.auth}
           comps={Object.values(this.state.comps[this.state.scene])}
         />
       </Flex>
@@ -248,14 +245,4 @@ class CanvasEditorView extends Component {
   }
 }
 
-CanvasEditorView.propTypes = {
-  auth: PropTypes.object,
-  error: PropTypes.object,
-};
-
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  error: state.error,
-});
-
-export default connect(mapStateToProps)(CanvasEditorView);
+export default CanvasEditorView;
