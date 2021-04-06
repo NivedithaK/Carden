@@ -86,77 +86,79 @@ export const getAlphabeticalTemplates = async (id) => {
 	return templates;
 };
 
-export const postTemplate = async (template) => {
-	var elemIds = [];
-	template.forEach(function (scene) {
-		var sceneElemIds = [];
-		Object.values(scene).forEach(function (entity) {
-			if (entity.props.children.type == "p") {
-				const textfield = {
-					top: entity.props.top,
-					left: entity.props.left,
-					content: entity.props.children.props.children,
-				};
-				sceneElemIds.push(postTextfield(textfield));
-			} else if (typeof entity.props.children.type != "string") {
-				//TODO CHANGE THIS, catches all components that do not have a string for type
-				const buttonfield = {
-					top: entity.props.top,
-					left: entity.props.left,
-					content: entity.props.children.props.children,
-				};
-				sceneElemIds.push(postButtonfield(buttonfield));
-			} else if (entity.props.children.type == "img") {
-				const imgfield = {
-					top: entity.props.top,
-					left: entity.props.left,
-					link: entity.props.children.props.src,
-				};
-				sceneElemIds.push(postImgfield(imgfield));
-			}
-		});
-		elemIds.push(sceneElemIds);
-	});
-	Promise.all(
-		elemIds.map(function (sceneElemIds) {
-			return Promise.all(sceneElemIds);
-		})
-	).then((values) => {
-		return postSceneAndTemplate(values);
-	});
+export const postTemplate = async (color, width, height, template, sceneRef) => {
+  var elemIds = [];
+  template.forEach(function (scene) {
+    var sceneElemIds = [];
+    Object.values(scene).forEach(function (entity) {
+      if (entity.props.type == "Text") {
+        const textfield = {
+          style: entity.props.style,
+          content: entity.props.content.content,
+        };
+        sceneElemIds.push(postTextfield(textfield));
+      } else if (entity.props.type == "Button") {
+		console.log(sceneRef[entity.props.id]);
+        const buttonfield = {
+          style: entity.props.style,
+          content: entity.props.content.content,
+		  src: entity.props.content.src,
+		  sceneRef: sceneRef[entity.props.id],
+        };
+        sceneElemIds.push(postButtonfield(buttonfield));
+      } else if (entity.props.type == "Image") {
+        const imgfield = {
+		  style: entity.props.style,
+          src: entity.props.content.src,
+        };
+        sceneElemIds.push(postImgfield(imgfield));
+      }
+    });
+    elemIds.push(sceneElemIds);
+  });
+  Promise.all(
+    elemIds.map(function (sceneElemIds) {
+      return Promise.all(sceneElemIds);
+    })
+  ).then((values) => {
+    return postSceneAndTemplate(color, width, height, values);
+  });
 };
 
-export const postSceneAndTemplate = async (elemIds) => {
-	const sceneIds = await elemIds.map(async (sceneElemIds) => {
-		const scene = {
-			entities: sceneElemIds,
-		};
-		const sceneId = await axios
-			.post("/api/scenes", scene)
-			.then((res) => {
-				return res.data._id;
-			})
-			.catch((err) => alert(err.response.data.msg));
-		return sceneId;
-	});
+export const postSceneAndTemplate = async (color, width, height, elemIds) => {
+  const sceneIds = await elemIds.map(async (sceneElemIds) => {
+    const scene = {
+      entities: sceneElemIds,
+    };
+    const sceneId = await axios
+      .post("/api/scenes", scene)
+      .then((res) => {
+        return res.data._id;
+      })
+      .catch((err) => alert(err.response.data.msg));
+    return sceneId;
+  });
 
-	var templateId;
-	Promise.all(sceneIds).then(async (values) => {
-		const newTemplate = {
-			scenes: values,
-			numScenes: values.length,
-		};
+  var templateId;
+  Promise.all(sceneIds).then(async (values) => {
+    const newTemplate = {
+      scenes: values,
+      numScenes: values.length,
+	  canvasColor: color,
+	  canvasWidth: width,
+	  canvasHeight: height,
+    };
 
-		await axios
-			.post("/api/templates", newTemplate)
-			.then((res) => {
-				templateId = res.data._id;
-			})
-			.catch((err) => alert(err.response.data.msg));
-	});
-	Promise.resolve(templateId).then((newTemplateId) => {
-		return newTemplateId;
-	});
+    await axios
+      .post("/api/templates", newTemplate)
+      .then((res) => {
+        templateId = res.data._id;
+      })
+      .catch((err) => alert(err.response.data.msg));
+  });
+  Promise.resolve(templateId).then((newTemplateId) => {
+    return newTemplateId;
+  });
 };
 
 export const postTextfield = async (textfield) => {
@@ -193,20 +195,26 @@ export const postImgfield = async (imgfield) => {
 };
 
 export const loadTemplate = async (templateId) => {
-	var template = {
-		scenes: [],
-		numScenes: 0,
-	};
-	await axios
-		.get(`/api/templates/${templateId}`)
-		.then((res) => {
-			template.numScenes = res.data.numScenes;
-			res.data.scenes.forEach(function (sceneId) {
-				template.scenes.push(loadScene(sceneId));
-			});
-		})
-		.catch((err) => alert(err.response.data.msg));
-	return template;
+  var template = {
+	canvasColor: {},
+	canvasHeight: 500,
+	canvasWidth: 500,
+    scenes: [],
+    numScenes: 0,
+  };
+  await axios
+    .get(`/api/templates/${templateId}`)
+    .then((res) => {
+	  template.canvasColor = res.data.canvasColor;
+	  template.canvasHeight = res.data.canvasHeight;
+	  template.canvasWidth = res.data.canvasWidth;
+      template.numScenes = res.data.numScenes;
+      res.data.scenes.forEach(function (sceneId) {
+        template.scenes.push(loadScene(sceneId));
+      });
+    })
+    .catch((err) => alert(err.response.data.msg));
+  return template;
 };
 
 export const loadScene = async (sceneId) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Heading,
   Box,
@@ -24,6 +24,58 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import Canvas from "../Canvas/canvas";
 
 import { SketchPicker } from 'react-color';
+
+const ContentInput = (props) => {
+  const [value, setValue] = React.useState(
+    props.defaultValue(props.id).content
+  );
+  const prevValRef = useRef();
+  useEffect(() => {
+    if (props.defaultValue != prevValRef.current) {
+      setValue(props.defaultValue(props.id).content);
+    }
+    prevValRef.current = props.defaultValue;
+  });
+  return (
+    <ToolItem label="Content">
+      <input
+        onChange={(valueString) => {
+          setValue(valueString.target.value);
+          props.setTargetField(valueString.target.value, undefined);
+        }}
+        placeholder="Text"
+        size="sm"
+        variant="outline"
+        value={value}
+      />
+    </ToolItem>
+  );
+};
+
+const SrcInput = (props) => {
+  const [value, setValue] = React.useState(props.defaultValue(props.id).src);
+  const prevValRef = useRef();
+  useEffect(() => {
+    if (props.defaultValue != prevValRef.current) {
+      setValue(props.defaultValue(props.id).src);
+    }
+    prevValRef.current = props.defaultValue;
+  });
+  return (
+    <ToolItem label="Source">
+      <input
+        onChange={(valueString) => {
+          setValue(valueString.target.value);
+          props.setTargetField(undefined, valueString.target.value);
+        }}
+        placeholder="Text"
+        size="sm"
+        variant="outline"
+        value={value}
+      />
+    </ToolItem>
+  );
+};
 
 const ToolSection = (props) => {
   return (
@@ -84,6 +136,13 @@ const ThickHDivider = (props) => {
 function PXStepper({ min, max, defaultValue, step, setTargetField }) {
   //Todo: add a hook that changes the canvas size
   const [value, setValue] = React.useState(defaultValue);
+  const prevValRef = useRef();
+  useEffect(() => {
+    if (defaultValue != prevValRef.current) {
+      setValue(defaultValue);
+    }
+    prevValRef.current = defaultValue;
+  });
 
   return (
     <NumberInput
@@ -105,27 +164,63 @@ function PXStepper({ min, max, defaultValue, step, setTargetField }) {
   );
 }
 
-function SelectionMenu(props) {
+function SelectionSceneMenu(props) {
   /**Store Menu Items and Menu Selection in State */
-  const {numScenes, currentScene} = props;
+  const { numScenes, currentScene } = props;
   const [selection, setSelection] = useState("Page 1");
   var menuItems = [];
   var i;
-  for (i=0; i<numScenes; i++) {
+  for (i = 0; i < numScenes; i++) {
     const sceneNum = i;
     menuItems.push(
-    <MenuItem onClick={() => {setSelection(`Page ${sceneNum+1}`); props.setScene(sceneNum)}}>
-    Page {sceneNum+1}
-    </MenuItem>);
+      <MenuItem
+        onClick={() => {
+          setSelection(`Page ${sceneNum + 1}`);
+          props.setScene(sceneNum);
+        }}
+      >
+        Page {sceneNum + 1}
+      </MenuItem>
+    );
   }
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<ChevronDownIcon />} overflow="hidden">
-        {`Page ${currentScene+1}`}
+        {`Page ${currentScene + 1}`}
       </MenuButton>
-      <MenuList>
-        {menuItems}
-      </MenuList>
+      <MenuList>{menuItems}</MenuList>
+    </Menu>
+  );
+}
+
+function SelectionMenu(props) {
+  /**Store Menu Items and Menu Selection in State */
+  const [selection, setSelection] = useState(props.defaultValue);
+  const prevValRef = useRef();
+  useEffect(() => {
+    if (props.defaultValue != prevValRef.current) {
+      setSelection(props.defaultValue);
+    }
+    prevValRef.current = props.defaultValue;
+  });
+  let menu = props.items.map((item) => {
+    return (
+      <MenuItem
+        onClick={() => {
+          props.callback(item);
+          setSelection(item);
+        }}
+      >
+        {item}
+      </MenuItem>
+    );
+  });
+  return (
+    <Menu>
+      <MenuButton as={Button} rightIcon={<ChevronDownIcon />} overflow="hidden">
+        {selection}
+      </MenuButton>
+      <MenuList>{menu}</MenuList>
     </Menu>
   );
 }
@@ -167,7 +262,7 @@ function ColorSelector(props) {
               left={{ sm: "50%", lg: "auto" }}
               transform={{ sm: "translate(-50%, -50%)", lg: "auto" }}
             >
-              <SketchPicker color={color} onChange={(color) => handleChange(color)} />
+               { <SketchPicker color={color} onChange={(color) => handleChange(color)} /> }
             </Box>
           </Box>
         ) : null
@@ -178,7 +273,7 @@ function ColorSelector(props) {
               <SketchPicker color={color} onChange={(color) => handleChange(color)} />
             </Box>
           </Box>
-           */
+          **/
       }
     </Box>
   );
@@ -237,8 +332,7 @@ function CanvasDragAndDrop(props) {
           flex="1"
           label="Add Text"
           onClick={(e) => {
-            props.displayTextProperties();
-            props.addComp(e, "Text");
+            props.addComp(e, 0, 0, "Text");
           }}
         ></DragAndDropItem>
         <DragAndDropItem
@@ -246,8 +340,7 @@ function CanvasDragAndDrop(props) {
           flex="1"
           label="Add Image"
           onClick={(e) => {
-            props.displayImageProperties();
-            props.addComp(e, "Image");
+            props.addComp(e, 0, 0, "Image");
           }}
         ></DragAndDropItem>
         <DragAndDropItem
@@ -255,8 +348,7 @@ function CanvasDragAndDrop(props) {
           flex="1"
           label="Add Button"
           onClick={(e) => {
-            props.displayButtonProperties();
-            props.addComp(e, "Button");
+            props.addComp(e, 0, 0, "Button");
           }}
         ></DragAndDropItem>
       </Flex>
@@ -282,7 +374,7 @@ function ActualCanvasComponent(props) {
       id="canvas"
       className="canvas"
       dropable={true}
-      changePos={props.updatePos}
+      changedDrop={props.changedDrop}
     >
       {props.comps}
     </Canvas>
@@ -294,19 +386,61 @@ function TextPropertiesMenu(props) {
   return (
     <Box>
       <ToolItem label="Font">
-        <SelectionMenu />
+        <SelectionMenu
+          defaultValue={props.items.style.fontFamily? props.items.style.fontFamily : "Serif"}
+          items={[
+            "Arial",
+            "Arial Black",
+            "Verdana",
+            "Tahoma",
+            "Trebuchet MS",
+            "Impact",
+            "Times New Roman",
+            "Didot",
+            "Georgia",
+            "American Typewriter",
+            "Andalé Mono",
+            "Courier",
+            "Lucida Console",
+            "Monaco",
+            "Bradley Hand",
+            "Brush Script MT",
+            "Luminari",
+            "Comic Sans MS",
+          ]}
+          callback={props.items.changeFunc}
+        />
       </ToolItem>
       <ToolItem label="Font-Size">
         <PXStepper
           min={8}
           max={144}
-          defaultValue={12}
+          defaultValue={
+            props.items.style.fontSize ? props.items.style.fontSize : 12
+          }
           step={2}
-          setTargetField={(placeholder) => {}}
+          setTargetField={
+            props.items.changeFunc
+              ? (value) => {
+                  props.items.style = props.items.changeFunc({
+                    fontSize: value,
+                  });
+                }
+              : (value) => {}
+          }
         />
       </ToolItem>
       <ToolItem label="Color">
-        <ColorSelector setClassStateColor={(placeholder) => {}} />
+        <ColorSelector
+          setClassStateColor={
+            props.items.changeFunc
+              ? (value) => {
+                  let color = `rgba(${value.r}, ${value.g}, ${value.b}, ${value.a}`;
+                  props.items.style = props.items.changeFunc({ color: color });
+                }
+              : (value) => {}
+          }
+        />
       </ToolItem>
       <Box p="1em" margin="0.25em">
         <Center>
@@ -316,9 +450,45 @@ function TextPropertiesMenu(props) {
         </Center>
         <Center w="100%">
           <ButtonGroup size="sm" isAttached variant="outline">
-            <Button>Bold</Button>
-            <Button>Italics</Button>
-            <Button>Underline</Button>
+            <Button
+              onClick={
+                props.items.changeFunc
+                  ? () => {
+                      props.items.style = props.items.changeFunc({
+                        fontWeight: "bold",
+                      });
+                    }
+                  : () => {}
+              }
+            >
+              Bold
+            </Button>
+            <Button
+              onClick={
+                props.items.changeFunc
+                  ? () => {
+                      props.items.style = props.items.changeFunc({
+                        fontStyle: "italic",
+                      });
+                    }
+                  : () => {}
+              }
+            >
+              Italics
+            </Button>
+            <Button
+              onClick={
+                props.items.changeFunc
+                  ? () => {
+                      props.items.style = props.items.changeFunc({
+                        textDecoration: "underline",
+                      });
+                    }
+                  : () => {}
+              }
+            >
+              Underline
+            </Button>
           </ButtonGroup>
         </Center>
       </Box>
@@ -336,9 +506,45 @@ function TextAlignmentMenu(props) {
       </Center>
       <Center w="100%">
         <ButtonGroup size="sm" isAttached variant="outline">
-          <Button>Left</Button>
-          <Button>Center</Button>
-          <Button>Right</Button>
+          <Button
+            onClick={
+              props.items.changeFunc
+                ? () => {
+                    props.items.style = props.items.changeFunc({
+                      className: "comp leftWorkaround",
+                    });
+                  }
+                : () => {}
+            }
+          >
+            Left
+          </Button>
+          <Button
+            onClick={
+              props.items.changeFunc
+                ? () => {
+                    props.items.style = props.items.changeFunc({
+                      className: "comp centerWorkaround",
+                    });
+                  }
+                : () => {}
+            }
+          >
+            Center
+          </Button>
+          <Button
+            onClick={
+              props.items.changeFunc
+                ? () => {
+                    props.items.style = props.items.changeFunc({
+                      className: "comp rightWorkaround",
+                    });
+                  }
+                : () => {}
+            }
+          >
+            Right
+          </Button>
         </ButtonGroup>
       </Center>
     </Box>
@@ -350,45 +556,65 @@ function ComponentPositionMenu(props) {
     <Box>
       <ToolItem label="x-position">
         <PXStepper
-          min={100}
-          max={2000}
-          defaultValue={500}
+          min={0}
+          max={props.canvasWidth}
+          defaultValue={props.items.style.left ? props.items.style.left : 0}
           step={10}
-          setTargetField={(placeholder) => {}}
+          setTargetField={(value) => {
+            if (value > props.canvasWidth) {
+              value = props.canvasWidth;
+            }
+            props.items.style = props.items.changeFunc({ left: value });
+          }}
         />
       </ToolItem>
       <ToolItem label="y-position">
         <PXStepper
-          min={100}
-          max={2000}
-          defaultValue={500}
+          min={0}
+          max={props.canvasHeight}
+          defaultValue={props.items.style.top ? props.items.style.top : 0}
           step={10}
-          setTargetField={(placeholder) => {}}
+          setTargetField={(value) => {
+            if (value > props.canvasHeight) {
+              value = props.canvasHeight;
+            }
+            props.items.style = props.items.changeFunc({ top: value });
+          }}
         />
       </ToolItem>
       <ToolItem label="box-width">
         <PXStepper
-          min={100}
-          max={2000}
-          defaultValue={500}
+          min={1}
+          max={props.canvasWidth}
+          defaultValue={props.items.style.width ? props.items.style.width : 50}
           step={10}
-          setTargetField={(placeholder) => {}}
+          setTargetField={(value) => {
+            props.items.style = props.items.changeFunc({ width: value });
+          }}
         />
       </ToolItem>
       <ToolItem label="box-height">
         <PXStepper
-          min={100}
-          max={2000}
-          defaultValue={500}
+          min={1}
+          max={props.canvasHeight}
+          defaultValue={
+            props.items.style.height ? props.items.style.height : 50
+          }
           step={10}
-          setTargetField={(placeholder) => {}}
+          setTargetField={(value) => {
+            props.items.style = props.items.changeFunc({ height: value });
+          }}
         />
       </ToolItem>
       <ToolItem label="box-color">
-        <ColorSelector setClassStateColor={(placeholder) => {}} />
-      </ToolItem>
-      <ToolItem label="Animation">
-        <SelectionMenu />
+        <ColorSelector
+          setClassStateColor={(value) => {
+            let color = `rgba(${value.r}, ${value.g}, ${value.b}, ${value.a}`;
+            props.items.style = props.items.changeFunc({
+              backgroundColor: color,
+            });
+          }}
+        />
       </ToolItem>
     </Box>
   );
@@ -397,11 +623,16 @@ function ComponentPositionMenu(props) {
 function ButtonSpecificMenu(props) {
   return (
     <Box>
-      <ToolItem label="Links to">
-        <SelectionMenu />
-      </ToolItem>
-      <ToolItem label="Transition">
-        <SelectionMenu />
+      <ToolItem label="Link to page">
+        <SelectionMenu
+          defaultValue={
+            props.items.currentScene != null
+              ? props.items.currentScene
+              : "Select Page"
+          }
+          items={["Select Page"].concat(props.items.options())}
+          callback={props.items.callback}
+        />
       </ToolItem>
     </Box>
   );
@@ -413,6 +644,7 @@ export {
   DragAndDropItem,
   ThickHDivider,
   SelectionMenu,
+  SelectionSceneMenu,
   PXStepper,
   ColorSelector,
   CanvasAttributesTools,
@@ -422,4 +654,6 @@ export {
   TextAlignmentMenu,
   ComponentPositionMenu,
   ButtonSpecificMenu,
+  ContentInput,
+  SrcInput,
 };
