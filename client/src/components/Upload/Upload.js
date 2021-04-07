@@ -1,48 +1,67 @@
-import React, { useState } from "react";
-import ImageUploader from 'react-images-upload';
+import React, {useState} from 'react';
 import Axios from 'axios';
 
-const UploadComponent = props => (
-    <form>
-        <ImageUploader
-            key="image-uploader"
-            withIcon={true}
-            singleImage={true}
-            withPreview={true}
-            label="Maximum size file: 5MB"
-            buttonText="Choose an image"
-            onChange={props.onImage}
-            imgExtension={['.jpg', '.png', '.jpeg', '.gif', '.mp4']}
-            maxFileSize={5242880}
-        ></ImageUploader>
-    </form>
-);
-
-const Upload = (props) => {
+function Upload(props){
     const [progress, setProgress] = useState('getUpload');
+    //change url to be process env
     const [url, setImageURL] = useState('https://g892ued5af.execute-api.us-east-1.amazonaws.com/dev/image-upload');
     const [errorMessage, setErrorMessage] = useState('');
-    const onUrlChange = e => {
-        setImageURL(e.target.value);
-    };
+	const [selectedFile, setSelectedFile] = useState();
+	const [isSelected, setIsSelected] = useState(false);
+    const [fileData, setFileData] = useState();
 
-    const onImage = async (failedImages, successImages) => {
+	const changeHandler = (event) => {
+		setSelectedFile(event.target.files[0]);
+		setIsSelected(true);
+        const preview = document.querySelector('img');
+        const file = document.querySelector('input[type=file]').files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            // convert image file to base64 string
+            preview.src = reader.result;
+            preview.src = preview.src.replace(";base64", ';name=' + file.name + ';base64');
+            setFileData({file: file, dataURL: preview.src});
+        }, true);
+
+        if (file) {
+
+            reader.readAsDataURL(file);
+        }
+
+	};
+
+	const handleSubmission = async () => {
+        console.log(selectedFile);
+        if (selectedFile == undefined){
+            console.log("No image selected");
+            setErrorMessage("Please Select a File");
+            setProgress('uploadError');
+        }else{
+
+        const formData = new FormData();
+		formData.append('File', selectedFile);
+
         if (props.auth.user == null){
             console.log("User not logged in");
             setErrorMessage("Please Login as User");
-            setProgress('uploadError');
-            
-        } else {
+            setProgress('uploadError');             
+        }else {
             setProgress('uploading');
-
+        
             try {
-                console.log(props.auth.user['_id'])
+                const successImages = fileData;
+                console.log(fileData);
                 const userID = props.auth.user['_id'];
                 console.log('successImages', successImages);
-                const parts = successImages[0].split(';');
+                const parts = successImages.dataURL.split(';');
                 const mime = parts[0].split(':')[1];
                 const name = parts[1].split('=')[1];
                 const data = parts[2];
+                console.log(data);
+                console.log(name);
+                console.log(mime);
+                console.log(userID);
                 const res = await Axios.post("https://g892ued5af.execute-api.us-east-1.amazonaws.com/dev/image-upload", { mime, name, image: data,userID});
 
                 setImageURL(res.data.imageURL);
@@ -61,13 +80,35 @@ const Upload = (props) => {
                 setErrorMessage(error.message);
                 setProgress('uploadError');
             }
+            }
         }
-    };
-
+    }
     const content = () => {
         switch (progress) {
             case 'getUpload':
-                return <UploadComponent onUrlChange={onUrlChange} onImage={onImage} url={url} />;
+                return(
+                    <div>
+                             <input type="file" name="Upload File" onChange={changeHandler} accept="image/png, image/jpg,
+                              image/jpeg, image/gif, video/mp4, audio/mp4" />
+                             <img src="" height="200" alt="Image preview..."></img>
+                             {isSelected ? (
+                                 <div>
+                                     <p>Filename: {selectedFile.name}</p>
+                                     <p>Filetype: {selectedFile.type}</p>
+                                     <p>Size in bytes: {selectedFile.size}</p>
+                                     <p>{selectedFile.data}</p>
+                                     <p>
+                                        {selectedFile.lastModifiedDate.toLocaleDateString()}
+                                     </p>
+                                 </div>
+                             ) : (
+                                 <p>Select a file to show details</p>
+                             )}
+                             <div>
+                                <input type="submit" value="Send Request" onClick={handleSubmission}></input>
+                             </div>
+                         </div>
+                     )
             case 'uploading':
                 return <h2>Uploading....</h2>;
             case 'uploaded':
@@ -90,6 +131,6 @@ const Upload = (props) => {
             {content()}
         </div>
     );
-};
+}
 
 export default Upload;

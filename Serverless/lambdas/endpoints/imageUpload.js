@@ -9,20 +9,23 @@ const allowedMimes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'vide
 
 exports.handler = async event => {
     try {
+        console.log(event);
         const body = JSON.parse(event.body);
+        // console.log(body);
+        console.log(body.mime, body.userID);
         if (!body || !body.image || !body.mime, !body.userID) {
+            console.log("if 1");
             return Responses._400({ message: 'incorrect body on request' });
         }
 
         if (!allowedMimes.includes(body.mime)) {
+            console.log("if 2");
             return Responses._400({ message: 'mime is not allowed ' });
         }
-
         let imageData = body.image;
         if (body.image.substr(0, 7) === 'base64,') {
             imageData = body.image.substr(7, body.image.length);
         }
-
         const buffer = Buffer.from(imageData, 'base64');
         const fileInfo = await fileType.fromBuffer(buffer);
         const detectedExt = fileInfo.ext;
@@ -31,17 +34,17 @@ exports.handler = async event => {
         if (detectedMime !== body.mime) {
             return Responses._400({ message: 'mime types dont match' });
         }
-        const name;
-        if (!body.pfp){
+        var name;
+        if (body.pfp != undefined){
             name = body.pfp;
         }else{
             name = uuid();
         }
         console.log('this is the userid', body.userID);
-        const key = body.userID + `/${name}.${detectedExt}`;
+        const key = body.userID + `/${name}`;
         // body.userID
 
-        console.log(`writing image to bucket called ${key}`);
+        console.log(`writing image to bucket called ${key}.${detectedExt}`);
         
         await s3
             .putObject({
@@ -59,7 +62,7 @@ exports.handler = async event => {
         });
     } catch (error) {
         console.log('error', error);
-
+        
         return Responses._400({ message: error.message || 'failed to upload image' });
     }
 };
