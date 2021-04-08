@@ -13,8 +13,8 @@ function Upload(props){
 	const changeHandler = (event) => {
 		setSelectedFile(event.target.files[0]);
 		setIsSelected(true);
-        const preview = document.querySelector('img');
-        const file = document.querySelector('input[type=file]').files[0];
+        const preview = document.getElementById("preview");
+        const file = document.getElementById('inputFile').files[0];
         const reader = new FileReader();
 
         reader.addEventListener("load", function () {
@@ -41,7 +41,6 @@ function Upload(props){
 
         const formData = new FormData();
 		formData.append('File', selectedFile);
-
         if (props.auth.user == null){
             console.log("User not logged in");
             setErrorMessage("Please Login as User");
@@ -74,7 +73,7 @@ function Upload(props){
                     console.log(files.data.Contents[index].Key)
                 }
                 console.log(files.data.Contents);
-                props.uploadToCanvas(null, 'Image', res.data.imageURL);
+                props.uploadToCanvas(res.data.imageURL);
             } catch (error) {
                 console.log('error in upload', error);
                 setErrorMessage(error.message);
@@ -89,8 +88,8 @@ function Upload(props){
                 return(
                     <div>
                              <input type="file" name="Upload File" onChange={changeHandler} accept="image/png, image/jpg,
-                              image/jpeg, image/gif, video/mp4, audio/mp4" />
-                             <img src="" height="200" alt="Image preview..."></img>
+                              image/jpeg, image/gif, video/mp4, audio/mp4" id="inputFile"/>
+                            <img src=""  height="200" alt="Image preview..." id="preview"></img>
                              {isSelected ? (
                                  <div>
                                      <p>Filename: {selectedFile.name}</p>
