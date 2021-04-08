@@ -5,6 +5,9 @@ import CanvasEditorHeader from "./CanvasEditorHeader.js";
 import CanvasEditorBottom from "./CanvasEditorBottom.js";
 import { postTemplate, loadTemplate } from "../actions/cardActions";
 import DragComp from "../Canvas/dragComp";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
 
 class CanvasEditorView extends Component {
   constructor(props) {
@@ -202,7 +205,11 @@ class CanvasEditorView extends Component {
     return this.createDragComp(extendedStyles, extendedContent, entity.kind);
   };
 
-  addComp = (e, x, y, type) => {
+  uploadImage = (url) =>{
+    this.addComp(null, 0, 0, "Image", url);
+  };
+
+  addComp = (e, x, y, type, url=null) => {
     let extendedStyles = this.state.styles;
     let top = y;
     let left = x;
@@ -218,7 +225,7 @@ class CanvasEditorView extends Component {
     let extendedContent = this.state.content;
     extendedContent[this.state.id] = {
       content: "Input Content",
-      src: "Input Source",
+      src: (url != null? url : "Input Source"),
     };
 
     return this.createDragComp(extendedStyles, extendedContent, type);
@@ -415,8 +422,10 @@ class CanvasEditorView extends Component {
           canvasHeight={this.state.canvasHeight}
           changedDrop={this.drop}
           addComp={this.addComp}
+          uploadImage = { this.uploadImage }
           changeSetter={this.propertySetter.bind(this)}
           deleteComp={this.deleteComponent}
+          auth={this.props.auth}
           comps={Object.values(this.state.comps[this.state.scene])}
         />
       </Flex>
@@ -424,4 +433,14 @@ class CanvasEditorView extends Component {
   }
 }
 
-export default CanvasEditorView;
+CanvasEditorView.propTypes = {
+  auth: PropTypes.object,
+  error: PropTypes.object,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  error: state.error,
+});
+
+export default connect(mapStateToProps)(CanvasEditorView);

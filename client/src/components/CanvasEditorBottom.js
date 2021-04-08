@@ -23,6 +23,9 @@ import {
   SrcInput,
 } from "./EditorMenuItems.js";
 
+import Upload from "./Upload/Upload.js";
+import ModalPopup from "./ModalPopup.js"
+
 const properties = { default: 1, text: 2, img: 3, button: 4 };
 
 function CanvasEditorBottom(props) {
@@ -60,6 +63,24 @@ function CanvasEditorBottom(props) {
           widthHook={canvasWidthHook}
           heightHook={canvasHeightHook}
         />
+        {/**Image upload */}
+        <Box flex="1" w="100%" p="1em">
+          <Box
+            width="100%"
+            height="100%"
+            boxShadow="md"
+            border="1px"
+            borderStyle="dashed"
+            borderRadius="md"
+            borderColor={useColorModeValue("palette.600")}
+            >
+            <ModalPopup buttonText="Upload Image">
+                <Upload 
+                uploadToCanvas = {props.uploadImage}
+                auth = {props.auth}/>
+            </ModalPopup>
+          </Box>  
+      </Box>
         {/**Drag and Drop*/}
         <CanvasDragAndDrop
           flex="1"

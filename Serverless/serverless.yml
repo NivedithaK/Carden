@@ -1,0 +1,49 @@
+service: myCardenProject
+
+provider:
+    name: aws
+    runtime: nodejs12.x
+    profile: myCardenUser
+    region: us-east-1
+    stage: dev
+    environment:
+        imageUploadBucket: ${self:custom.imageUploadBucket}
+        region: ${self:provider.region}
+    iamRoleStatements:
+        - Effect: Allow
+          Action:
+              - s3:*
+          Resource: '*'
+
+plugins:
+    - serverless-webpack
+
+package:
+    individually: true
+
+custom:
+    imageUploadBucket: mycarden-entities
+
+functions:
+    imageUpload:
+        handler: lambdas/endpoints/imageUpload.handler
+        events:
+            - http:
+                  path: image-upload
+                  method: POST
+                  cors: true
+    imagesList:
+        handler: lambdas/endpoints/imageList.handler
+        events:
+            - http:
+                  path: file-list
+                  method: GET
+                  cors: true
+
+resources:
+    Resources:
+        ImageUploadBucket:
+            Type: AWS::S3::Bucket
+            Properties:
+                BucketName: ${self:custom.imageUploadBucket}
+                AccessControl: PublicRead
