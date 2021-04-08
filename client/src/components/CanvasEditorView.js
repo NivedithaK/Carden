@@ -312,7 +312,7 @@ class CanvasEditorView extends Component {
         this.state.canvasHeight,
         this.state.comps,
         this.state.sceneRef
-      )
+      ).then(data => console.log(data))
     );
   };
 
