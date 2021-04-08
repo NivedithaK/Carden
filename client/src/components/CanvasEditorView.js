@@ -311,16 +311,18 @@ class CanvasEditorView extends Component {
   };
 
   save = () => {
-    console.log(this.state.comps);
-    console.log(
-      postTemplate(
-        this.state.canvasColor,
-        this.state.canvasWidth,
-        this.state.canvasHeight,
-        this.state.comps,
-        this.state.sceneRef
-      ).then(data => console.log(data))
-    );
+    var userid = "";
+    if (this.props.auth.user) {
+      userid = this.props.auth.user._id
+    }
+    postTemplate(
+      this.state.canvasColor,
+      this.state.canvasWidth,
+      this.state.canvasHeight,
+      this.state.comps,
+      this.state.sceneRef,
+      userid
+    )
   };
 
   redefineProps = (self) => {

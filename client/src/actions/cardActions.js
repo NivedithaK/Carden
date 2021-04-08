@@ -86,7 +86,7 @@ export const getAlphabeticalTemplates = async (id) => {
 	return templates;
 };
 
-export const postTemplate = async (color, width, height, template, sceneRef) => {
+export const postTemplate = async (color, width, height, template, sceneRef, userid) => {
   var elemIds = [];
   template.forEach(function (scene) {
     var sceneElemIds = [];
@@ -121,11 +121,11 @@ export const postTemplate = async (color, width, height, template, sceneRef) => 
       return Promise.all(sceneElemIds);
     })
   ).then((values) => {
-    return postSceneAndTemplate(color, width, height, values);
+    return postSceneAndTemplate(color, width, height, values, userid);
   });
 };
 
-export const postSceneAndTemplate = async (color, width, height, elemIds) => {
+export const postSceneAndTemplate = async (color, width, height, elemIds, userid) => {
   const sceneIds = await elemIds.map(async (sceneElemIds) => {
     const scene = {
       entities: sceneElemIds,
@@ -144,9 +144,10 @@ export const postSceneAndTemplate = async (color, width, height, elemIds) => {
     const newTemplate = {
       scenes: values,
       numScenes: values.length,
-	  canvasColor: color,
-	  canvasWidth: width,
-	  canvasHeight: height,
+	    canvasColor: color,
+	    canvasWidth: width,
+	    canvasHeight: height,
+      postUser: userid
     };
 
     await axios
