@@ -1,4 +1,33 @@
 import axios from "axios";
+import { returnErrors, clearErrors } from "./errorActions";
+import {
+	USER_LOADING,
+	UPDATE_SUCCESS,
+	UPDATE_FAILURE,
+	LOADING_CARDS,
+	CARDS_SUCCESS,
+	CARDS_FAILURE,
+} from "./types";
+
+// Register was successful.
+const getUpdateSuccess = (data) => ({
+	type: UPDATE_SUCCESS,
+	payload: data,
+});
+
+// Register was a failure.
+const getUpdateFailure = () => ({
+	type: UPDATE_FAILURE,
+});
+
+// Loading cards
+const getLoadingCards = () => ({
+	type: LOADING_CARDS,
+});
+
+const getUserLoading = () => ({
+	type: USER_LOADING,
+});
 
 export const getTemplate = async (id) => {
 	var template;

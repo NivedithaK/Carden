@@ -22,9 +22,9 @@ router.get("/", async (req, res) => {
  * @access      public
  */
 router.get("/:id", async (req, res) => {
-    await User.findById(req.params.id)
-        .then((user) => res.json(user))
-        .catch((e) => res.status(404).json({ error: "User does not exist" }));
+	await User.findById(req.params.id)
+		.then((user) => res.json(user))
+		.catch((e) => res.status(404).json({ msg: "User does not exist" }));
 });
 
 /**
@@ -102,26 +102,27 @@ router.post("/login", async (req, res) => {
             });
         }
 
-        // Sign the token
-        jwt.sign(
-            { id: existingUser.id },
-            process.env.jwtSecret,
-            // {expiresIn: time} add this if we want the token to
-            (err, token) => {
-                if (err) throw err;
-                const user = {
-                    following: existingUser.following,
-                    templates: existingUser.templates,
-                    starredTemplates: existingUser.starredTemplates,
-                    scoring: existingUser.scoring,
-                    isAdmin: existingUser.isAdmin,
-                    _id: existingUser._id,
-                    username: existingUser.username,
-                };
-                res.status(200).json({ token, user });
-            }
-        );
-    });
+		// Sign the token
+		jwt.sign(
+			{ id: existingUser.id },
+			process.env.jwtSecret,
+			// {expiresIn: time} add this if we want the token to
+			(err, token) => {
+				if (err) throw err;
+				const user = {
+					following: existingUser.following,
+					templates: existingUser.templates,
+					cards: existingUser.cards,
+					starredTemplates: existingUser.starredTemplates,
+					scoring: existingUser.scoring,
+					isAdmin: existingUser.isAdmin,
+					_id: existingUser._id,
+					username: existingUser.username,
+				};
+				res.status(200).json({ token, user });
+			}
+		);
+	});
 });
 
 /**
@@ -129,10 +130,10 @@ router.post("/login", async (req, res) => {
  * @description Find the user with the specified id and update them
  * @access      public
  */
-router.put("/:id", async (req, res) => {
-    User.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        .then((user) => res.json(user))
-        .catch((e) => res.status(404).json({ error: "User does not exist" }));
+router.put("/", async (req, res) => {
+	User.findByIdAndUpdate(req.body.id, req.body.data, { new: true })
+		.then((user) => res.json(user))
+		.catch((e) => res.status(404).json({ msg: "User does not exist" }));
 });
 
 /**
@@ -143,7 +144,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     await User.findByIdAndRemove(req.params.id)
         .then((user) => res.json(user))
-        .catch((e) => res.status(404).json({ error: "User does not exist" }));
+        .catch((e) => res.status(404).json({ msg: "User does not exist" }));
 });
 
 /**

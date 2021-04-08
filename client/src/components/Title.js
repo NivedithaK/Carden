@@ -1,5 +1,5 @@
 import React from "react";
-import { Heading, Box } from "@chakra-ui/react";
+import { Text, Box, useColorModeValue } from "@chakra-ui/react";
 
 function Title(props) {
 	return (
@@ -8,11 +8,12 @@ function Title(props) {
 			borderRadius="sm"
 			borderWidth="2px"
 			boxShadow="md"
-			mt={5}
+			bg={useColorModeValue("palette.800", "palette.1100")}
+			color={useColorModeValue("palette.700", "palette.1100")}
+			p={5}
+			textStyle="h1"
 		>
-			<Heading as="h5" size="md" p={5}>
-				{props.text}
-			</Heading>
+			{props.text}
 		</Box>
 	);
 }

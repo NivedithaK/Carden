@@ -9,10 +9,10 @@ function TwoGrid(props) {
 
     if (childrenNumber > 1) {
         for (let i = 0; i < childrenNumber; i++) {
-            propsBoxes.push(<Center>{props.children[i]}</Center>);
+            propsBoxes.push(<Center key={i}>{props.children[i]}</Center>);
         }
     } else {
-        propsBoxes.push(<Center>{props.children}</Center>);
+        propsBoxes.push(<Center key={1}>{props.children}</Center>);
     }
 
     return (
