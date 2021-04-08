@@ -35,8 +35,8 @@ exports.handler = async event => {
             return Responses._400({ message: 'mime types dont match' });
         }
         var name;
-        if (body.pfp != undefined){
-            name = body.pfp;
+        if (body.name != undefined){
+            name = body.name;
         }else{
             name = uuid();
         }
