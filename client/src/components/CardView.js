@@ -23,13 +23,14 @@ import ScreenShotRender from './Screenshot.js';
 
 function CardView(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { handler, index } = props;
+    const { handler, index, templateId } = props;
     const history = useHistory();
 
     const handleUse = (e) => {
         e.preventDefault();
         // call load with template id
-        history.push('/create');
+        history.push({pathname: '/create',
+                      state: { templateId: templateId } });
     };
 
     const handleLike = (e) => {
