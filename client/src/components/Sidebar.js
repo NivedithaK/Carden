@@ -36,7 +36,6 @@ const SidebarItems = ({ children, handleClick, isActive }) => {
 function Sidebar(props) {
 	const { isLoggedin } = props;
 	const location = useLocation();
-	console.log(location.pathname);
 	const { colorMode, toggleColorMode } = useColorMode();
 	const history = useHistory();
 	const handleCreate = (e) => {

@@ -17,9 +17,9 @@ import {
 } from "@chakra-ui/react";
 import background from "../assets/backgroundLanding.png";
 import backgroundDark from "../assets/backgroundDark.png";
-
+import { useHistory } from "react-router-dom";
 import PageWrapper from "../components/PageWrapper.js";
-import Header from "../components/Header.js";
+import Header from "../components/Header/Header.js";
 import Footer from "../components/Footer.js";
 import lock from "../assets/lock.png";
 import ErrorPopup from "./Error/ErrorPopup";
@@ -29,7 +29,7 @@ function LoginView(props) {
     const handleClick = () => setShow(!show);
     const { colorMode } = useColorMode();
     const { error } = props;
-    console.log(error);
+    const history = useHistory();
     const { setUsername, setPassword, handleLogin } = props.handlers;
     return (
         <div
@@ -43,7 +43,7 @@ function LoginView(props) {
             }}
         >
             <PageWrapper>
-                <Header />
+                <Header history={history} />
                 {error.id && <ErrorPopup error={error} />}
                 <Box
                     w="50%"

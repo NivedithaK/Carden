@@ -3,7 +3,7 @@ import SignupView from "../components/SignupView.js";
 
 // redux imports
 import { connect } from "react-redux";
-import { registerUser } from "../actions/authActions";
+import { registerUser, getUserTemplates } from "../actions/authActions";
 import PropTypes from "prop-types";
 
 class Signup extends React.Component {
@@ -103,4 +103,6 @@ const mapStateToProps = (state) => ({
     error: state.error,
 });
 
-export default connect(mapStateToProps, { registerUser })(Signup);
+export default connect(mapStateToProps, { registerUser, getUserTemplates })(
+	Signup
+);

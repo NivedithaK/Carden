@@ -20,6 +20,6 @@
     },
     "homepage": "https://github.com/UTMCSC301/final-project-301-weebs#readme",
     "dependencies": {
-        "use-react-screenshot": "^1.0.2"
+        "aws-sdk": "^2.872.0"
     }
 }

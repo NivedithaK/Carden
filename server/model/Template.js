@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const model = mongoose.model;
 
 var TemplateSchema = new mongoose.Schema({
@@ -32,13 +32,26 @@ var TemplateSchema = new mongoose.Schema({
     },
     flags: {
         type: Number,
-        default: 0
+        default: 0,
     },
     hidden: {
         type: Boolean,
-        default: false
+        default: false,
     },
+    canvasColor: {
+        type: Object,
+        default: {a: 1, b: 118, g: 118, r: 220},
+    },
+    canvasHeight: {
+        type: Number,
+        default: 500,
+    },
+    canvasWidth: {
+        type: Number,
+        default: 500,
+    }
 });
 
-const Template = mongoose.model('Template', TemplateSchema);
+TemplateSchema.index({ title: "text" });
+const Template = mongoose.model("Template", TemplateSchema);
 export default Template;

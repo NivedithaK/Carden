@@ -1,5 +1,6 @@
 import React, { createRef, useEffect } from 'react';
 import { useScreenshot } from 'use-react-screenshot';
+import Bird from '../assets/eren_bird.png';
 import {
     Center,
     useDisclosure,
@@ -18,16 +19,19 @@ import { StarIcon } from '@chakra-ui/icons';
 import { useHistory } from 'react-router-dom';
 import ScreenShotRender from './Screenshot.js';
 
-const simplePromise = new Promise(() => {
-    setTimeout(() => {}, 100);
-});
-
 function CardView(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { handler, index } = props;
     const history = useHistory();
+
     const handleUse = (e) => {
         e.preventDefault();
-        history.push('/edit');
+        // call load with template id
+        history.push('/create');
+    };
+
+    const handleLike = (e) => {
+        handler(index);
     };
 
     return (
@@ -44,9 +48,11 @@ function CardView(props) {
                 maxH='50vh'
                 maxW='50vw'
             >
-                <ScreenShotRender>
-                    <Box>Card Preview Go BRRRRR</Box>
-                </ScreenShotRender>
+                {/* <ScreenShotRender> */}
+                <Box>
+                    <img src={Bird} alt='website logo' />
+                </Box>
+                {/* </ScreenShotRender> */}
             </Button>
             <Modal isOpen={isOpen} onClose={onClose} size='6xl' isCentered>
                 <ModalOverlay />
@@ -54,8 +60,8 @@ function CardView(props) {
                     <ModalHeader>Preview template</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Center>
-                            {/* <Box
+                        {/* <Center>
+                            <Box
                                 {...props}
                                 borderRadius='xl'
                                 borderWidth='5px'
@@ -65,37 +71,51 @@ function CardView(props) {
                                 h='20vw'
                                 maxH='50vh'
                                 maxW='50vw'
+                                alignItems='center'
+                                justify='center'
                             > */}
-                            <div
+                        {/* <div
                                 style={{
                                     width: '300px',
                                     height: '300px',
                                     border: '5px solid #5bb18c',
                                     borderRadius: '5px',
                                 }}
-                            >
-                                <ScreenShotRender>
-                                    {/* <div
+                            > */}
+                        {/* <ScreenShotRender> */}
+                        {/* <div
                                     // style={{
                                     //     width: '100%',
                                     //     height: '100%',
                                     // }}
                                     > */}
-                                    <Box w='100%' h='100%'>
-                                        Card Preview Go BRRRRR
-                                    </Box>
-                                    {/* </div> */}
-                                </ScreenShotRender>
-                            </div>
-                            {/* </Box> */}
+                        {/* <Box w='100%' h='100%'> */}
+                        {/* <Center>
+                                    <img src={Gift} alt='website logo' />
+                                </Center> */}
+                        {/* </Box> */}
+                        {/* </div> */}
+                        {/* </ScreenShotRender> */}
+                        {/* </div> */}
+                        {/* </Box>
+                        </Center> */}
+                        <Center>
+                            <Box
+                                borderRadius='xl'
+                                borderWidth='5px'
+                                borderColor='palette.100'
+                                bg='palette.500'
+                            >
+                                <img src={Bird} alt='website logo' />
+                            </Box>
                         </Center>
                     </ModalBody>
-
                     <ModalFooter>
                         <Button
                             leftIcon={<StarIcon />}
                             colorScheme='pink'
                             variant='solid'
+                            onClick={handleLike}
                         >
                             Favourite
                         </Button>

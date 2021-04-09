@@ -1,17 +1,17 @@
-import React from "react";
-import LoginView from "../components/LoginView";
+import React from 'react';
+import LoginView from '../components/LoginView';
 
 // Redux
-import { loginUser } from "../actions/authActions";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import { loginUser, getUserTemplates } from '../actions/authActions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
-            password: "",
+            username: '',
+            password: '',
         };
         this.handleLogin = this.handleLogin.bind(this);
         this.setUsername = this.setUsername.bind(this);
@@ -27,7 +27,9 @@ class Login extends React.Component {
         // console.log(user);
         const res = await this.props.loginUser(user);
         if (this.props.auth && this.props.auth.user) {
-            this.props.history.push("/dashboard");
+            await this.props.getUserTemplates().finally(() => {
+                this.props.history.push('/dashboard');
+            });
         }
     };
     setUsername(e) {
@@ -60,6 +62,7 @@ class Login extends React.Component {
 
 Login.propTypes = {
     loginUser: PropTypes.func.isRequired,
+    getUserTemplates: PropTypes.func.isRequired,
     currentUser: PropTypes.object,
     error: PropTypes.object,
 };
@@ -69,4 +72,4 @@ const mapStateToProps = (state) => ({
     error: state.error,
 });
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(mapStateToProps, { loginUser, getUserTemplates })(Login);

@@ -1,19 +1,22 @@
 import axios from "axios";
 import { returnErrors, clearErrors } from "./errorActions";
 import {
-    USER_LOADED,
-    USER_LOADING,
-    LOGIN_START,
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE,
-    REGISTER_START,
-    REGISTER_SUCCESS,
-    REGISTER_FAILURE,
+	USER_LOADED,
+	USER_LOADING,
+	LOGIN_START,
+	LOGIN_SUCCESS,
+	LOGIN_FAILURE,
+	REGISTER_START,
+	REGISTER_SUCCESS,
+	REGISTER_FAILURE,
     PROFILE_START,
     PROFILE_SUCCESS,
     PROFILE_FAILURE,
-    LOGOUT,
-    AUTH_ERROR,
+	LOGOUT,
+	AUTH_ERROR,
+	LOADING_CARDS,
+	CARDS_SUCCESS,
+	CARDS_FAILURE,
 } from "./types";
 
 // Start the register.
@@ -45,6 +48,21 @@ const getLoginSuccess = (user) => ({
 // Login was a failure.
 const getLoginFailure = () => ({
     type: LOGIN_FAILURE,
+});
+
+// Loading cards
+const getLoadingCards = () => ({
+	type: LOADING_CARDS,
+});
+
+// Loading cards Success
+const getCardsSuccess = (templates, cards) => ({
+	type: CARDS_SUCCESS,
+	payload: { templates, cards },
+});
+// Loading cards Success
+const getCardsFailure = () => ({
+	type: CARDS_FAILURE,
 });
 
 // Start the profile update.
@@ -198,4 +216,45 @@ export const tokenConfig = (getState) => {
         config.headers["x-auth-token"] = token;
     }
     return config;
+};
+
+/**
+ * Query the templates schema to get all of the templates which belong to this user.
+ * @returns the templates of this user by their username
+ */
+export const getUserTemplates = () => async (dispatch, getState) => {
+	// Start loading cards
+	dispatch(getLoadingCards());
+	// Get the username from redux
+	if (
+		!getState().auth ||
+		!getState().auth.user ||
+		!getState().auth.user.username
+	) {
+		dispatch(
+			returnErrors("The username is not present!", "400", "templates")
+		); // Something is null
+		dispatch(getCardsFailure());
+	}
+
+	const user = getState().auth.user;
+	axios
+		.post("/api/templates/user", { postUser: user.username })
+		.then((res) => {
+			dispatch(clearErrors());
+			const templates = [];
+			const cards = [];
+			res.data.forEach((template) => {
+				if (user.cards.includes(template["_id"])) {
+					cards.push(template);
+				} else {
+					templates.push(template);
+				}
+			});
+			dispatch(getCardsSuccess(templates, cards)); // Send cards to redux
+		})
+		.catch((err) => {
+			dispatch(returnErrors(err.data, err.status, "templates"));
+			dispatch(getCardsFailure());
+		});
 };

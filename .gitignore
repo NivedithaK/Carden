@@ -7,3 +7,5 @@
 
 # Deploy script
 deploy.sh
+node_modules/
+.serverless

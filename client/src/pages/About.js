@@ -15,7 +15,8 @@ import backgroundDark from "../assets/backgroundDark.png";
 import PageWrapper from "../components/PageWrapper.js";
 import Header from "../components/Header.js";
 import Footer from "../components/Footer.js";
-import { InfoOutlineIcon, ChatIcon } from "@chakra-ui/icons";
+import { getPopularTemplates } from "../actions/cardActions";
+
 
 export function About() {
     const { colorMode } = useColorMode();
@@ -65,79 +66,79 @@ export function About() {
     ];
 
     return (
-        <div
-            style={{
-                backgroundImage:
-                    colorMode === "light"
-                        ? `url(${background})`
-                        : `url(${backgroundDark})`,
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-            }}
-        >
-            <PageWrapper>
-                <Header />
-                <Box w="80%" ml="auto" mr="auto" alignItems="center">
-                    <HStack mt={10} ml={10} spacing={5}>
-                        <Heading
-                            color={useColorModeValue(
-                                "palette.200",
-                                "palette.600"
-                            )}
-                        >
-                            About the Project
-                        </Heading>
-                        <Heading
-                            color={useColorModeValue(
-                                "palette.200",
-                                "palette.600"
-                            )}
-                        >
-                            💼
-                        </Heading>
-                    </HStack>
-                    <Box
-                        p={10}
-                        bg={useColorModeValue("palette.500", "palette.600")}
-                        m={10}
-                        borderRadius="lg"
-                    >
-                        <Text>
-                            Carden was made for the course CSC301H5 at
-                            University of Toronto Mississauga in Winter 2021.
-                            Something about the licensing. Something about who
-                            to contact and how. Something about thanking them
-                            for visiting the site and asking them for feedback.
-                        </Text>
-                    </Box>
-                    <HStack mt={10} ml={10}>
-                        <Heading
-                            color={useColorModeValue(
-                                "palette.200",
-                                "palette.600"
-                            )}
-                        >
-                            Meet the Team
-                        </Heading>
-                        <Heading
-                            color={useColorModeValue(
-                                "palette.200",
-                                "palette.600"
-                            )}
-                        >
-                            👋
-                        </Heading>
-                    </HStack>
-                    <SimpleGrid columns={4} spacing={10} m={10}>
-                        {team.map(({ name, role, avatar }) => (
-                            <ProfileCard role={role} name={name} img={avatar} />
-                        ))}
-                    </SimpleGrid>
-                </Box>
-                <Footer />
-            </PageWrapper>
-        </div>
-    );
+		<div
+			style={{
+				backgroundImage:
+					colorMode === "light"
+						? `url(${background})`
+						: `url(${backgroundDark})`,
+				backgroundSize: "cover",
+				backgroundRepeat: "no-repeat",
+			}}
+		>
+			<PageWrapper>
+				<Header />
+				<Box w="80%" ml="auto" mr="auto" alignItems="center">
+					<HStack mt={10} ml={10} spacing={5}>
+						<Heading
+							color={useColorModeValue(
+								"palette.200",
+								"palette.600"
+							)}
+						>
+							About the Project
+						</Heading>
+						<Heading
+							color={useColorModeValue(
+								"palette.200",
+								"palette.600"
+							)}
+						>
+							💼
+						</Heading>
+					</HStack>
+					<Box
+						p={10}
+						bg={useColorModeValue("palette.500", "palette.600")}
+						m={10}
+						borderRadius="lg"
+					>
+						<Text>
+							Carden was made for the course CSC301H5 at
+							University of Toronto Mississauga in Winter 2021.
+							Something about the licensing. Something about who
+							to contact and how. Something about thanking them
+							for visiting the site and asking them for feedback.
+						</Text>
+					</Box>
+					<HStack mt={10} ml={10}>
+						<Heading
+							color={useColorModeValue(
+								"palette.200",
+								"palette.600"
+							)}
+						>
+							Meet the Team
+						</Heading>
+						<Heading
+							color={useColorModeValue(
+								"palette.200",
+								"palette.600"
+							)}
+						>
+							👋
+						</Heading>
+					</HStack>
+					<SimpleGrid columns={4} spacing={10} m={10}>
+						{team.map(({ name, role, avatar }) => (
+							<ProfileCard role={role} name={name} img={avatar} />
+						))}
+					</SimpleGrid>
+				</Box>
+				<Footer />
+			</PageWrapper>
+		</div>
+	);
 }
 
 export default About;

@@ -1,27 +1,18 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
-}
-
-body {
-    background-color: #f3f3f3;
-}
-
-
-
-.canvas{
-    display: flex;
-
-    background-color: rgb(220, 118, 118);
-
-}
-.pallet Button{
-    margin-bottom: 10px;
-}
 .canvas .comp {
-    padding: 15px 25px;
     cursor: pointer;
-    border: solid black;
-    height: fit-content;
+    /* border: solid black; */
+    word-wrap: break-word;
+    padding:2px;
+}
+
+.leftWorkaround {
+    text-align: left;
+}
+
+.centerWorkaround {
+    text-align: center;
+}
+
+.rightWorkaround {
+    text-align: right;
 }

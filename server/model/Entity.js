@@ -5,34 +5,9 @@ const Schema = mongoose.Schema;
 
 const entitySchema = new Schema(
 	{
-		top: {
-			type: String,
-			default: "0",
-		},
-        left: {
-			type: String,
-			default: "0",
-		},
-		Animation: {
-			type: String,
-			default: "",
-		},
-		ParentID: {
-			type: String,
-			default: "",
-		},
-		level: {
-			type: Number,
-			default: 0,
-		},
-		//Set to null if no bgcolor
-		bgColor: {
-			type: String,
-			default: "",
-		},
-		size: {
-			type: Number,
-			default: 10,
+		style: {
+			type: Object,
+			default: {},
 		},
 	},
 	{ discriminatorKey: "kind" }
@@ -43,18 +18,6 @@ const Entity = mongoose.model("Entity", entitySchema);
 const TextField = Entity.discriminator(
 	"Text",
 	new Schema({
-		font: {
-			type: String,
-			default: "",
-		},
-		fontsize: {
-			type: Number,
-			default: 12,
-		},
-		colour: {
-			type: String,
-			default: "",
-		},
 		content: {
 			type: String,
 			default: "",
@@ -69,7 +32,7 @@ const ImgField = Entity.discriminator(
 			type: String,
 			default: "",
 		},
-		link: {
+		src: {
 			type: String,
 			default: "",
 		},
@@ -107,11 +70,15 @@ const VidField = Entity.discriminator(
 const ButtonField = Entity.discriminator(
 	"Button",
 	new Schema({
-		onClick: {
+		content: {
 			type: String,
 			default: "",
 		},
-		content: {
+		src: {
+			type: String,
+			default: "",
+		},
+		sceneRef: {
 			type: String,
 			default: "",
 		},
