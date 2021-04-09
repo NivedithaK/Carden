@@ -10,7 +10,8 @@ import {
 	ModalBody,
 	ModalCloseButton,
 	Button,
-    Spacer
+	Spacer,
+	useColorModeValue,
 } from "@chakra-ui/react";
 
 function ModalPopup(props) {
@@ -20,7 +21,7 @@ function ModalPopup(props) {
 		<>
 			<Button
 				borderRadius="xl"
-				bg="palette.500"
+				bg={useColorModeValue("palette.500", "palette.1000")}
 				width="100%"
 				height="100%"
                 onClick={onOpen}
