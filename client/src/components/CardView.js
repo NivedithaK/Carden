@@ -1,6 +1,8 @@
 import React, { createRef, useEffect } from 'react';
 import { useScreenshot } from 'use-react-screenshot';
 import Bird from '../assets/eren_bird.png';
+import Todo from '../assets/todo.png';
+
 import {
     Center,
     useDisclosure,
@@ -33,6 +35,10 @@ function CardView(props) {
     const handleLike = (e) => {
         handler(index);
     };
+    let img = Bird;
+    if (index === 1) {
+        img = Todo;
+    }
 
     return (
         <>
@@ -50,7 +56,7 @@ function CardView(props) {
             >
                 {/* <ScreenShotRender> */}
                 <Box>
-                    <img src={Bird} alt='website logo' />
+                    <img src={img} alt='website logo' />
                 </Box>
                 {/* </ScreenShotRender> */}
             </Button>

@@ -21,10 +21,10 @@ const store = createStore(
     persistedReducer, // pass the persisted reducer instead of rootReducer
     initialState,
     compose(
-        applyMiddleware(...middleware),
+        applyMiddleware(...middleware)
         //REMOVE THIS LINE FOR PRODUCTION
-        window.__REDUX_DEVTOOLS_EXTENSION__ &&
-            window.__REDUX_DEVTOOLS_EXTENSION__()
+        // window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        //     window.__REDUX_DEVTOOLS_EXTENSION__()
     )
 );
 

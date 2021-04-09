@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Header from './Header';
 
 import {
@@ -9,8 +9,6 @@ import {
     Center,
     Grid,
     GridItem,
-    Flex,
-    Image,
     VStack,
     Modal,
     ModalOverlay,
@@ -25,18 +23,23 @@ import {
 } from '@chakra-ui/react';
 import { CopyIcon } from '@chakra-ui/icons';
 
-import { ToolItem, SelectionSceneMenu } from './EditorMenuItems.js';
+import { SelectionSceneMenu } from './EditorMenuItems.js';
 
 function Share(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { templateid } = props;
+    const [textArea, setTextArea] = useState(null);
+    // const textAreaRef = useRef(null);
+
     const location = window.location.origin;
     const shareLink = templateid
         ? location + '/card/' + templateid
-        : 'Please save the tempalte in order to generate a share link!';
-
+        : 'Please save the template in order to generate a share link!';
     const handleCopy = () => {
-        navigator.clipboard.writeText(shareLink);
+        // navigator.clipboard.writeText(shareLink);
+        // For http
+        textArea.select();
+        document.execCommand('copy');
     };
     return (
         <div>
@@ -49,7 +52,21 @@ function Share(props) {
                     <ModalBody>
                         <Center>
                             <Box>
-                                <h5>{shareLink}</h5>
+                                {/* <h5>{shareLink}</h5> */}
+                                {/* So copy works on http */}
+                                <textarea
+                                    readOnly
+                                    style={{
+                                        margin: '20px',
+                                        resize: 'none',
+                                        rows: 3,
+                                        overflow: 'hidden',
+                                        outline: 'none',
+                                        width: '500px',
+                                    }}
+                                    ref={(textarea) => setTextArea(textarea)}
+                                    value={shareLink}
+                                />
                             </Box>
                         </Center>
                     </ModalBody>
@@ -69,12 +86,19 @@ function Share(props) {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+            {/* <form style={{ hidden: true }}>
+                <textarea
+                    style={{ display: 'none' }}
+                    disabled={true}
+                    ref={textAreaRef}
+                    value={shareLink}
+                />
+            </form> */}
         </div>
     );
 }
 
 function CanvasEditorHeader(props) {
-    const { templateid } = props;
     return (
         <VStack>
             <Box width='100vw'>
