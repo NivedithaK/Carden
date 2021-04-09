@@ -94,9 +94,11 @@ class Explore extends Component {
         const templates = this.state.templates;
         let i = 0;
         for (i = 0; i < templates.length - 1; i += 2) {
+            console.log(templates[i]);
             TwoGrids.push(
                 <TwoGrid key={i}>
                     <CardViewWrapper
+                        templateId={templates[i]._id}
                         username={templates[i].postUser}
                         numlikes={templates[i].stars}
                         title={templates[i].title}
@@ -104,6 +106,7 @@ class Explore extends Component {
                         index={i}
                     />
                     <CardViewWrapper
+                        templateId={templates[i]._id}
                         username={templates[i + 1].postUser}
                         numlikes={templates[i + 1].stars}
                         title={templates[i + 1].title}
@@ -118,6 +121,7 @@ class Explore extends Component {
             TwoGrids.push(
                 <TwoGrid key={i}>
                     <CardViewWrapper
+                        templateId={templates[i]._id}
                         username={templates[i].postUser}
                         numlikes={templates[i].stars}
                         title={templates[i].title}
