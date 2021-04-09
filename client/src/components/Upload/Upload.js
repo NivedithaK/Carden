@@ -1,5 +1,10 @@
 import React, {useState} from 'react';
 import Axios from 'axios';
+import {
+    Box,
+    useColorModeValue,
+    Button,
+  } from "@chakra-ui/react";
 
 function Upload(props){
     const [progress, setProgress] = useState('getUpload');
@@ -103,9 +108,11 @@ function Upload(props){
                              ) : (
                                  <p>Select a file to show details</p>
                              )}
-                             <div>
-                                <input type="submit" value="Send Request" onClick={handleSubmission}></input>
-                             </div>
+                             <Box>
+                                 <Button bg={"palette.100"} onClick={handleSubmission}>
+                                     Send Request
+                                 </Button>
+                             </Box>
                          </div>
                      )
             case 'uploading':
