@@ -55,13 +55,30 @@ export const getTemplateSearch = async (titletag) => {
 	return templates;
 };
 
+/*
+ * Send server request for templates of user by id
+ * sadge
+ */
+export const getTemplateByUser = async (id) => {
+	let templates = [];
+	await axios
+		.get(`/api/templates/tag/user/${id}`)
+		.then((res) => {
+			templates = res.data;
+		})
+		.catch((err) => null);
+
+	return templates;
+};
+
 export const getTemplateByUserSearch = async (titletag, username) => {
 	var templates = [];
+	console.log("actipn", titletag, username);
 	await axios
 		.get(`/api/templates/tag/usersearch`, {
 			params: {
 				titletag: titletag,
-        username: username
+				username: username,
 			},
 		})
 		.then((res) => {
@@ -115,80 +132,93 @@ export const getAlphabeticalTemplates = async (id) => {
 	return templates;
 };
 
-export const postTemplate = async (color, width, height, template, sceneRef, userid) => {
-  var elemIds = [];
-  template.forEach(function (scene) {
-    var sceneElemIds = [];
-    Object.values(scene).forEach(function (entity) {
-      if (entity.props.type == "Text") {
-        const textfield = {
-          style: entity.props.style,
-          content: entity.props.content.content,
-        };
-        sceneElemIds.push(postTextfield(textfield));
-      } else if (entity.props.type == "Button") {
-		console.log(sceneRef[entity.props.id]);
-        const buttonfield = {
-          style: entity.props.style,
-          content: entity.props.content.content,
-		  src: entity.props.content.src,
-		  sceneRef: sceneRef[entity.props.id],
-        };
-        sceneElemIds.push(postButtonfield(buttonfield));
-      } else if (entity.props.type == "Image") {
-        const imgfield = {
-		  style: entity.props.style,
-          src: entity.props.content.src,
-        };
-        sceneElemIds.push(postImgfield(imgfield));
-      }
-    });
-    elemIds.push(sceneElemIds);
-  });
-  Promise.all(
-    elemIds.map(function (sceneElemIds) {
-      return Promise.all(sceneElemIds);
-    })
-  ).then((values) => {
-    return postSceneAndTemplate(color, width, height, values, userid);
-  });
+export const postTemplate = async (
+	color,
+	width,
+	height,
+	template,
+	sceneRef,
+	userid
+) => {
+	var elemIds = [];
+	template.forEach(function (scene) {
+		var sceneElemIds = [];
+		Object.values(scene).forEach(function (entity) {
+			if (entity.props.type == "Text") {
+				const textfield = {
+					style: entity.props.style,
+					content: entity.props.content.content,
+				};
+				sceneElemIds.push(postTextfield(textfield));
+			} else if (entity.props.type == "Button") {
+				console.log(sceneRef[entity.props.id]);
+				const buttonfield = {
+					style: entity.props.style,
+					content: entity.props.content.content,
+					src: entity.props.content.src,
+					sceneRef: sceneRef[entity.props.id],
+				};
+				sceneElemIds.push(postButtonfield(buttonfield));
+			} else if (entity.props.type == "Image") {
+				const imgfield = {
+					style: entity.props.style,
+					src: entity.props.content.src,
+				};
+				sceneElemIds.push(postImgfield(imgfield));
+			}
+		});
+		elemIds.push(sceneElemIds);
+	});
+	Promise.all(
+		elemIds.map(function (sceneElemIds) {
+			return Promise.all(sceneElemIds);
+		})
+	).then((values) => {
+		return postSceneAndTemplate(color, width, height, values, userid);
+	});
 };
 
-export const postSceneAndTemplate = async (color, width, height, elemIds, userid) => {
-  const sceneIds = await elemIds.map(async (sceneElemIds) => {
-    const scene = {
-      entities: sceneElemIds,
-    };
-    const sceneId = await axios
-      .post("/api/scenes", scene)
-      .then((res) => {
-        return res.data._id;
-      })
-      .catch((err) => alert(err.response.data.msg));
-    return sceneId;
-  });
+export const postSceneAndTemplate = async (
+	color,
+	width,
+	height,
+	elemIds,
+	userid
+) => {
+	const sceneIds = await elemIds.map(async (sceneElemIds) => {
+		const scene = {
+			entities: sceneElemIds,
+		};
+		const sceneId = await axios
+			.post("/api/scenes", scene)
+			.then((res) => {
+				return res.data._id;
+			})
+			.catch((err) => alert(err.response.data.msg));
+		return sceneId;
+	});
 
-  var templateId;
-  Promise.all(sceneIds).then(async (values) => {
-    const newTemplate = {
-      scenes: values,
-      numScenes: values.length,
-	    canvasColor: color,
-	    canvasWidth: width,
-	    canvasHeight: height,
-      postUser: userid
-    };
+	var templateId;
+	Promise.all(sceneIds).then(async (values) => {
+		const newTemplate = {
+			scenes: values,
+			numScenes: values.length,
+			canvasColor: color,
+			canvasWidth: width,
+			canvasHeight: height,
+			postUser: userid,
+		};
 
-    await axios
-      .post("/api/templates", newTemplate)
-      .then((res) => {
-        templateId = res.data._id;
-      })
-      .catch((err) => alert(err.response.data.msg));
-  });
-  Promise.resolve(templateId).then((newTemplateId) => {
-    return newTemplateId;
-  });
+		await axios
+			.post("/api/templates", newTemplate)
+			.then((res) => {
+				templateId = res.data._id;
+			})
+			.catch((err) => alert(err.response.data.msg));
+	});
+	Promise.resolve(templateId).then((newTemplateId) => {
+		return newTemplateId;
+	});
 };
 
 export const postTextfield = async (textfield) => {
@@ -225,26 +255,26 @@ export const postImgfield = async (imgfield) => {
 };
 
 export const loadTemplate = async (templateId) => {
-  var template = {
-	canvasColor: {},
-	canvasHeight: 500,
-	canvasWidth: 500,
-    scenes: [],
-    numScenes: 0,
-  };
-  await axios
-    .get(`/api/templates/${templateId}`)
-    .then((res) => {
-	  template.canvasColor = res.data.canvasColor;
-	  template.canvasHeight = res.data.canvasHeight;
-	  template.canvasWidth = res.data.canvasWidth;
-      template.numScenes = res.data.numScenes;
-      res.data.scenes.forEach(function (sceneId) {
-        template.scenes.push(loadScene(sceneId));
-      });
-    })
-    .catch((err) => alert(err.response.data.msg));
-  return template;
+	var template = {
+		canvasColor: {},
+		canvasHeight: 500,
+		canvasWidth: 500,
+		scenes: [],
+		numScenes: 0,
+	};
+	await axios
+		.get(`/api/templates/${templateId}`)
+		.then((res) => {
+			template.canvasColor = res.data.canvasColor;
+			template.canvasHeight = res.data.canvasHeight;
+			template.canvasWidth = res.data.canvasWidth;
+			template.numScenes = res.data.numScenes;
+			res.data.scenes.forEach(function (sceneId) {
+				template.scenes.push(loadScene(sceneId));
+			});
+		})
+		.catch((err) => alert(err.response.data.msg));
+	return template;
 };
 
 export const loadScene = async (sceneId) => {
