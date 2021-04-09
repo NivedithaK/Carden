@@ -8,7 +8,6 @@ import DragComp from "../Canvas/dragComp";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-
 class CanvasEditorView extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +22,7 @@ class CanvasEditorView extends Component {
       content: {},
       sceneRef: {},
       classNames: {},
+      templateId: "",
     };
 
     if (props.history.location.state != null) {
@@ -209,11 +209,11 @@ class CanvasEditorView extends Component {
     return this.createDragComp(extendedStyles, extendedContent, entity.kind);
   };
 
-  uploadImage = (url) =>{
+  uploadImage = (url) => {
     this.addComp(null, 0, 0, "Image", url);
   };
 
-  addComp = (e, x, y, type, url=null) => {
+  addComp = (e, x, y, type, url = null) => {
     let extendedStyles = this.state.styles;
     let top = y;
     let left = x;
@@ -229,7 +229,7 @@ class CanvasEditorView extends Component {
     let extendedContent = this.state.content;
     extendedContent[this.state.id] = {
       content: "Input Content",
-      src: (url != null? url : "Input Source"),
+      src: url != null ? url : "Input Source",
     };
 
     return this.createDragComp(extendedStyles, extendedContent, type);
@@ -276,13 +276,19 @@ class CanvasEditorView extends Component {
             ? (id, scene) => {
                 let newSceneref = this.state.sceneRef;
                 if (scene !== "Select Page")
-                  newSceneref = { ...this.state.sceneRef, [id]: scene };
+                  newSceneref = {
+                    ...this.state.sceneRef,
+                    [id]: scene,
+                  };
                 this.setState({
                   ...this.state,
                   sceneRef: newSceneref,
                   content: {
                     ...this.state.content,
-                    [id]: { ...this.state.content[id], src: "Input Source" },
+                    [id]: {
+                      ...this.state.content[id],
+                      src: "Input Source",
+                    },
                   },
                 });
               }
@@ -295,7 +301,10 @@ class CanvasEditorView extends Component {
         setclass={(id, newclass) => {
           this.setState({
             ...this.state,
-            classNames: { ...this.state.classNames, [id]: newclass },
+            classNames: {
+              ...this.state.classNames,
+              [id]: newclass,
+            },
           });
         }}
       ></DragComp>
@@ -317,7 +326,7 @@ class CanvasEditorView extends Component {
   save = () => {
     var userid = "";
     if (this.props.auth.user) {
-      userid = this.props.auth.user._id
+      userid = this.props.auth.user._id;
     }
     postTemplate(
       this.state.canvasColor,
@@ -326,7 +335,7 @@ class CanvasEditorView extends Component {
       this.state.comps,
       this.state.sceneRef,
       userid
-    )
+    ).then((templateId) => this.setState({ templateId }));
   };
 
   redefineProps = (self) => {
@@ -345,13 +354,14 @@ class CanvasEditorView extends Component {
     });
   };
 
-  load = (templateId=null) => {
-    /**
-    let templateId = window.prompt(
-      "Enter template id (TODO hookup to template browser instead of prompt)",
-      ""
-    );
-    */
+  load = (templateId = null) => {
+    /** 
+        let templateId = window.prompt(
+            'Enter template id (TODO hookup to template browser instead of prompt)',
+            ''
+        );
+
+        */
     let template = loadTemplate(templateId);
     let self = this;
     Promise.resolve(template).then((newTemplate) => {
@@ -418,6 +428,7 @@ class CanvasEditorView extends Component {
           addScene={this.addScene}
           numScenes={this.state.comps.length}
           currentScene={this.state.scene}
+          templateid={this.state.templateId}
         />
         <ThickHDivider flex="0.3" colorstring={"palette.800"} />
         <CanvasEditorBottom
@@ -430,7 +441,7 @@ class CanvasEditorView extends Component {
           canvasHeight={this.state.canvasHeight}
           changedDrop={this.drop}
           addComp={this.addComp}
-          uploadImage = { this.uploadImage }
+          uploadImage={this.uploadImage}
           changeSetter={this.propertySetter.bind(this)}
           deleteComp={this.deleteComponent}
           auth={this.props.auth}
