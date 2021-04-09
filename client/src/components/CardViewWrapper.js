@@ -6,12 +6,12 @@ import CardView from "./CardView.js";
 import { AiFillHeart } from "react-icons/ai";
 
 function CardViewWrapper(props) {
-	const { title, username, numlikes, handler, index } = props;
+	const { title, username, numlikes, handler, index, templateId } = props;
 	console.log("Hello", props);
 	return (
 		<VStack {...props}>
 			<Center>
-				<CardView handler={handler} index={index} />
+				<CardView handler={handler} index={index} templateId={templateId} />
 			</Center>
 
 			<HStack w="100%">

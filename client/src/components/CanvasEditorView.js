@@ -24,6 +24,10 @@ class CanvasEditorView extends Component {
       sceneRef: {},
       classNames: {},
     };
+
+    if (props.history.location.state != null) {
+      this.load(props.history.location.state.templateId);
+    }
   }
 
   styleGetter = (id) => {
@@ -341,11 +345,13 @@ class CanvasEditorView extends Component {
     });
   };
 
-  load = () => {
+  load = (templateId=null) => {
+    /**
     let templateId = window.prompt(
       "Enter template id (TODO hookup to template browser instead of prompt)",
       ""
     );
+    */
     let template = loadTemplate(templateId);
     let self = this;
     Promise.resolve(template).then((newTemplate) => {
