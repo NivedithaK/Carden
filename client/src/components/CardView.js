@@ -1,6 +1,8 @@
 import React, { createRef, useEffect } from 'react';
 import { useScreenshot } from 'use-react-screenshot';
 import Bird from '../assets/eren_bird.png';
+import Todo from '../assets/todo.png';
+
 import {
     Center,
     useDisclosure,
@@ -21,18 +23,23 @@ import ScreenShotRender from './Screenshot.js';
 
 function CardView(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { handler, index } = props;
+    const { handler, index, templateId } = props;
     const history = useHistory();
 
     const handleUse = (e) => {
         e.preventDefault();
         // call load with template id
-        history.push('/create');
+        history.push({pathname: '/create',
+                      state: { templateId: templateId } });
     };
 
     const handleLike = (e) => {
         handler(index);
     };
+    let img = Bird;
+    if (index === 1) {
+        img = Todo;
+    }
 
     return (
         <>
@@ -50,7 +57,7 @@ function CardView(props) {
             >
                 {/* <ScreenShotRender> */}
                 <Box>
-                    <img src={Bird} alt='website logo' />
+                    <img src={img} alt='website logo' />
                 </Box>
                 {/* </ScreenShotRender> */}
             </Button>

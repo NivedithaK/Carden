@@ -104,6 +104,7 @@ class Explore extends Component {
                         title={templates[i].title}
                         handler={this.handleLike}
                         index={i}
+                        templateId={templates[i]._id}
                     />
                     <CardViewWrapper
                         templateId={templates[i]._id}
@@ -112,6 +113,7 @@ class Explore extends Component {
                         title={templates[i + 1].title}
                         handler={this.handleLike}
                         index={i + 1}
+                        templateId={templates[i]._id}
                     />
                 </TwoGrid>
             );
@@ -128,6 +130,7 @@ class Explore extends Component {
                         handler={this.handleLike}
                         key={i}
                         index={i}
+                        templateId={templates[i]._id}
                     />
                 </TwoGrid>
             );
