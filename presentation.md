@@ -10,13 +10,13 @@ Your mark: 1
 Features Demo: up to 3 marks for each major feature presented 
 - Feature 1 presentation: 0-3 marks [3=Excellent, 2=Adequate, 1=Inadequate, 0=No feature]
 
-Your mark:
+Your mark: 3
 - Feature 2 presentation: 0-3 marks [3=Excellent, 2=Adequate, 1=Inadequate, 0=No feature]
 
- 	Your mark:
+ 	Your mark: 3 
 - Feature 3 presentation: 0-3 marks [3=Excellent, 2=Adequate, 1=Inadequate, 0=No feature]
 
-Your mark: 8.75
+Your mark: 2.75
  		
 ### b. Process [10 marks]:
 Team Introduction: 0-4 marks 
@@ -57,3 +57,9 @@ Participation [5 marks]
  	Your mark: 5
 
 Total mark: 31.4375/35
+
+
+Feedback For Deval:
+	- Play more beat Saber
+	- Finish that anime you're watching
+	- Stop failing students
